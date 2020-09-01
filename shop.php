@@ -18,30 +18,7 @@ require_once('includes/header.php');
 
             <div class="row">
               <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All</h2></div>
-                <div class="d-flex">
-                  <div class="dropdown mr-1 ml-md-auto">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Latest
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                      <a class="dropdown-item" href="#">Men</a>
-                      <a class="dropdown-item" href="#">Women</a>
-                      <a class="dropdown-item" href="#">Children</a>
-                    </div>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuReference" data-toggle="dropdown">Reference</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-                      <a class="dropdown-item" href="#">Relevance</a>
-                      <a class="dropdown-item" href="#">Name, A to Z</a>
-                      <a class="dropdown-item" href="#">Name, Z to A</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Price, low to high</a>
-                      <a class="dropdown-item" href="#">Price, high to low</a>
-                    </div>
-                  </div>
-                </div>
+                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop<span id = "product">All</span></h2></div>
               </div>
             </div>
             <div class="row mb-5">
@@ -217,8 +194,21 @@ require_once('includes/header.php');
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
-                <li class="mb-1"><a href="#" class="d-flex"><span>Men</span> <span class="text-black ml-auto">(2,220)</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>Women</span> <span class="text-black ml-auto">(2,550)</span></a></li>
+                <li class="mb-1">
+                  <div class="btn-group dropright">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="catName">Category</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      <ul class='list-unstyled mb-0'>
+                        <li><a href='#' class='p-2'>All Products</a></li>
+                        <li><a href='#' class='p-2'>SubCat A</a></li>
+                        <li><a href='#' class='p-2'>SubCat B</a></li>
+                        <li><a href='#' class='p-2'>SubCat C</a></li>
+                      </ul>
+                    </div>
+                  </div></li>
+                <li class="mb-1"><a href="#" class="d-flex"><span>Category</span> <span class="text-black ml-auto">(2,550)</span></a></li>
                 <li class="mb-1"><a href="#" class="d-flex"><span>Children</span> <span class="text-black ml-auto">(2,124)</span></a></li>
               </ul>
             </div>

@@ -1,1 +1,26 @@
 /*HEADER STYLING*/
+
+
+
+
+
+
+/*Category dropright menu styling*/
+.btn.btn-secondary.dropdown-toggle{
+    padding: 0;
+    background: none;
+    font-family: "Mukta", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: #7971ea;
+    border: none;
+    box-sizing: content-box;
+}
+.btn.btn-secondary.dropdown-toggle::after {
+    content: none;
+}
+.btn.btn-secondary.dropdown-toggle:hover{
+    box-shadow: none;
+}
+.catName{
+    text-transform: none;
+    letter-spacing: normal;
+}
