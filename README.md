@@ -44,5 +44,11 @@ Category -> Subcats -> Products and all required fields -> product images.
 Created template pages for cart, checkout, single item inspection (shop-single), and browse inventory(shop).
 When I say "created" I mean header/footer includes are done and some rudimentary placeholders are added.
 
+### 8.28.2020
+Repopulated products to NEW 410 database.
+
+### 8.31.2020
+Added all required tuples to prodopt Table in DB
+
 
 
