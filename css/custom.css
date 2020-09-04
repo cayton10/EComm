@@ -23,4 +23,5 @@
 .catName{
     text-transform: none;
     letter-spacing: normal;
+    font-weight: lighter;
 }

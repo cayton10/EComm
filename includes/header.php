@@ -1,6 +1,6 @@
 <?
+//DB Connection config file
   require_once('config/config.php');
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +84,7 @@
                 <a href="checkout.php">Checkout</a>
             </li>
             <li>
-                <a href="#">Account</a>
+                <a href="account.php">Account</a>
             </li>
           </ul>
         </div>

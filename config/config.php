@@ -9,4 +9,6 @@
     define('DB_NAME', 'cit410f20');
     //Create variable 'db' with mysqli class using appropriate DB parameters
     @$db = new mysqli(DB_HOST, DB_USER, DB_PW, DB_NAME);
+
+
 ?>

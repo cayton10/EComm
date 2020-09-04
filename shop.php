@@ -18,7 +18,7 @@ require_once('includes/header.php');
 
             <div class="row">
               <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop<span id = "product">All</span></h2></div>
+                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop <span id = "product">All</span></h2></div>
               </div>
             </div>
             <div class="row mb-5">
@@ -195,7 +195,7 @@ require_once('includes/header.php');
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
                 <li class="mb-1">
-                  <div class="btn-group dropright">
+                  <div class="dropright">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <span class="catName">Category</span>
                     </button>
@@ -207,9 +207,38 @@ require_once('includes/header.php');
                         <li><a href='#' class='p-2'>SubCat C</a></li>
                       </ul>
                     </div>
-                  </div></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>Category</span> <span class="text-black ml-auto">(2,550)</span></a></li>
-                <li class="mb-1"><a href="#" class="d-flex"><span>Children</span> <span class="text-black ml-auto">(2,124)</span></a></li>
+                  </div>
+                </li>
+                <li class="mb-1">
+                  <div class="dropright">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="catName">Category</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      <ul class='list-unstyled mb-0'>
+                        <li><a href='#' class='p-2'>All Products</a></li>
+                        <li><a href='#' class='p-2'>SubCat A</a></li>
+                        <li><a href='#' class='p-2'>SubCat B</a></li>
+                        <li><a href='#' class='p-2'>SubCat C</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                <li class="mb-1">
+                  <div class="dropright">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="catName">Category</span>
+                    </button>
+                    <div class="dropdown-menu">
+                      <ul class='list-unstyled mb-0'>
+                        <li><a href='#' class='p-2'>All Products</a></li>
+                        <li><a href='#' class='p-2'>SubCat A</a></li>
+                        <li><a href='#' class='p-2'>SubCat B</a></li>
+                        <li><a href='#' class='p-2'>SubCat C</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
 

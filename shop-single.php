@@ -13,6 +13,7 @@ require_once('includes/header.php');
     <div class="site-section">
       <div class="container">
         <div class="row">
+          <!-- Image carousel will go here for all product images -->
           <div class="col-md-6">
             <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
           </div>

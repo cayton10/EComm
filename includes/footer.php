@@ -8,15 +8,15 @@
             </div>
             <div class='col-md-6 col-lg-4'>
               <ul class='list-unstyled'>
-                <li><a href='#'>Browse Inventory</a></li>
-                <li><a href='#'>Featured Products</a></li>
-                <li><a href='#'>Cart</a></li>
+                <li><a href='shop.php'>Browse Inventory</a></li>
+                <li><a href='featured.php'>Featured Products</a></li>
+                <li><a href='cart.php'>Cart</a></li>
               </ul>
             </div>
             <div class='col-md-6 col-lg-4'>
               <ul class='list-unstyled'>
-                <li><a href='#'>Checkout</a></li>
-                <li><a href='#'>Account</a></li>
+                <li><a href='checkout.php'>Checkout</a></li>
+                <li><a href='account.php'>Account</a></li>
               </ul>
             </div>
           </div>
