@@ -5,7 +5,7 @@ require_once('includes/header.php');
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Tank Top T-Shirt</strong></div>
+          <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Tank Top T-Shirt</strong></div>
         </div>
       </div>
     </div>  
@@ -48,7 +48,7 @@ require_once('includes/header.php');
             </div>
 
             </div>
-            <p><a href="cart.html" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+            <p><a href="cart.php" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
 
           </div>
         </div>
