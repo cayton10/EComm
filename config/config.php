@@ -10,7 +10,7 @@
     define('DB_NAME', 'cit410f20');
     define( 'SEND_ERRORS_TO', 'YOUREMAIL@marshall.edu' ); //set email notification email address
     define( 'DISPLAY_DEBUG', true ); //display db errors?
-    define( 'PATH_TO_CLASSES', "classes/");
+    define( 'PATH_TO_CLASSES', "../classes/" );
 
 
     // PHP 7 way to do autoload

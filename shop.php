@@ -1,6 +1,5 @@
 <?
 require_once('includes/header.php');
-require_once('classes/Categories.php');
 ?>
 
     <div class="bg-light py-3">
