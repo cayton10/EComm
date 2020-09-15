@@ -53,3 +53,11 @@ Added all required tuples to prodopt Table in DB
 
 ### 9.15.2020
 Finally finished category listings from main 'shop.php' page. That was pretty tough to wrap my head around. The formatting of html within each Category class function was tough to get right. I kept breaking things and forgetting element tags, but I FINALLY GOT IT WORKING. I know this isn't the best solution to this problem, but given my knowledge of OOP w/ PHP this is the best I've got for now.
+
+
+#### Starting on Product_class.php
+Need to develop a class that will load products to the shop.php page. Initially, this class just needs to load all products from the database.
+
+ *Class has been created, and it works pretty well. I need to do better for just returning JSON with ajax calls, but this will work for the project deadline coming on Friday, 9.18.2020
+
+Made some minor adjustments to custom.css to display products with more fluidity. It's still not 100%, but it's better than it was.

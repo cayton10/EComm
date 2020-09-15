@@ -25,3 +25,16 @@
     letter-spacing: normal;
     font-weight: lighter;
 }
+
+
+/*****************************************
+Main shop page product display properties
+*****************************************/
+/* Fixes some display issues with image display for product divs */
+.prodContainer{
+    display: flex;
+}
+/* Fixes div width to inherit the parent div width */
+.innerProdContainer{
+    width: inherit;
+}
