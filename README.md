@@ -51,4 +51,5 @@ Repopulated products to NEW 410 database.
 Added all required tuples to prodopt Table in DB
 
 
-
+### 9.15.2020
+Finally finished category listings from main 'shop.php' page. That was pretty tough to wrap my head around. The formatting of html within each Category class function was tough to get right. I kept breaking things and forgetting element tags, but I FINALLY GOT IT WORKING. I know this isn't the best solution to this problem, but given my knowledge of OOP w/ PHP this is the best I've got for now.

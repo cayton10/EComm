@@ -1,5 +1,15 @@
 <?
 require_once('includes/header.php');
+$database = new DB();
+$query = "SELECT * FROM category
+          WHERE cat_SubCat IS NULL
+          ORDER BY cat_Name";
+$results = $database->get_results( $query );
+
+foreach ( $results as $row )
+{
+  echo $row['cat_ID'] . ", " . $row['cat_Name'] . "</br>";
+}
 ?>
 
     <div class="bg-light py-3">
@@ -194,51 +204,12 @@ require_once('includes/header.php');
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
-                <li class="mb-1">
-                  <div class="dropright">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="catName">Category</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <ul class='list-unstyled mb-0'>
-                        <li><a href='#' class='p-2'>All Products</a></li>
-                        <li><a href='#' class='p-2'>SubCat A</a></li>
-                        <li><a href='#' class='p-2'>SubCat B</a></li>
-                        <li><a href='#' class='p-2'>SubCat C</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-1">
-                  <div class="dropright">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="catName">Category</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <ul class='list-unstyled mb-0'>
-                        <li><a href='#' class='p-2'>All Products</a></li>
-                        <li><a href='#' class='p-2'>SubCat A</a></li>
-                        <li><a href='#' class='p-2'>SubCat B</a></li>
-                        <li><a href='#' class='p-2'>SubCat C</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-                <li class="mb-1">
-                  <div class="dropright">
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="catName">Category</span>
-                    </button>
-                    <div class="dropdown-menu">
-                      <ul class='list-unstyled mb-0'>
-                        <li><a href='#' class='p-2'>All Products</a></li>
-                        <li><a href='#' class='p-2'>SubCat A</a></li>
-                        <li><a href='#' class='p-2'>SubCat B</a></li>
-                        <li><a href='#' class='p-2'>SubCat C</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
+                
+                    <?
+                      $cat = new Category();
+                      echo $cat->getCat();
+                      ?>
+                  
               </ul>
             </div>
 
@@ -336,6 +307,6 @@ require_once('includes/header.php');
 <?
 require_once('includes/footer.php');
 ?>
-    
+  <div id='categoryTrigger'></div>
   </body>
 </html>

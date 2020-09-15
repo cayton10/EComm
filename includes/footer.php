@@ -44,8 +44,7 @@
         <div class='col-md-12'>
           <p>
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;<script src="js/custom.js"><span id="year"></span></script>
-          <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class='icon-heart' aria-hidden='true'></i> by <a href='https://colorlib.com' target='_blank' class='text-primary'>Colorlib</a>
+          All rights reserved | This template is made with <i class='icon-heart' aria-hidden='true'></i> by <a href='https://colorlib.com' target='_blank' class='text-primary'>Colorlib</a>
           <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 </br>
           Modified by BPC &copy; <script>document.write(new Date().getFullYear());</script>
@@ -57,7 +56,7 @@
   </footer>
 </div>
 <!-- ajax Google api script inclusion -->
-<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src='js/jquery-3.3.1.min.js'></script>
 <script src='js/jquery-ui.js'></script>
