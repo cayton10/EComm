@@ -33,8 +33,23 @@ Main shop page product display properties
 /* Fixes some display issues with image display for product divs */
 .prodContainer{
     display: flex;
+    position: relative;
 }
 /* Fixes div width to inherit the parent div width */
 .innerProdContainer{
     width: inherit;
+}
+/* Fixes innerProdContainer block of text to appropriate space w/in parent div*/
+.prodTextBlock{
+    /*position: absolute;*/
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*Fixes long names in dropright menu for text wrapping*/
+a.p-2{
+    white-space: nowrap;
 }

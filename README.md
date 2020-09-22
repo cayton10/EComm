@@ -61,3 +61,6 @@ Need to develop a class that will load products to the shop.php page. Initially,
  *Class has been created, and it works pretty well. I need to do better for just returning JSON with ajax calls, but this will work for the project deadline coming on Friday, 9.18.2020
 
 Made some minor adjustments to custom.css to display products with more fluidity. It's still not 100%, but it's better than it was.
+
+### 9.16.2020
+Continue with custom.css to fix product listing cards.
