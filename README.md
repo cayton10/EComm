@@ -78,3 +78,15 @@ Fixed product listing cards using the following
 }
 ```
 Specifically, display: flex, and flex-direction: column. Those were life saving for getting images and text in the appropriate locations.
+
+Updated DB because I messed up the product details information on SQL insert.
+```SQL
+UPDATE cit410f20.product SET cat_ID = '101' WHERE (pro_ID = '100');
+UPDATE cit410f20.product SET cat_ID = '101' WHERE (pro_ID = '101');
+UPDATE cit410f20.product SET cat_ID = '101' WHERE (pro_ID = '102');
+UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '103');
+UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '104');
+UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '105');
+```
+
+

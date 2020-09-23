@@ -42,7 +42,7 @@
                         //Add link to list all of particular category product
                         $output .= "<div class='dropdown-menu'>
                         <ul class='list-unstyled mb-0'>
-                        <li><a href='#' class='p-2'>All " . $row['cat_Name'] . "</a></li>";
+                        <li><a href='?MainCat=" . $row['cat_ID'] . "&name=" . $row['cat_Name'] . "' class='p-2 catSelect'>All " . $row['cat_Name'] . "</a></li>";
 
                         //Call function to get subcategory and list as dropright menu
                         $output .= $this->getSubCat($mainCat);
@@ -74,7 +74,7 @@
             {
                 foreach ($results as $row)
                 {
-                    $output .= "<li><a href='#' class='p-2'>" . $row['cat_Name'] . "</a></li>";
+                    $output .= "<li><a href='?category=" . $row['cat_ID'] . "&name=" . $row['cat_Name'] . "' class='p-2 catSelect'>" . $row['cat_Name'] . "</a></li>";
                 }
                 //Tie up the end of the dropright div and return output to calling function
                 $output .= "</ul></div></div></li>";

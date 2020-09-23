@@ -54,3 +54,13 @@ INSERT INTO cit410f20.prodopt (opt_ID, opt_Group, opt_Name, opt_Value, opt_Price
 INSERT INTO cit410f20.prodopt (opt_ID, opt_Group, opt_Name, opt_Value, opt_Price, pro_ID) VALUES ('37', '1', 'Size', 'M', '0.00', '105');
 INSERT INTO cit410f20.prodopt (opt_ID, opt_Group, opt_Name, opt_Value, opt_Price, pro_ID) VALUES ('38', '1', 'Size', 'L', '0.00', '105');
 INSERT INTO cit410f20.prodopt (opt_ID, opt_Group, opt_Name, opt_Value, opt_Price, pro_ID) VALUES ('39', '1', 'Size', 'XL', '0.00', '105');
+
+--ACCIDENTALLY SET WRONG VALUES FOR CAT ID ON SUBCAT PRODUCTS--
+--UPDATE 9.22.2020--
+UPDATE cit410f20.product SET cat_ID = '101' WHERE (pro_ID = '100');
+UPDATE cit410f20.product SET cat_ID = '101' WHERE (pro_ID = '101');
+UPDATE cit410f20.product SET cat_ID = '101' WHERE (pro_ID = '102');
+UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '103');
+UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '104');
+UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '105');
+

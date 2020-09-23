@@ -25,8 +25,24 @@ require_once('includes/header.php');
             <div class="row mb-5">
               <!-- Create instance of product class to populate product thumbnails and info -->
               <?
-                $allProd = new Product();
-                echo $allProd->getProducts();
+                $prods = new Product();
+                //store query string value
+/* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
+                if(isset($_GET['category']))
+                {
+                  $value = htmlspecialchars($_GET['category']);
+                  echo $prods->getSubProducts($value);
+                }
+                else if(isset($_GET['MainCat']))
+                {
+                  $value = htmlspecialchars($_GET['MainCat']);
+                  echo $prods->getMainProducts($value);
+                }
+                else
+                {
+                  echo $allProd->getAllProducts();
+                }
+                
               ?>
             </div>
             <div class="row" data-aos="fade-up">
@@ -50,7 +66,8 @@ require_once('includes/header.php');
             <div class="border p-4 rounded mb-4">
               <h3 class="mb-3 h6 text-uppercase text-black d-block">Categories</h3>
               <ul class="list-unstyled mb-0">
-                
+
+<!-- ------------- INSTANTIATE AND LOAD ALL CATEGORIES BY DEFAULT ------------->
                     <?
                       $cat = new Category();
                       echo $cat->getCat();
