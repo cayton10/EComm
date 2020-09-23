@@ -64,3 +64,17 @@ Made some minor adjustments to custom.css to display products with more fluidity
 
 ### 9.16.2020
 Continue with custom.css to fix product listing cards.
+
+### 9.22.2020
+Fixed product listing cards using the following 
+```CSS
+/* Fixes div width to inherit the parent div width */
+.innerProdContainer{
+    width: inherit;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+```
+Specifically, display: flex, and flex-direction: column. Those were life saving for getting images and text in the appropriate locations.

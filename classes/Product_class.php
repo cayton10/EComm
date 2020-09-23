@@ -1,18 +1,21 @@
 <?
-/**
- * THIS CLASS WIL POPULATE ALL PRODUCT INFORMATION AND IMAGES
- * TO THE SHOP.PHP PAGE
- */
+
+/* -------------------------------------------------------------------------- */
+/*                  CLASS WILL POPULATE PRODUCTS ON PAGE LOAD                 */
+/* -------------------------------------------------------------------------- */
+
 class Product
 {
     //Database private member variable
     private $database;
 
-    //Construct instance of DB
+/* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
     public function __construct()
     {
         $this->database = DB::getInstance();
     }
+
+
 
     public function getProducts()
     {
@@ -30,8 +33,8 @@ class Product
             foreach($results as $row)
             {
 
-              
-              //Define image variable to process images of different extension types
+/* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
+
               $image = "/products/" . $row[pro_ID] . "_1";
               $docRoot = $_SERVER['DOCUMENT_ROOT'];
               $image = $docRoot . $image;
@@ -49,6 +52,7 @@ class Product
               }
               else
                 $printImage = "NoImage";
+                
               $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
                 <div class='block-4 text-center border innerProdContainer'>
                   <figure class='block-4-image'>
@@ -57,7 +61,7 @@ class Product
                   <div class='block-4-text p-4 prodInfo'>
                     <h3><a href='shop-single.html'>" . $row['pro_Manufacturer'] . "</a></h3>
                     <p class='mb-0'>" . $row['pro_Name'] . "</p>
-                    <p class='text-primary font-weight-bold'>" . '$' . $row['pro_Price'] . "</p>
+                    <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                   </div>
                 </div>
               </div>";
