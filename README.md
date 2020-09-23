@@ -88,5 +88,22 @@ UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '103');
 UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '104');
 UPDATE cit410f20.product SET cat_ID = '102' WHERE (pro_ID = '105');
 ```
+### 9.23.2020
+Kept the products_class.php structure I started working with. Thought about changing things and using AJAX calls to process JSON to output product results. Started using query strings to select appropriate member functions of the Product_class. A lot of this was rinse and repeat. Not exactly in line with best OOP methods, but I'm still learning. Besides, I'll have better opportunities to employ best practices as this project grows. 
 
+Way to select all products from a primary category was to use a LEFT JOIN clause in SQL statement.
+```SQL
+SELECT
+    pro_ID,
+    pro_Name,
+    pro_Descript,
+    pro_Price,
+    pro_Manufacturer
+FROM
+    product
+LEFT JOIN category
+ON product.cat_ID = category.cat_ID
+WHERE category.cat_SubCat = $category;
+```
+Happy with the results. 
 

@@ -19,7 +19,18 @@ require_once('includes/header.php');
 
             <div class="row">
               <div class="col-md-12 mb-5">
-                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop <span id = "product">All</span></h2></div>
+                <div class="float-md-left mb-4"><h2 class="text-black h5">Shop All 
+                  <?
+/* -------------- USE QUERY STRING TO UPDATE SHOPPING TEXT INFO ------------- */
+                    if(isset($_GET['name']))
+                    {
+                      $text = htmlspecialchars($_GET['name']);
+                      echo $text;
+                    }
+                    else
+                      echo "Products";
+                  ?>
+                </h2></div>
               </div>
             </div>
             <div class="row mb-5">

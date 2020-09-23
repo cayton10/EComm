@@ -57,7 +57,7 @@ class Product
                 $printImage = $row['pro_ID'] . "_1.gif";
               }
               else
-                $printImage = "NoImage";
+                $printImage = "noimage.jpg";
                 
               $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
                 <div class='block-4 text-center border innerProdContainer'>
@@ -65,7 +65,7 @@ class Product
                     <a href='shop-single.php'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                   </figure>
                   <div class='block-4-text p-4 prodInfo'>
-                    <h3><a href='shop-single.html'>" . $row['pro_Manufacturer'] . "</a></h3>
+                    <h3><a href='shop-single.php'>" . $row['pro_Manufacturer'] . "</a></h3>
                     <p class='mb-0'>" . $row['pro_Name'] . "</p>
                     <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                   </div>
@@ -120,7 +120,7 @@ class Product
               $printImage = $row['pro_ID'] . "_1.gif";
             }
             else
-              $printImage = "NoImage";
+              $printImage = "noimage.jpg";
               
             $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
               <div class='block-4 text-center border innerProdContainer'>
@@ -178,7 +178,7 @@ class Product
               $printImage = $row['pro_ID'] . "_1.gif";
             }
             else
-              $printImage = "NoImage";
+              $printImage = "noimage.jpg";
               
             $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
               <div class='block-4 text-center border innerProdContainer'>
