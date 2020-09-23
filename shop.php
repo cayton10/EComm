@@ -40,7 +40,7 @@ require_once('includes/header.php');
                 }
                 else
                 {
-                  echo $allProd->getAllProducts();
+                  echo $prods->getAllProducts();
                 }
                 
               ?>
