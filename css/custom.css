@@ -34,11 +34,18 @@ Main shop page product display properties
 .prodContainer{
     display: flex;
     position: relative;
+    justify-content: space-around;
 }
 /* Fixes div width to inherit the parent div width */
 .innerProdContainer{
     width: inherit;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
+
+
 /* Fixes innerProdContainer block of text to appropriate space w/in parent div*/
 .prodTextBlock{
     /*position: absolute;*/
@@ -53,3 +60,19 @@ Main shop page product display properties
 a.p-2{
     white-space: nowrap;
 }
+
+.block-4-image{
+    margin: 1rem 1rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+img {
+    border: 1px black;
+    max-height: inherit;
+}
+
+
+
+

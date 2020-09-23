@@ -35,8 +35,6 @@ class Product
               $image = "/products/" . $row[pro_ID] . "_1";
               $docRoot = $_SERVER['DOCUMENT_ROOT'];
               $image = $docRoot . $image;
-              echo $image;
-              $imageDir = dirname(__DIR__, 3) . $image;
               if(file_exists($image . ".png"))
               {
                 $printImage = $row['pro_ID'] . "_1.png";
@@ -56,7 +54,7 @@ class Product
                   <figure class='block-4-image'>
                     <a href='shop-single.php'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                   </figure>
-                  <div class='block-4-text p-4'>
+                  <div class='block-4-text p-4 prodInfo'>
                     <h3><a href='shop-single.html'>" . $row['pro_Manufacturer'] . "</a></h3>
                     <p class='mb-0'>" . $row['pro_Name'] . "</p>
                     <p class='text-primary font-weight-bold'>" . '$' . $row['pro_Price'] . "</p>
