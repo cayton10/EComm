@@ -11,11 +11,9 @@ class Paginate
     private $totalPages;
 
     //Set default constructor value for page to 1
-    public function __construct($pageNumber = 1)
+    public function __construct()
     {
         $this->database = DB::getInstance();
-        //Use pageNumber parameter for assignment
-        $this->currentPage = $pageNumber;
     }
 
     //Wrote these public functions for testing and debugging
@@ -24,15 +22,13 @@ class Paginate
         return $this->limit;
     }
 
-    public function getPage()
+    //Get total pages
+    public function getTotalPages()
     {
-        return $this->page;
+        return $this->totalPages;
     }
-
-
-/* ---------- CREATE PAGINATION HTML ELEMENT DYNAMICALLY AND OUTPUT --------- */
-
-    public function printPagination()
+    //Set total pages
+    public function setTotalPages()
     {
         //Query DB to get total count of all products
         $query = "SELECT count(pro_ID) AS id
@@ -42,15 +38,33 @@ class Paginate
         //Access array for total products in DB
         $total = $result[0]['id'];
         //Create appropriate page range for number of products in DB
-        $pages = ceil($total / $this->limit);
-        $this->totalPages = $pages;
+        $this->totalPages = ceil($total / $this->limit);
+    }
+
+    //Sets current page based on query string passed
+    public function setCurrentPage($page)
+    {
+        $this->currentPage = $page;
+    }
+    //Get current page
+    public function getCurrentPage()
+    {
+        return $this->currentPage;
+    }
+
+
+
+/* ---------- CREATE PAGINATION HTML ELEMENT DYNAMICALLY AND OUTPUT --------- */
+
+    public function printPagination()
+    {
         $output = "";
         $output .= "<div class='row' data-aos='fade-up'>
                         <div class='col-md-12 text-center'>
                             <div class='site-block-27'>
                                 <ul>
                                     <li><a href='#'>&lt;</a></li>";
-                for($i = 1; $i <= $pages; $i++)
+                for($i = 1; $i <= $this->totalPages; $i++)
                 {
                     if($i == $this->currentPage)
                     {

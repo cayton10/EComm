@@ -1,6 +1,25 @@
 <?
 require_once('includes/header.php');
+//Instantiate our required object for pagination
+//Doubles as error handling for bogus query strings(kind of)
+$pagination = new Paginate();
+//Set total pages required for pagination
+$pagination->setTotalPages();
+//Return that number and store it in a variable
+$totalPages = $pagination->getTotalPages();
 
+/* -------------------- CHECK AGAINST BOGUS QUERY STRING -------------------- */
+if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] <= $totalPages && $_GET['page'] > 0)
+{
+  $pageNumber = htmlspecialchars($_GET['page']);
+  $pagination->setCurrentPage($pageNumber);
+}
+else if (!isset($_GET['page']))
+{
+  $dontPopulate = true;
+}
+  $pagination->setCurrentPage(1);
+  $pageNumber = 1;
 ?>
 
     <div class="bg-light py-3">
@@ -52,29 +71,18 @@ require_once('includes/header.php');
                 }
                 else if(isset($_GET['page']) && !empty($_GET['page']))
                 {
-                  $pageNumber = htmlspecialchars($_GET['page']);
                   echo $prods->getAllProducts($pageNumber);
                 }
                 else
                   echo $prods->getAllProducts();
               ?>
             </div>
-
+<!-- PAGINATION CLASS METHOD CALLS GO HERE -->
             <?
-              if(isset($_GET['page']) && !empty($_GET['page']))
-              {
-                //Grab the page value from query string
-                $paginationVal = htmlspecialchars($_GET['page']);
-                //Instantiate pagination object w/ appropriate page value
-                $pagination = new Paginate($paginationVal);
-                //Call function to print pagination
-                echo $pagination->printPagination();
-              }
-              else
-              {
-                $pagination = new Paginate();
-                echo $pagination->printPagination();
-              }
+            if(!$dontPopulate)
+            {
+              echo $pagination->printPagination();
+            }
             ?>
           </div>
 
