@@ -14,8 +14,9 @@ if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] <= $totalPages
   $pageNumber = htmlspecialchars($_GET['page']);
   $pagination->setCurrentPage($pageNumber);
 }
-else if (!isset($_GET['page']))
+else if (!isset($_GET['page']))//If page isn't a key in the query string...
 {
+  //Set a boolean to populate pagination if we're shopping all products
   $dontPopulate = true;
 }
   $pagination->setCurrentPage(1);
