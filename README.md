@@ -107,3 +107,6 @@ WHERE category.cat_SubCat = $category;
 ```
 Happy with the results. 
 
+### 9.24.2020
+Whoa, pagination was pretty tough. Debugging was the hardest part, but as of 5:55pm it works. 
+

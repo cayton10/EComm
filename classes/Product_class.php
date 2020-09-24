@@ -11,36 +11,47 @@ class Product
     //Database private member variable
     private $database;
 
+
 /* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
     public function __construct()
     {
         $this->database = DB::getInstance();
     }
 
+    public function getResults()
+    {
+      print_r($results);
+    }
 
-
-    public function getAllProducts()
+    //Function definition w/ default parameter
+    public function getAllProducts($pageNumber = 1)
     {
         //Declare output variable to return with formatted product display
         $output = "";
+        $limit = 6;
+        $start = ($pageNumber - 1) * $limit;
+        //Store the current page from query string
           //Define query to pull product information
           $query = "SELECT pro_ID, 
                          pro_Name, 
                          pro_Descript, 
                          pro_Price, 
                          pro_Manufacturer 
-                  FROM product";
+                  FROM product
+                  LIMIT $start, $limit";
 
         //Store results for processing
         $results = $this->database->get_results($query);
+
         //If results are returned
         if($results)
-        {   //Iterate through results and format product display
+        { 
+
+          //Iterate through results and format product display
             foreach($results as $row)
             {
 
 /* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
-
               $image = "/products/" . $row[pro_ID] . "_1";
               $docRoot = $_SERVER['DOCUMENT_ROOT'];
               $image = $docRoot . $image;

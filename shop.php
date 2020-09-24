@@ -36,41 +36,46 @@ require_once('includes/header.php');
             <div class="row mb-5">
               <!-- Create instance of product class to populate product thumbnails and info -->
               <?
+                
                 $prods = new Product();
                 //store query string value
 /* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
-                if(isset($_GET['category']))
+                if(isset($_GET['category']) && !empty($_GET['category']))
                 {
                   $value = htmlspecialchars($_GET['category']);
                   echo $prods->getSubProducts($value);
                 }
-                else if(isset($_GET['MainCat']))
+                else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
                 {
                   $value = htmlspecialchars($_GET['MainCat']);
                   echo $prods->getMainProducts($value);
                 }
-                else
+                else if(isset($_GET['page']) && !empty($_GET['page']))
                 {
-                  echo $prods->getAllProducts();
+                  $pageNumber = htmlspecialchars($_GET['page']);
+                  echo $prods->getAllProducts($pageNumber);
                 }
-                
+                else
+                  echo $prods->getAllProducts();
               ?>
             </div>
-            <div class="row" data-aos="fade-up">
-              <div class="col-md-12 text-center">
-                <div class="site-block-27">
-                  <ul>
-                    <li><a href="#">&lt;</a></li>
-                    <li class="active"><span>1</span></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&gt;</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+
+            <?
+              if(isset($_GET['page']) && !empty($_GET['page']))
+              {
+                //Grab the page value from query string
+                $paginationVal = htmlspecialchars($_GET['page']);
+                //Instantiate pagination object w/ appropriate page value
+                $pagination = new Paginate($paginationVal);
+                //Call function to print pagination
+                echo $pagination->printPagination();
+              }
+              else
+              {
+                $pagination = new Paginate();
+                echo $pagination->printPagination();
+              }
+            ?>
           </div>
 
           <div class="col-md-3 order-1 mb-5 mb-md-0">
