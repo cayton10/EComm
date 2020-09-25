@@ -86,6 +86,13 @@ class Product
       return $this->model;
     }
 
+    public function getImages()
+    {
+      //Thanks, Brian :)
+      $images = glob("../../products/" . $this->id . "*.jpg");
+      return $images;
+    }
+
 
 
     //Function definition w/ default parameter

@@ -145,3 +145,11 @@ Not sure how I'm going to go about the product options portion yet.
 
 For Product details, I'm writing new functions to include in the Product_class.php file.
 
+Everything populates for product details as far as text is concerned. Wrote simple getter functions to grab all details after we make the query for the item on page load. Use those getters to return our information and store in variables on the page. Output those variables as text within the html elements.
+
+#### Image Carousel
+WHAT A NIGHTMARE
+Took a minute to figure out why my carousel wasn't showing on the page. Can't hard code an 'active' image for the class attribute since the images are loaded dynamically. Worked out some PHP logic to work around that.
+
+Wow. I hate dynamic image carousels. I think I've just been working on this thing non stop for the last couple of days, too, so I'm starting to make stupid mistakes.
+

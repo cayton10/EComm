@@ -18,6 +18,9 @@
   $manufacturer = $singleProd->getManufacture();
   $name = $singleProd->getName();
   $model = $singleProd->getModel();
+  $images = $singleProd->getImages();
+  //Get number of images
+  $imageNum = count($images);
 ?>
 
     <div class="bg-light py-3">
@@ -40,8 +43,55 @@
         <div class="row">
           <!-- Image carousel will go here for all product images -->
           <div class="col-md-6">
-            <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
-          </div>
+            <div id="productCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+              <div class="carousel-inner">
+                  <?
+                  //Logic to populate carousel or no
+                    
+                      for($i = 0; $i <= $imageNum - 1; $i++)
+                      {
+                        $image = $images[$i];
+                        if($i == 0)
+                        {
+                          //Set a unique ID for jquery
+                          $carouselID = $queryID;
+                          echo "<div class='carousel-item active' id='" . $carouselID . "'>
+                          <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
+                          </div>";
+                        }
+                        else
+                        {
+                          //Increment the ID for each successive image
+                          $carouselID++;
+                          echo "<div class='carousel-item' id='" . $carouselID . "'>
+                          <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
+                          </div>";
+                        }
+                      }
+                      //If more than one image exists, populate carousel controls
+                      if($imageNum > 1)
+                      {
+                        echo "</div>
+                              <a class='carousel-control-prev' href='#productCarousel' role='button' data-slide='prev'>
+                                <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                                <span class='sr-only'>Previous</span>
+                              </a>
+                              <a class='carousel-control-next' href='#productCarousel' role='button' data-slide='next'>
+                                <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                                <span class='sr-only'>Next</span>
+                              </a>
+                            </div>
+                          </div>";
+                      }
+                      else
+                      {
+                        echo "</div>
+                        </div>
+                      </div>";
+                      }
+                      
+                  ?>
+              
           <div class="col-md-6">
             <h2 class="text-black">
               <? 
