@@ -1,12 +1,15 @@
 <?
 require_once('includes/header.php');
 //Instantiate our required object for pagination
+//Set limit for number of products to return as well as pagination results
+$limit = 9;
 //Doubles as error handling for bogus query strings(kind of)
 $pagination = new Paginate();
 //Set total pages required for pagination
-$pagination->setTotalPages();
+$pagination->setTotalPages($limit);
 //Return that number and store it in a variable
 $totalPages = $pagination->getTotalPages();
+
 
 /* -------------------- CHECK AGAINST BOGUS QUERY STRING -------------------- */
 if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] <= $totalPages && $_GET['page'] > 0)
@@ -19,8 +22,11 @@ else if (!isset($_GET['page']))//If page isn't a key in the query string...
   //Set a boolean to populate pagination if we're shopping all products
   $dontPopulate = true;
 }
+else
+{  
   $pagination->setCurrentPage(1);
   $pageNumber = 1;
+}
 ?>
 
     <div class="bg-light py-3">
@@ -72,10 +78,10 @@ else if (!isset($_GET['page']))//If page isn't a key in the query string...
                 }
                 else if(isset($_GET['page']) && !empty($_GET['page']))
                 {
-                  echo $prods->getAllProducts($pageNumber);
+                  echo $prods->getAllProducts($pageNumber, $limit);
                 }
                 else
-                  echo $prods->getAllProducts();
+                  echo $prods->getAllProducts($limit);
               ?>
             </div>
 <!-- PAGINATION CLASS METHOD CALLS GO HERE -->

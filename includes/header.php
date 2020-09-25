@@ -72,7 +72,7 @@
         <div class="container">
           <ul class="site-menu js-clone-nav d-none d-md-block">
             <li class="has-children active">
-              <a href="shop.php">Browse Inventory</a>
+              <a href="shop.php?page=1">Browse Inventory</a>
             </li>
             <li>
                 <a href="featured.php">Featured Products</a>

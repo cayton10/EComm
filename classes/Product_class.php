@@ -10,6 +10,7 @@ class Product
 {
     //Database private member variable
     private $database;
+    private $limit;
 
 
 /* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
@@ -24,11 +25,12 @@ class Product
     }
 
     //Function definition w/ default parameter
-    public function getAllProducts($pageNumber = 1)
+    public function getAllProducts($pageNumber = 1, $limit)
     {
         //Declare output variable to return with formatted product display
         $output = "";
-        $limit = 6;
+        $this->limit = $limit;
+        $definedLimit = $this->limit;
         $start = ($pageNumber - 1) * $limit;
         //Store the current page from query string
           //Define query to pull product information
@@ -38,7 +40,7 @@ class Product
                          pro_Price, 
                          pro_Manufacturer 
                   FROM product
-                  LIMIT $start, $limit";
+                  LIMIT $start, $definedLimit";
 
         //Store results for processing
         $results = $this->database->get_results($query);

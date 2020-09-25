@@ -6,7 +6,7 @@ class Paginate
 {
     //Create private member variable to store results
     private $currentPage;
-    private $limit = 6;
+    private $limit;
     private $database;
     private $totalPages;
 
@@ -28,8 +28,9 @@ class Paginate
         return $this->totalPages;
     }
     //Set total pages
-    public function setTotalPages()
+    public function setTotalPages($limit)
     {
+        $this->limit = $limit;
         //Query DB to get total count of all products
         $query = "SELECT count(pro_ID) AS id
                   FROM product";
@@ -65,7 +66,7 @@ class Paginate
                                 <ul>
                                     <li><a href='#'>&lt;</a></li>";
                 for($i = 1; $i <= $this->totalPages; $i++)
-                {
+                {   //Set active page link
                     if($i == $this->currentPage)
                     {
                         $output .= "<li class='active'><a href='shop.php?page=" . $i . "'><span>" . $i . "</span></a></li>";
