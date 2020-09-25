@@ -19,9 +19,21 @@ class Product
         $this->database = DB::getInstance();
     }
 
-    public function getResults()
+    public function querySingleItem($productID)
     {
-      print_r($results);
+      //Query the item passed from query string
+      $query = "SELECT * 
+                FROM product
+                WHERE pro_ID = $productID";
+      //Store results for processing
+      $results = $this->database->get_results($query);
+
+      if($results)
+      {
+        return $results;
+      }
+      else 
+        echo "Error";
     }
 
     //Function definition w/ default parameter
@@ -36,7 +48,6 @@ class Product
           //Define query to pull product information
           $query = "SELECT pro_ID, 
                          pro_Name, 
-                         pro_Descript, 
                          pro_Price, 
                          pro_Manufacturer 
                   FROM product
@@ -75,10 +86,10 @@ class Product
               $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
                 <div class='block-4 text-center border innerProdContainer'>
                   <figure class='block-4-image'>
-                    <a href='shop-single.php'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
+                    <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                   </figure>
                   <div class='block-4-text p-4 prodInfo'>
-                    <h3><a href='shop-single.php'>" . $row['pro_Manufacturer'] . "</a></h3>
+                    <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
                     <p class='mb-0'>" . $row['pro_Name'] . "</p>
                     <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                   </div>
@@ -98,7 +109,6 @@ class Product
         $query = "SELECT
                     pro_ID,
                     pro_Name,
-                    pro_Descript,
                     pro_Price,
                     pro_Manufacturer
                   FROM
@@ -138,10 +148,10 @@ class Product
             $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
               <div class='block-4 text-center border innerProdContainer'>
                 <figure class='block-4-image'>
-                  <a href='shop-single.php'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
+                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                 </figure>
                 <div class='block-4-text p-4 prodInfo'>
-                  <h3><a href='shop-single.html'>" . $row['pro_Manufacturer'] . "</a></h3>
+                  <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
                   <p class='mb-0'>" . $row['pro_Name'] . "</p>
                   <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                 </div>
@@ -159,7 +169,6 @@ class Product
 
         $query = "SELECT pro_ID,
                          pro_Name,
-                         pro_Descript,
                          pro_Price,
                          pro_Manufacturer
                   FROM product
@@ -196,10 +205,10 @@ class Product
             $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
               <div class='block-4 text-center border innerProdContainer'>
                 <figure class='block-4-image'>
-                  <a href='shop-single.php'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
+                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                 </figure>
                 <div class='block-4-text p-4 prodInfo'>
-                  <h3><a href='shop-single.html'>" . $row['pro_Manufacturer'] . "</a></h3>
+                  <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
                   <p class='mb-0'>" . $row['pro_Name'] . "</p>
                   <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                 </div>
