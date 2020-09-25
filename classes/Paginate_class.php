@@ -59,12 +59,16 @@ class Paginate
 
     public function printPagination()
     {
+        //Declare variables and logic for << >> buttons on pagination
+        $back = $this->currentPage - 1;
+        $next = $this->currentPage + 1;
+
         $output = "";
         $output .= "<div class='row' data-aos='fade-up'>
                         <div class='col-md-12 text-center'>
                             <div class='site-block-27'>
                                 <ul>
-                                    <li><a href='#'>&lt;</a></li>";
+                                    <li><a href='shop.php?page=" . $back . "'>&lt;</a></li>";
                 for($i = 1; $i <= $this->totalPages; $i++)
                 {   //Set active page link
                     if($i == $this->currentPage)
@@ -76,7 +80,7 @@ class Paginate
                         $output .= "<li><a href='shop.php?page=" . $i . "'><span>" . $i . "</span></a></li>";
                     }
                 }
-                        $output .= "<li><a href='#'>&gt;</a></li>
+                        $output .= "<li><a href='shop.php?page=" . $next . "'>&gt;</a></li>
                                 </ul>
                             </div>
                         </div>

@@ -1,8 +1,8 @@
 <?
 require_once('includes/header.php');
-//Instantiate our required object for pagination
 //Set limit for number of products to return as well as pagination results
 $limit = 9;
+//Instantiate our required object for pagination
 //Doubles as error handling for bogus query strings(kind of)
 $pagination = new Paginate();
 //Set total pages required for pagination
