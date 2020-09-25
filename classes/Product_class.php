@@ -10,14 +10,25 @@ class Product
 {
     //Database private member variable
     private $database;
+    //Limit for pagination
     private $limit;
-
+    //Private members for item details page
+    private $id;
+    private $description;
+    private $price;
+    private $manufacturer;
+    private $name;
+    private $model;
 
 /* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
     public function __construct()
     {
         $this->database = DB::getInstance();
     }
+
+/* -------------------------------------------------------------------------- */
+/*         QUERY SINGLE ITEM AND STORE RESULTS IN PRIVATE MEMBER VARS         */
+/* -------------------------------------------------------------------------- */
 
     public function querySingleItem($productID)
     {
@@ -28,13 +39,54 @@ class Product
       //Store results for processing
       $results = $this->database->get_results($query);
 
+      //If results returned, make appropriate member var assignments
       if($results)
       {
-        return $results;
+        $item = $results[0];
+        $this->id = $item['pro_ID'];
+        $this->description = $item['pro_Descript'];
+        $this->price = number_format($item['pro_Price'],2);
+        $this->manufacturer = $item['pro_Manufacturer'];
+        $this->name = $item['pro_Name'];
+        $this->model = $item['pro_Model'];
       }
-      else 
+      else//Need to ask Brian about errno() and error handling using this DB class
+          //Or just test and find out myself :) 
         echo "Error";
     }
+
+/* --------------------- GETTERS FOR SINGLE ITEM DETAILS -------------------- */
+    public function getProdID()
+    {
+      return $this->id;
+    }
+
+    public function getDescript()
+    {
+      return $this->description;
+    }
+
+    public function getPrice()
+    {
+      return $this->price;
+    }
+
+    public function getManufacture()
+    {
+      return $this->manufacturer;
+    }
+
+    public function getName()
+    {
+      return $this->name;
+    }
+
+    public function getModel()
+    {
+      return $this->model;
+    }
+
+
 
     //Function definition w/ default parameter
     public function getAllProducts($pageNumber = 1, $limit)

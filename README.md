@@ -119,3 +119,29 @@ Wound up making the class a little more versatile and less dependent on others. 
 Overall, pretty happy with how Pagination_class.php turned out. I should go back and refactor Product_class.php, but who has the time???
 <hr>
 
+### 9.25.2020
+Started working on product detail page:
+    Some things to consider:
+    <ul>
+        <li>Things to populate</li>
+            <ul>
+            <li>Product Details</li>
+                <ul>
+                    <li>Images</li>
+                    <li>Description</li>
+                    <li>Price</li>
+                    <li>Name</li>
+                    <li>Model</li>
+                </ul>
+            <li>Product Options</li>
+                <ul>
+                    <li>Size</li>
+                    <li>Color</li>
+                </ul>
+            </ul>
+    </ul>
+
+Not sure how I'm going to go about the product options portion yet. 
+
+For Product details, I'm writing new functions to include in the Product_class.php file.
+

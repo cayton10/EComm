@@ -1,11 +1,36 @@
 <?
   require_once('includes/header.php');
+
+  //Grab value from query string and send val to DB
+  if(isset($_GET['id']) && !empty($_GET['id']))
+  {
+    $queryID = htmlspecialchars($_GET['id']);
+  }
+  //Instantiate product class object
+  $singleProd = new Product();
+  $singleProd->querySingleItem($queryID);
+  //Get images for item we're loading
+
+
+  //Store item details so we don't have to keep calling class getters
+  $description = $singleProd->getDescript();
+  $price = $singleProd->getPrice();
+  $manufacturer = $singleProd->getManufacture();
+  $name = $singleProd->getName();
+  $model = $singleProd->getModel();
 ?>
 
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Tank Top T-Shirt</strong></div>
+          <div class="col-md-12 mb-0"><a href="index.php">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">
+            <?
+            //Going to come back and update this so it'll show what category/ subcat etc.
+            $output = "";
+            $output .= $manufacturer . ": " . $name;
+            echo $output;
+            ?>
+          </strong></div>
         </div>
       </div>
     </div>  
@@ -18,10 +43,21 @@
             <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
           </div>
           <div class="col-md-6">
-            <h2 class="text-black">Tank Top T-Shirt</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores fuga voluptas, distinctio, aperiam, ratione dolore.</p>
-            <p class="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis. Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis illum hic magni iste, velit aperiam quis.</p>
-            <p><strong class="text-primary h4">$50.00</strong></p>
+            <h2 class="text-black">
+              <? 
+              $output = "";
+              $output .= $name . " - " . $model;
+              echo $output;
+              ?>
+              </h2>
+            <p class="mb-4">
+              <?
+                $output = "";
+                $output .= $description;
+                echo $output;
+              ?>
+            </p>
+            <p><strong class="text-primary h4">$<? echo $price; ?></strong></p>
             <div class="mb-1 d-flex">
               <label for="option-sm" class="d-flex mr-3 mb-3">
                 <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
