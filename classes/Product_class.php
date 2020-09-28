@@ -124,7 +124,7 @@ class Product
             {
 
 /* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
-              $image = "/products/" . $row[pro_ID] . "_1";
+              $image = "/products/" . $row['pro_ID'] . "_1";
               $docRoot = $_SERVER['DOCUMENT_ROOT'];
               $image = $docRoot . $image;
               if(file_exists($image . ".png"))
@@ -145,7 +145,7 @@ class Product
               $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
                 <div class='block-4 text-center border innerProdContainer'>
                   <figure class='block-4-image'>
-                    <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
+                    <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                   </figure>
                   <div class='block-4-text p-4 prodInfo'>
                     <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
@@ -207,7 +207,7 @@ class Product
             $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
               <div class='block-4 text-center border innerProdContainer'>
                 <figure class='block-4-image'>
-                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
+                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                 </figure>
                 <div class='block-4-text p-4 prodInfo'>
                   <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
@@ -264,7 +264,7 @@ class Product
             $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
               <div class='block-4 text-center border innerProdContainer'>
                 <figure class='block-4-image'>
-                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
+                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
                 </figure>
                 <div class='block-4-text p-4 prodInfo'>
                   <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
