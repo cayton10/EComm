@@ -47,10 +47,23 @@
               <div class="carousel-inner">
                   <?
                   //Logic to populate carousel or no
-                    
+                  if($imageNum == 0)
+                    {
+                        $image = "../../products/noimage.jpg";
+                        echo "<img class='d-block w-100' src='" . $image . "'alt='noImage'>
+                        </div>
+                        </div>
+                        </div>";
+                        
+                    }
+                    else
+                    {
+                  
                       for($i = 0; $i <= $imageNum - 1; $i++)
                       {
+                          
                         $image = $images[$i];
+                          
                         if($i == 0)
                         {
                           //Set a unique ID for jquery
@@ -59,6 +72,7 @@
                           <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
                           </div>";
                         }
+
                         else
                         {
                           //Increment the ID for each successive image
@@ -89,6 +103,7 @@
                         </div>
                       </div>";
                       }
+                    }
                       
                   ?>
               
