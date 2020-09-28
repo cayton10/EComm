@@ -125,7 +125,7 @@ class Product
 
 /* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
               $image = "/products/" . $row['pro_ID'] . "_1";
-              $docRoot = $_SERVER['DOCUMENT_ROOT'];
+              $docRoot = $_SERVER['DOCUMENT_ROOT'] . "/CIT410";
               $image = $docRoot . $image;
               if(file_exists($image . ".png"))
               {
@@ -186,8 +186,8 @@ class Product
 
 /* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
 
-            $image = "/products/" . $row[pro_ID] . "_1";
-            $docRoot = $_SERVER['DOCUMENT_ROOT'];
+            $image = "/products/" . $row['pro_ID'] . "_1";
+            $docRoot = $_SERVER['DOCUMENT_ROOT'] . "/CIT410";
             $image = $docRoot . $image;
             if(file_exists($image . ".png"))
             {
@@ -243,8 +243,8 @@ class Product
 
 /* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
 
-            $image = "/products/" . $row[pro_ID] . "_1";
-            $docRoot = $_SERVER['DOCUMENT_ROOT'];
+            $image = "/products/" . $row['pro_ID'] . "_1";
+            $docRoot = $_SERVER['DOCUMENT_ROOT'] . "/CIT410";
             $image = $docRoot . $image;
             if(file_exists($image . ".png"))
             {
