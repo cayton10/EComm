@@ -9,16 +9,16 @@
 class Product
 {
     //Database private member variable
-    protected $database;
+    private $database;
     //Limit for pagination
     private $limit;
     //Private members for item details page
-    protected $id;
-    protected $description;
-    protected $price;
-    protected $manufacturer;
-    protected $name;
-    protected $model;
+    private $id;
+    private $description;
+    private $price;
+    private $manufacturer;
+    private $name;
+    private $model;
 
 /* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
     public function __construct()

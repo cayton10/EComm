@@ -161,5 +161,9 @@ Wow. I hate dynamic image carousels. I think I've just been working on this thin
 Have decided to create a 'Featured' class which will extend the Product class.
 The rationale behind extending the class is to limit variable declaration reuse. I would like to be able to reuse some of the functions I had already written, but the queries are specific to each function within the Product class. Therefore, a new function to populate 'Featured Products' needs written.
 
+Instead of combining multiple operations into one function like I did before, I am simply returning all the product information from the database if the boolean 'pro_Feat' is true or == 'Y'. This information is returned as an associative array and processed in a foreach loop. For each product that is processed, an appropriate image needs to be populated. I created an image class to take care of this
 
+#### Image Class
+
+The image class contains a member function to process a product ID, search for an accompanying image in the 'products' directory, and returns the file path, and image name back to index.php for output. 
 

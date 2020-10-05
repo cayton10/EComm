@@ -8,6 +8,7 @@
     define('DB_NAME', 'cit410f20');
     define( 'SEND_ERRORS_TO', 'cayton10@marshall.edu' ); //set email notification email address
     define( 'DISPLAY_DEBUG', true ); //display db errors?
+    define( 'PATH_TO_IMAGES', '../../products/');//I don't like having this hard coded. Ask Brian how to fix
 
     define( 'PATH_TO_CLASSES',  $_SERVER['DOCUMENT_ROOT'] . '/CIT410/cayton10/EComm/classes/');
     // PHP 7 way to do autoload

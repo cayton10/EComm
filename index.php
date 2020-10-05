@@ -103,18 +103,31 @@
         <div class="row">
           <div class="col-md-12">
             <div class="nonloop-block-3 owl-carousel">
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
+              <?
+                //Instantiate featured product object
+                $featured = new Featured();
+                //Store results of method call into 'featuredProds
+                $featuredProds = $featured->getFeaturedProds();
+                //Process results and ouput product cards
+                foreach ($featuredProds as $feat)
+                {
+                  //Process ID, grab appropriate image
+                  $image = Image::getImage($feat['ID']);
+
+                  echo "<div class='item'>
+                          <div class='block-4 text-center'>
+                            <figure class='block-4-image'>                        
+                              <img src='" . $image . "'>
+                            </figure>
+                            
+                            
+                            
+                          </div>
+                        </div>";
+                }
+
+
+              ?>
               <div class="item">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
