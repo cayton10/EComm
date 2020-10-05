@@ -86,6 +86,10 @@ else
             </div>
 <!-- PAGINATION CLASS METHOD CALLS GO HERE -->
             <?
+              /*
+              TODO: Eliminate this check and set pagination for all products/ main cats/ subcats
+              TODO: This will invlove switching up the 'page' key on page load for product cards. Fix that in Product_class.php functions
+              */
             if(!$dontPopulate)
             {
               echo $pagination->printPagination();
