@@ -119,9 +119,11 @@
                             <figure class='block-4-image'>                        
                               <img src='" . $image . "'>
                             </figure>
-                            
-                            
-                            
+                            <div class='block-4-text p-4'>
+                              <h3><a href='shop-single.php?id=" . $feat['ID'] . "&name=" . $feat['Title'] . "'>" . $feat['Manu'] . "</a></h3>
+                              <p class='mb-0'>" . $feat['Title'] . "</p>
+                              <p class='text-primary font-weight-bold'> $" . number_format($feat['Price'], 2) . "</p>
+                            </div>
                           </div>
                         </div>";
                 }
