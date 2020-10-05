@@ -114,12 +114,12 @@
                   //Process ID, grab appropriate image
                   $image = Image::getImage($feat['ID']);
 
-                  echo "<div class='item'>
-                          <div class='block-4 text-center'>
+                  echo "<div class='item prodContainer'>
+                          <div class='block-4 text-center innerProdContainer'>
                             <figure class='block-4-image'>                        
-                              <img src='" . $image . "'>
+                              <img src='" . $image . "' alt='Image placeholder' class='img-fluid featuredProds'>
                             </figure>
-                            <div class='block-4-text p-4'>
+                            <div class='block-4-text p-4 prodInfo'>
                               <h3><a href='shop-single.php?id=" . $feat['ID'] . "&name=" . $feat['Title'] . "'>" . $feat['Manu'] . "</a></h3>
                               <p class='mb-0'>" . $feat['Title'] . "</p>
                               <p class='text-primary font-weight-bold'> $" . number_format($feat['Price'], 2) . "</p>
@@ -127,10 +127,8 @@
                           </div>
                         </div>";
                 }
-
-
               ?>
-              <div class="item">
+              <div class="item prodContainer">
                 <div class="block-4 text-center">
                   <figure class="block-4-image">
                     <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">

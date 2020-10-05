@@ -26,8 +26,13 @@
     font-weight: lighter;
 }
 
+.owlProdContainer{
+    height: 500px;
+    display: flex;
+    justify-content: space-around;
+}
 
-/*****************************************
+/*
 Main shop page product display properties
 *****************************************/
 /* Fixes some display issues with image display for product divs */
