@@ -153,3 +153,13 @@ Took a minute to figure out why my carousel wasn't showing on the page. Can't ha
 
 Wow. I hate dynamic image carousels. I think I've just been working on this thing non stop for the last couple of days, too, so I'm starting to make stupid mistakes.
 
+
+### 10.05.2020
+
+#### Featured Products
+
+Have decided to create a 'Featured' class which will extend the Product class.
+The rationale behind extending the class is to limit variable declaration reuse. I would like to be able to reuse some of the functions I had already written, but the queries are specific to each function within the Product class. Therefore, a new function to populate 'Featured Products' needs written.
+
+
+

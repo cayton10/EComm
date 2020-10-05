@@ -9,16 +9,16 @@
 class Product
 {
     //Database private member variable
-    private $database;
+    protected $database;
     //Limit for pagination
     private $limit;
     //Private members for item details page
-    private $id;
-    private $description;
-    private $price;
-    private $manufacturer;
-    private $name;
-    private $model;
+    protected $id;
+    protected $description;
+    protected $price;
+    protected $manufacturer;
+    protected $name;
+    protected $model;
 
 /* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
     public function __construct()
@@ -275,7 +275,10 @@ class Product
             </div>";
           }
           return $output;
+      }
     }
-  }
+
+
+
 }
 ?>
