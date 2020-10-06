@@ -167,3 +167,5 @@ Instead of combining multiple operations into one function like I did before, I 
 
 The image class contains a member function to process a product ID, search for an accompanying image in the 'products' directory, and returns the file path, and image name back to index.php for output. 
 
+
+Styling the products card was pretty tough since the div containing the cards dynamically populates products using an owl-carousel. It took some hammering, but I got it done. 
