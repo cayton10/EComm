@@ -8,23 +8,35 @@ $(document).ready(function(){
     //Activate carousel
     $('#productCarousel').carousel();
 
-    $('.owl-item').addClass('owlProdContainer');
+    //Hide search results div on load
+    $('#searchResults').hide();
 
-    //Function for dynamic searching in header.php
+    //Function for dynamic searching in header.php on keyup
     $('#search').keyup(function()
     {
-        $.ajax(
-            {
-                url: "ajax/search.php",
-                data: {"search": $('#search').val()},
-                method: "GET",
-                datatype: "json",
-                success: function(data)
+        //if no content in search bar, hide search results
+        if($(this).val() == "")
+            $('#searchResults').hide();
+        else
+        {
+            $.ajax(
                 {
-                    $('#searchResults').html(data + 'HI');
+                    url: "ajax/search.php",
+                    data: {"search": $('#search').val()},
+                    method: "GET",
+                    dataType: "json",
+                    success: function(data)
+                    {
+                        var output = "";
+                        $.each(data, function(i, product) {
+                            output += product.Manu + " " + product.Title + "<br/>"
+                        });
+                        $('#searchResults').html(output);
+                        $('#searchResults').fadeIn('200');
+                    }
                 }
-            }
-        )
+            )
+        }
     });
 
 });

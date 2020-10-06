@@ -1,5 +1,24 @@
 /*HEADER STYLING*/
 
+/*STYLING FOR SEARCH FUNCTION IN HEADER.PHP*/
+#search{
+    border: 1px solid #ccc !important;
+}
+
+#searchResults{
+    background-color: white;
+    border: 1px solid #ccc !important;
+    position: absolute !important;
+    width: auto;
+    display: block;
+    right: 0;
+    left: 8%;
+    z-index: 100;
+}
+
+/* TODO: Put media query break points in to fix search results div size */
+
+
 
 
 
