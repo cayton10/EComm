@@ -2,7 +2,8 @@
 
 /*STYLING FOR SEARCH FUNCTION IN HEADER.PHP*/
 #search{
-    border: 1px solid #ccc !important;
+    border-bottom: 1px solid #ccc !important;
+    border-radius: 0%;
 }
 
 #searchResults{
@@ -22,6 +23,8 @@
     font-weight: bold;
     display: block;
     padding-left: 8%;
+    font-size: 1.2em;
+    color: #7971ea;
 }
 
 .prodName{

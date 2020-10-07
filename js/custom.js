@@ -8,6 +8,9 @@ $(document).ready(function(){
     //Activate carousel
     $('#productCarousel').carousel();
 
+    //Add this class to dynamically generated owl-item for formatting
+    $('.owl-item').addClass('owlProdContainer');
+
     //Hide search results div on load
     $('#searchResults').hide();
 
@@ -16,7 +19,7 @@ $(document).ready(function(){
     {
         //if no content in search bar, hide search results
         if($(this).val() == "")
-            $('#searchResults').hide();
+            $('#searchResults').fadeOut('150');
         else
         {
             //Provide a check for string length... limit ajax calls
@@ -34,8 +37,9 @@ $(document).ready(function(){
                         success: function(data)
                         {   
                             var output = "";
+                            var prevManu = "";
                             $.each(data, function(i, product) {
-                                var prevManu
+                                
                                 //Format output and provide links to products
                                 if(product.Manu != prevManu)
                                 {   //Formatting for manufacturer
@@ -48,6 +52,11 @@ $(document).ready(function(){
                                 prevManu = product.Manu;//Picked up some formatting tricks from a tut vid
                                                         //I saved from an old professor I had :)
                             });
+                            //Tell user if string doesn't match anything in DB
+                            if(output.length === 0)
+                            {
+                                output = "Please Refine Your Search";
+                            }
 
                             $('#searchResults').html(output);
                             $('#searchResults').fadeIn('200');

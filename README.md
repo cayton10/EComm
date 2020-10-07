@@ -169,3 +169,11 @@ The image class contains a member function to process a product ID, search for a
 
 
 Styling the products card was pretty tough since the div containing the cards dynamically populates products using an owl-carousel. It took some hammering, but I got it done. 
+
+### 10.6.2020
+
+#### Smart Search Bar
+
+The smart search feature is located in the header.php, which is included on every page of My Variety Store. I created a class 'Search_class.php' to process characters from the search box via ajax and return results back to the ajax call for processing. 
+
+I had a helpful tutorial video I heavily referenced from my CIT313 class. It was a huge help!
