@@ -32,7 +32,7 @@ $(document).ready(function(){
                         method: "GET",
                         dataType: "json",
                         success: function(data)
-                        {
+                        {   
                             var output = "";
                             $.each(data, function(i, product) {
                                 var prevManu
@@ -45,7 +45,8 @@ $(document).ready(function(){
                                 output += "<span class='prodName'><a href='shop-single.php?id=" + product.ID + "&name=" + product.Title + "'>" + product.Title + "</a></span>";
                                 
                                 //Set prevManu to Manu
-                                prevManu = product.Manu;
+                                prevManu = product.Manu;//Picked up some formatting tricks from a tut vid
+                                                        //I saved from an old professor I had :)
                             });
 
                             $('#searchResults').html(output);

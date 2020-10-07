@@ -21,11 +21,12 @@
 .manufact{
     font-weight: bold;
     display: block;
+    padding-left: 8%;
 }
 
 .prodName{
     display: block;
-    padding-left: 26px;
+    padding-left: 16%;
 }
 
 
