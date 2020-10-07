@@ -12,12 +12,21 @@
     width: auto;
     display: block;
     right: 0;
-    left: 8%;
+    left: 0;
     z-index: 100;
 }
 
 /* TODO: Put media query break points in to fix search results div size */
 
+.manufact{
+    font-weight: bold;
+    display: block;
+}
+
+.prodName{
+    display: block;
+    padding-left: 26px;
+}
 
 
 

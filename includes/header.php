@@ -35,9 +35,9 @@
           <div class="row align-items-center">
         <!-- SEARCH BAR -->
             <div class="col-6 col-md-4 order-2 order-md-1 site-search-icon text-left">
-              <form action="" class="site-block-top-search">
+              <form action="" class="site-block-top-search" autocomplete='off'>
                 <span class="icon icon-search2"></span>
-                <input id='search' type="text" class="form-control border-0" placeholder="Search">
+                <input id='search' type="text" class="form-control border-0" placeholder="Search" autocomplete="off">
                 <div id='searchResults'></div>
               </form>
             </div>
