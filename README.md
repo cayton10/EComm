@@ -177,3 +177,21 @@ Styling the products card was pretty tough since the div containing the cards dy
 The smart search feature is located in the header.php, which is included on every page of My Variety Store. I created a class 'Search_class.php' to process characters from the search box via ajax and return results back to the ajax call for processing. 
 
 I had a helpful tutorial video I heavily referenced from my CIT313 class. It was a huge help!
+
+
+### 10.7.2020
+
+#### Dynamic Rating System
+
+So, I'm aware that I could just make a simple form and '<select>' element that would let me do what I need as far as updating reviews and displaying them as calculations on product cards, but I'm really stuck on the star system. In my quest to complete this function I've already blown through three plugins and they have all failed to meet the needs of this function.
+
+##### rateYo
+A lightweight jQuery rating plugin that almost worked for my needs, but when styling the elements on the product cards, the foreground SVG would go haywire within the parent div while leaving the background (unfilled stars) where they were intended to be placed. I tried for about 3 hours to find workarounds and they all failed.
+
+##### jQuery Barratings
+Had this implemented and working then realized aggregate calculation of all ratings could not be accomplished. The plugin turns a select element into a star rating system based on round numbers. I never did get to the point where i could return calculated ratings to see if fontawesome had images for partially filled stars, but being that the fontawesome.css file was outdated and the stars did not render correctly, I decided to scrap this plugin and try something else... too afraid of wasting more time.
+
+#### Last Ditch Plugin Effort
+##### jQuery Starrr
+I'll let you know how it goes...
+
