@@ -124,6 +124,7 @@
                               <p class='mb-0'>" . $feat['Title'] . "</p>
                               <p class='text-primary font-weight-bold'> $" . number_format($feat['Price'], 2) . "</p>
                             </div>
+                            <div class='readRating'></div>
                           </div>
                         </div>";
                 }

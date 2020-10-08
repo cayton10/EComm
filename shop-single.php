@@ -1,15 +1,16 @@
 <?
   require_once('includes/header.php');
 
-  //Grab value from query string and send val to DB
+
+
+/* ------------- Grab value from query string and send val to DB ------------ */
   if(isset($_GET['id']) && !empty($_GET['id']))
   {
-    $queryID = htmlspecialchars($_GET['id']);
+    $queryID = htmlspecialchars(trim($_GET['id']));
   }
   //Instantiate product class object
   $singleProd = new Product();
   $singleProd->querySingleItem($queryID);
-  //Get images for item we're loading
 
 
   //Store item details so we don't have to keep calling class getters
@@ -21,6 +22,15 @@
   $images = $singleProd->getImages();
   //Get number of images
   $imageNum = count($images);
+
+  //Instantiate review class object
+  $reviewObj = new Review($queryID);
+  //Store array
+  $reviews = $reviewObj->getFullReviewInfo();
+  //Store number of reviews for avg calc
+  $reviewNum = count($reviews);
+  //Store average rating for product
+  
 ?>
 
     <div class="bg-light py-3">
@@ -115,6 +125,7 @@
               echo $output;
               ?>
               </h2>
+            
             <p class="mb-4">
               <?
                 $output = "";
@@ -122,7 +133,11 @@
                 echo $output;
               ?>
             </p>
-            <p><strong class="text-primary h4">$<? echo $price; ?></strong></p>
+            <div class='row-fluid priceRating'>
+                <p class='col-6 priceSection'><strong class="text-primary h4">$<? echo $price; ?></strong></p>
+                <?echo $reviewObj->printAvgRating($reviewNum);?>
+                
+            </div>
             <div class="mb-1 d-flex">
               <label for="option-sm" class="d-flex mr-3 mb-3">
                 <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
@@ -149,7 +164,10 @@
             </div>
 
             </div>
-            <p><a href="cart.php" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+            <div class ='row-fluid cartReview'>
+              <p class='col-6 addToCartButton'><a href="cart.php" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+              <p class='col-6 leaveReviewButton'><a href="cart.php" class="buy-now btn btn-sm btn-primary">Leave Review</a></p>
+            </div>
 
           </div>
         </div>
@@ -160,73 +178,35 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Featured Products</h2>
+            <h2>Product Reviews</h2>
+            <?
+
+              
+              foreach($reviews as $review)
+              {
+                echo "<div class='container reviewContainer'>
+                        <div class='row justify-content-left fNameDiv'><h5 class='fname'>" . $review['fname'] . "</h5></div>
+                        <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
+                        <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>
+                      </div>";
+              }
+              
+            ?>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="nonloop-block-3 owl-carousel">
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Tank Top</a></h3>
-                    <p class="mb-0">Finding perfect t-shirt</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Polo Shirt</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-              <div class="item">
-                <div class="block-4 text-center">
-                  <figure class="block-4-image">
-                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                  </figure>
-                  <div class="block-4-text p-4">
-                    <h3><a href="#">Corater</a></h3>
-                    <p class="mb-0">Finding perfect products</p>
-                    <p class="text-primary font-weight-bold">$50</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class='row-fluid'>
+          <div class='col-12'>
+
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-7 site-section-heading text-center pt-4">
+            <h2>Leave Review</h2>
+          </div>
+        </div>
+        <div class='row-fluid'>
+          <div class='col-12'>
+            
           </div>
         </div>
       </div>

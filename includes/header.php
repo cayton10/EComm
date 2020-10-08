@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="css/aos.css">
 
     <link rel="stylesheet" href="css/style.css">
+    <!-- STARR PLUGIN CSS -->
+    <link rel='stylesheet' href='plugins/rating/starrr.css'>
+    <!-- REQUIRED FA STYLESHEET FOR STARRR -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css'>
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="css/custom.css">
     
