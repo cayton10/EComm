@@ -1,15 +1,16 @@
 <?
   require_once('includes/header.php');
 
-  //Grab value from query string and send val to DB
+
+
+/* ------------- Grab value from query string and send val to DB ------------ */
   if(isset($_GET['id']) && !empty($_GET['id']))
   {
-    $queryID = htmlspecialchars($_GET['id']);
+    $queryID = htmlspecialchars(trim($_GET['id']));
   }
   //Instantiate product class object
   $singleProd = new Product();
   $singleProd->querySingleItem($queryID);
-  //Get images for item we're loading
 
 
   //Store item details so we don't have to keep calling class getters
@@ -21,6 +22,15 @@
   $images = $singleProd->getImages();
   //Get number of images
   $imageNum = count($images);
+
+  //Instantiate review class object
+  $reviewObj = new Review($queryID);
+  //Store array
+  $reviews = $reviewObj->getFullReviewInfo();
+  //Store number of reviews for avg calc
+  $reviewNum = count($reviews);
+  //Store average rating for product
+  
 ?>
 
     <div class="bg-light py-3">
@@ -125,7 +135,8 @@
             </p>
             <div class='row-fluid priceRating'>
                 <p class='col-6 priceSection'><strong class="text-primary h4">$<? echo $price; ?></strong></p>
-                <p class='col-6 reviewSection'><strong class='text-primary h5'><span id='rating'></span> / 5 </strong><i class='fa fa-star single'></i><span class='ratingCount'></span>  Ratings</p>
+                <?echo $reviewObj->printAvgRating($reviewNum);?>
+                
             </div>
             <div class="mb-1 d-flex">
               <label for="option-sm" class="d-flex mr-3 mb-3">
@@ -168,6 +179,29 @@
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
             <h2>Product Reviews</h2>
+            <?
+
+              
+              foreach($reviews as $review)
+              {
+                echo "<div class='container reviewContainer'>
+                        <div class='row justify-content-left fNameDiv'><h5 class='fname'>" . $review['fname'] . "</h5></div>
+                        <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
+                        <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>
+                      </div>";
+              }
+              
+            ?>
+          </div>
+        </div>
+        <div class='row-fluid'>
+          <div class='col-12'>
+
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-md-7 site-section-heading text-center pt-4">
+            <h2>Leave Review</h2>
           </div>
         </div>
         <div class='row-fluid'>

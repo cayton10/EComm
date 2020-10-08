@@ -27,6 +27,15 @@ $(document).ready(function(){
         $('.readRating > a').removeAttr('href');
     });
 
+    //Display ratings from shop-single.php
+    var ratings = document.getElementsByClassName('pScore');
+    for(var a = 0; a < ratings.length; a++)
+    {
+        $(ratings[a]).starrr({
+            rating: ratings[a].getAttribute("data-rating")
+        })
+    }
+
 
 /* -------------------------------------------------------------------------- */
 /*            Function for dynamic searching in header.php on keyup           */

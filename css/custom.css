@@ -111,6 +111,12 @@ a.fa-star{
     font-size: 1.5rem;
     color: #7971ea;
     padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+.ratingCount{
+    padding-left: .25rem;
+    padding-right: .25rem;
 }
 
 /*Fixes long names in dropright menu for text wrapping*/
