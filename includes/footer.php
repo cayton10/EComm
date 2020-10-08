@@ -67,4 +67,6 @@
 <script src='js/aos.js'></script>
 
 <script src='js/main.js'></script>
+<!-- STARRR PLUGIN REQUIRED JS -->
+<script src='plugins/rating/starrr.js'></script>
 <script src='js/custom.js'></script>

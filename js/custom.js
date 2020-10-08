@@ -14,7 +14,24 @@ $(document).ready(function(){
     //Hide search results div on load
     $('#searchResults').hide();
 
-    //Function for dynamic searching in header.php on keyup
+
+/* -------------------------------------------------------------------------- */
+/*                      INITIALIZE JQUERY STARRR LIBRARY                      */
+/* -------------------------------------------------------------------------- */
+
+    $(function() {
+        //For read ratings, set readOnly to true
+        $('.readRating').starrr({
+            readOnly: true,
+        });
+        $('.readRating > a').removeAttr('href');
+    });
+
+
+/* -------------------------------------------------------------------------- */
+/*            Function for dynamic searching in header.php on keyup           */
+/* -------------------------------------------------------------------------- */
+
     $('#search').keyup(function()
     {
         //if no content in search bar, hide search results

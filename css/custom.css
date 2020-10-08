@@ -93,6 +93,20 @@ Main shop page product display properties
     margin-right: auto;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/*                               STARRR STYLING                               */
+/* -------------------------------------------------------------------------- */
+a.fa-star-o{
+    font-size: 1.5rem;
+}
+a.fa-star{
+    font-size: 1.5rem;
+}
+.readRating a{
+    cursor: default!important;
+}
+
 /*Fixes long names in dropright menu for text wrapping*/
 a.p-2{
     white-space: nowrap;
