@@ -105,11 +105,14 @@ class Product
         $start = ($pageNumber - 1) * $limit;
         //Store the current page from query string
           //Define query to pull product information
-          $query = "SELECT pro_ID, 
+          $query = "SELECT t1.pro_ID, 
                          pro_Name, 
                          pro_Price, 
-                         pro_Manufacturer 
-                  FROM product
+                         pro_Manufacturer,
+                         AVG(rev_Score) AS avgScore 
+                  FROM product t1
+                  LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                  GROUP BY t1.pro_ID
                   LIMIT $start, $definedLimit";
 
         //Store results for processing
@@ -152,6 +155,7 @@ class Product
                     <p class='mb-0'>" . $row['pro_Name'] . "</p>
                     <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                   </div>
+                  <div class='avgRating'>" . Review::staticAvgRating($row['pro_ID']) . "</div>
                 </div>
               </div>";
             }
@@ -166,15 +170,19 @@ class Product
       $output = "";
       //Query to return all products from main category
         $query = "SELECT
-                    pro_ID,
+                    t1.pro_ID,
                     pro_Name,
                     pro_Price,
-                    pro_Manufacturer
+                    pro_Manufacturer,
+                    AVG(rev_Score) AS avgScore
                   FROM
-                      product
-                  LEFT JOIN category
-                  ON product.cat_ID = category.cat_ID
-                  WHERE category.cat_SubCat = $category";
+                      product t1
+                  LEFT JOIN category t2
+                  ON t1.cat_ID = t2.cat_ID
+                  LEFT JOIN review t3
+                  ON t1.pro_ID = t3.pro_ID
+                  WHERE t2.cat_SubCat = $category
+                  GROUP BY t1.pro_ID";
 
       //Store results for processing
       $results = $this->database->get_results($query);
@@ -214,6 +222,7 @@ class Product
                   <p class='mb-0'>" . $row['pro_Name'] . "</p>
                   <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                 </div>
+                <div class='avgRating'>" . Review::staticAvgRating($row['avgScore']) . "</div>
               </div>
             </div>";
           }
@@ -226,12 +235,15 @@ class Product
       //Declare output variable to return with formatted product display
       $output = "";
 
-        $query = "SELECT pro_ID,
+        $query = "SELECT t1.pro_ID,
                          pro_Name,
                          pro_Price,
-                         pro_Manufacturer
-                  FROM product
-                  WHERE cat_ID = $category";
+                         pro_Manufacturer,
+                         AVG(rev_Score) AS avgScore
+                  FROM product t1
+                  LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                  WHERE cat_ID = $category
+                  GROUP BY t1.pro_ID";
 
       //Store results for processing
       $results = $this->database->get_results($query);
@@ -271,6 +283,7 @@ class Product
                   <p class='mb-0'>" . $row['pro_Name'] . "</p>
                   <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                 </div>
+                <div class='avgRating'>" . Review::staticAvgRating($row['avgScore']) . "</div>
               </div>
             </div>";
           }
