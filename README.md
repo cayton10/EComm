@@ -179,7 +179,6 @@ The smart search feature is located in the header.php, which is included on ever
 I had a helpful tutorial video I heavily referenced from my CIT313 class. It was a huge help!
 
 
-<<<<<<< HEAD
 ### 10.7.2020
 
 #### Dynamic Rating System
@@ -196,8 +195,7 @@ Had this implemented and working then realized aggregate calculation of all rati
 ##### jQuery Starrr
 I'll let you know how it goes...
 
-=======
-### 10.8.2020
+### 10.7.2020
 
 #### Reviews and Ratings
 
@@ -214,4 +212,3 @@ The review class essentially does all of my querying and formatting of informati
 
 #### Leave Review
 Need to get this finished ASAP because I still need to work on filtering... wonder if I can get this done in time D:
->>>>>>> rating

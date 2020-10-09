@@ -20,11 +20,56 @@ $(document).ready(function(){
 /* -------------------------------------------------------------------------- */
 
     $(function() {
-        //For read ratings, set readOnly to true
-        $('.starrr').starrr({
-            readOnly: false,
+
+        //For the reviewer, on change event, store the value of the star in 
+        //var ratings
+        $('.scoreDiv').starrr().on('starrr:change', function (event, value) {
+            //Add the value of the rating as a data field for reading upon submission
+            $('#stars').attr('data-rate', value);
         });
-        $('.starrr').removeAttr('href');
+    });
+
+/* ------------------------- SUBMIT REVIEW AJAX CALL ------------------------ */
+    //On submit event 
+    //NOTE: $(#element).submit() is deprecated
+    $('#reviewSubmit').on('click', function(event){
+        event.preventDefault();//Prevent default action
+
+        //Check if a rating has been selected
+        if($('#stars').data('rate') == null)
+        {
+            alert("FILL THIS OUT");
+            return
+        }
+        //Assign appropriate variables to send via ajax
+        prodID = $('#reviewForm').attr('value');
+        rating = $('#stars').data('rate');
+        reviewDetail = $('#reviewDetail').val();
+
+        $.ajax({
+            url: 'ajax/saveRatings.php',
+            type: 'POST',
+            data: 
+            {
+                prodID: prodID,
+                rating: rating,
+                reviewDetail: reviewDetail
+            },
+            dataType: 'JSON',
+            success: function(response)
+            {
+                if(response.success)
+                {
+                    alert(response)
+                    console.log(response);
+                }
+                else
+                    console.log(response);
+            }
+        })
+
+        alert(reviewDetail);
+
     });
 
 /* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */

@@ -175,6 +175,10 @@ p.deets{
     padding-top: 1em;
 }
 
+.scoreDiv{
+    padding-bottom: 1em;
+}
+
 .reviewDetail{
     font-size: 1rem;
     width: 100%;

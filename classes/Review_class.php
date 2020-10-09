@@ -135,7 +135,50 @@ class Review extends DB
         return $output;
     }
 
+/* ---------------------------- ADD REVIEW TO DB ---------------------------- */
+    public function insertReview($rating, $reviewDetail, $cusID)
+    {
+        //Declare variable to store reviewID
+        $reviewID;
+        //First set up a query to find latest review ID
+        
+        $query = "SELECT max(rev_ID) 
+                    FROM review";
+        $maxID = $this->get_results($query);
+ 
+        //Dig through associative array to get last inserted ID
+        foreach($maxID as $id)
+        {
+            foreach($id as $reviewID)
+            {
+                $reivewID = $reviewID;
+            }
+        }
 
+        //Check value
+        if($reviewID === NULL)
+        {
+            $reivewID = 1;
+        }
+        else
+            $reviewID += 1;
+
+        //Set up array of values for insertion
+        $reviewArray = array(
+            'rev_ID' => $reviewID, 
+            'rev_Score' => $rating, 
+            'rev_Detail' => $reviewDetail, 
+            'pro_ID' => $this->pID, 
+            'cus_ID' => $cusID);
+
+        //Call DB Class method to insert data
+        $this->insert('review', $reviewArray);
+
+        //Check if insert was successful
+        $affectedRows = $this->affected();
+        //return value
+        return $affectedRows;
+    }
 }
 
 

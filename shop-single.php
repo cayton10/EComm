@@ -194,13 +194,14 @@
             <h2 class='reviewText'>Leave Review</h2>
             <div class='container reviewContainer'>
                 <div class='row justify-content-left messagetoUser'><h5 class='message'>Penny For Your Thoughts?</h5></div>
-                <form class='reviewForm' action='' method='POST' enctype='multipart/form-data' id='reviewForm'>
-                  <div class='row justify-content-left scoreDiv'><p class='starrr'></p></div>
+                <form action='' class='reviewForm' name='prodID' value='<? echo $queryID ?>' onsubmit='return saveRatings(this);' method='POST' enctype='multipart/form-data' id='reviewForm'>
+                  <div class='row justify-content-left scoreDiv' data-rate=''><input type='hidden' id='stars' class='starrr' required='required'></input></div>
                   <div class='row deetsBox' >
-                    <textarea id='reviewDetail' class='reviewDetail' placeholder="Tell us about your experience..."></textarea>
+                    <textarea id='reviewDetail' class='reviewDetail' name='reviewDetail' placeholder="Tell us about your experience..." 
+                              form='reviewForm'></textarea>
                   </div>
                   <div class='submitButton'>
-                    <input type='submit' value='submit' class='buy-now btn btn-sm btn-primary submit'></input>
+                    <input id='reviewSubmit' type='submit' value='submit' class='buy-now btn btn-sm btn-primary submit'></input>
                   </div>
                 </form>
             </div>
