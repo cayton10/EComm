@@ -114,9 +114,40 @@ a.fa-star{
     padding-right: .5rem;
 }
 
+.pScore > a {
+    color:#7971ea!important;
+}
+
 .ratingCount{
     padding-left: .25rem;
     padding-right: .25rem;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                          REVIEW CONTAINER STYLING                          */
+/* -------------------------------------------------------------------------- */
+p.deets{
+    font-size: 1rem;
+}
+
+.fNameDiv{
+    border-top: 1px solid #ccc;
+}
+
+.fname{
+    padding-top: .5em;
+}
+
+.deetsDiv{
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+p.deets{
+    padding: .25em 1em .25em 1em;
 }
 
 /*Fixes long names in dropright menu for text wrapping*/

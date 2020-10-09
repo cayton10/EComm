@@ -178,19 +178,9 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Product Reviews</h2>
             <?
-
-              
-              foreach($reviews as $review)
-              {
-                echo "<div class='container reviewContainer'>
-                        <div class='row justify-content-left fNameDiv'><h5 class='fname'>" . $review['fname'] . "</h5></div>
-                        <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
-                        <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>
-                      </div>";
-              }
-              
+                //Output review information
+                echo $reviewObj->printReview($reviewNum);
             ?>
           </div>
         </div>

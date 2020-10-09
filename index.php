@@ -108,11 +108,13 @@
                 $featured = new Featured();
                 //Store results of method call into 'featuredProds
                 $featuredProds = $featured->getFeaturedProds();
+                print_r($featuredProds);
                 //Process results and ouput product cards
                 foreach ($featuredProds as $feat)
                 {
                   //Process ID, grab appropriate image
                   $image = Image::getImage($feat['ID']);
+
 
                   echo "<div class='item prodContainer'>
                           <div class='block-4 text-center innerProdContainer'>
@@ -124,7 +126,7 @@
                               <p class='mb-0'>" . $feat['Title'] . "</p>
                               <p class='text-primary font-weight-bold'> $" . number_format($feat['Price'], 2) . "</p>
                             </div>
-                            <div class='readRating'></div>
+                            <div class=''>" . $avgScore . "</div>
                           </div>
                         </div>";
                 }

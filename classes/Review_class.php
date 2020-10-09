@@ -17,16 +17,16 @@ class Review extends DB
         parent::__construct();
     }
 
+
     //Get review scores
     public function getScores($id)
     {
         //Load query variable
-        $query = "SELECT rev_Score score
+        $query = "SELECT rev_Score
                     FROM review
-                    WHERE pro_ID = $id";
+                    WHERE pro_ID = $id"; //Set limit to one to keep from searching DB
         //Fire query and store results
         $results = $this->getResults($query);
-
         return $results;
     }
 
@@ -83,6 +83,33 @@ class Review extends DB
         {
             $output .= "<p class='col-6 reviewSection'><strong class='text-primary h5'>Product Not Rated</p>";
         }
+
+        return $output;
+    }
+
+    //Print product reviews method
+    public function printReview($count)
+    {
+        $output = "";
+
+        if($count > 0)
+        {
+            //Call class method
+            $reviews = $this->getFullReviewInfo();
+            //Process for return
+            foreach($reviews as $review)
+              {
+                $output .= "<h2 class='reviewHeader'>Product Reviews</h2>
+                                <div class='container reviewContainer'>
+                                    <div class='row justify-content-left fNameDiv'><h5 class='fname'>" . $review['fname'] . "</h5></div>
+                                    <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
+                                    <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>
+                                </div>";
+              }
+        }
+        else 
+            $output .= "<h2 class='reviewHeader'>No Product Reviews...Yet</h2>";
+        
 
         return $output;
     }
