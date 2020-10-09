@@ -114,6 +114,7 @@
                   //Process ID, grab appropriate image
                   $image = Image::getImage($feat['ID']);
 
+
                   echo "<div class='item prodContainer'>
                           <div class='block-4 text-center innerProdContainer'>
                             <figure class='block-4-image'>                        
@@ -124,7 +125,7 @@
                               <p class='mb-0'>" . $feat['Title'] . "</p>
                               <p class='text-primary font-weight-bold'> $" . number_format($feat['Price'], 2) . "</p>
                             </div>
-                            <div class='readRating'></div>
+                            <div class='avgRating'>" . Review::staticAvgRating($feat['avgScore']) . "</div>
                           </div>
                         </div>";
                 }

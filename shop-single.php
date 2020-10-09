@@ -178,19 +178,9 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Product Reviews</h2>
             <?
-
-              
-              foreach($reviews as $review)
-              {
-                echo "<div class='container reviewContainer'>
-                        <div class='row justify-content-left fNameDiv'><h5 class='fname'>" . $review['fname'] . "</h5></div>
-                        <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
-                        <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>
-                      </div>";
-              }
-              
+                //Output review information
+                echo $reviewObj->printReview($reviewNum);
             ?>
           </div>
         </div>
@@ -201,7 +191,19 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-md-7 site-section-heading text-center pt-4">
-            <h2>Leave Review</h2>
+            <h2 class='reviewText'>Leave Review</h2>
+            <div class='container reviewContainer'>
+                <div class='row justify-content-left messagetoUser'><h5 class='message'>Penny For Your Thoughts?</h5></div>
+                <form class='reviewForm' action='' method='POST' enctype='multipart/form-data' id='reviewForm'>
+                  <div class='row justify-content-left scoreDiv'><p class='starrr'></p></div>
+                  <div class='row deetsBox' >
+                    <textarea id='reviewDetail' class='reviewDetail' placeholder="Tell us about your experience..."></textarea>
+                  </div>
+                  <div class='submitButton'>
+                    <input type='submit' value='submit' class='buy-now btn btn-sm btn-primary submit'></input>
+                  </div>
+                </form>
+            </div>
           </div>
         </div>
         <div class='row-fluid'>

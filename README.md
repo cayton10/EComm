@@ -179,6 +179,7 @@ The smart search feature is located in the header.php, which is included on ever
 I had a helpful tutorial video I heavily referenced from my CIT313 class. It was a huge help!
 
 
+<<<<<<< HEAD
 ### 10.7.2020
 
 #### Dynamic Rating System
@@ -195,3 +196,22 @@ Had this implemented and working then realized aggregate calculation of all rati
 ##### jQuery Starrr
 I'll let you know how it goes...
 
+=======
+### 10.8.2020
+
+#### Reviews and Ratings
+
+Wow... just wow. 
+
+##### Rating Plugins
+I went through 3 differen star rating plugins before I found one that I could make work, and it still doesn't do everything I want it to. The one I wound up going with is 
+###### Starrr
+<link>https://github.com/dobtco/starrr</link>
+I've managed to make it do what I need. Was really running out of time with this deadline so I just ran with it. 
+
+#### Review class
+The review class essentially does all of my querying and formatting of information with regard to rating scores and printing reviews from the DB. I actually kind of painted myself in a corner with one function, and have had to implement a workaround with the Featured class to try and get ratings populated for featured products. I'm pretty nervous to see how tough it's going to be on all of my other 'getProduct' function in the Products class. Screwed myself pretty good on that one, but I think I can recover. 
+
+#### Leave Review
+Need to get this finished ASAP because I still need to work on filtering... wonder if I can get this done in time D:
+>>>>>>> rating

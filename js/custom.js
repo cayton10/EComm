@@ -21,19 +21,22 @@ $(document).ready(function(){
 
     $(function() {
         //For read ratings, set readOnly to true
-        $('.readRating').starrr({
-            readOnly: true,
+        $('.starrr').starrr({
+            readOnly: false,
         });
-        $('.readRating > a').removeAttr('href');
+        $('.starrr').removeAttr('href');
     });
 
-    //Display ratings from shop-single.php
+/* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */
+
     var ratings = document.getElementsByClassName('pScore');
     for(var a = 0; a < ratings.length; a++)
     {
         $(ratings[a]).starrr({
+            readOnly: true,
             rating: ratings[a].getAttribute("data-rating")
-        })
+        });
+        $('.pScore > a').removeAttr('href');
     }
 
 

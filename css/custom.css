@@ -93,6 +93,16 @@ Main shop page product display properties
     margin-right: auto;
 }
 
+.avgRating{
+    display:flex;
+    justify-content: space-around;
+}
+
+.avgRating > p {
+    flex-basis: inherit;
+    justify-content: center;
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*                               STARRR STYLING                               */
@@ -114,9 +124,68 @@ a.fa-star{
     padding-right: .5rem;
 }
 
+.pScore > a {
+    color:#7971ea!important;
+}
+
 .ratingCount{
     padding-left: .25rem;
     padding-right: .25rem;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                          REVIEW CONTAINER STYLING                          */
+/* -------------------------------------------------------------------------- */
+p.deets{
+    font-size: 1rem;
+}
+
+.fNameDiv{
+    border-top: 1px solid #ccc;
+}
+
+.fname{
+    padding-top: .5em;
+}
+
+.deetsDiv{
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+p.deets{
+    padding: .25em 1em .25em 1em;
+    text-align: left;
+}
+
+
+/* --------------------- LEAVE REVIEW CONTAINER STLYING --------------------- */
+.reviewText{
+    padding-bottom: .5em;
+}
+
+.messagetoUser{
+    border-top: 1px solid #ccc;
+}
+
+.message{
+    padding-top: 1em;
+}
+
+.reviewDetail{
+    font-size: 1rem;
+    width: 100%;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: .25em 1em .25em 1em;
+}
+
+.submit{
+    margin-top:1.5rem;
 }
 
 /*Fixes long names in dropright menu for text wrapping*/
