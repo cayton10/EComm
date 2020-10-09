@@ -29,6 +29,8 @@ $(document).ready(function(){
             $('#stars').attr('data-rate', value);
         });
 
+/* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */
+
         //For all other star ratings in comments, remove functionality
         var ratings = document.getElementsByClassName('pScore');
         for(var a = 0; a < ratings.length; a++)
@@ -43,13 +45,11 @@ $(document).ready(function(){
 
 
 
-/* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */
 
+/* -------------------------------------------------------------------------- */
+/*                           SUBMIT REVIEW AJAX CALL                          */
+/* -------------------------------------------------------------------------- */
 
-
-
-
-/* ------------------------- SUBMIT REVIEW AJAX CALL ------------------------ */
     //On submit event 
     //NOTE: $(#element).submit() is deprecated
     $('#reviewSubmit').on('click', function(event){
@@ -65,7 +65,7 @@ $(document).ready(function(){
         prodID = $('#reviewForm').attr('value');
         rating = $('#stars').data('rate');
         reviewDetail = $('#reviewDetail').val();
-
+        console.log(rating);
         $.ajax({
             url: 'ajax/saveRatings.php',
             type: 'POST',
@@ -147,9 +147,10 @@ $(document).ready(function(){
 
                     //Clear the text field
                     $('#reviewDetail').val('');
-                    //Clear the stars
-                    $('#stars').removeAttr('data-rate');
-                    //Reinitialize stars
+
+                    //Cheap shot fix to not let a user continually review w/o reloading page.
+                    $('#reviewSubmit').prop('disabled', true);
+
                     
                     console.log(response);
                 }
@@ -229,6 +230,7 @@ $(document).ready(function(){
         // Remove links that don't actually link to anything
         .not('[href="#"]')
         .not('[href="#0"]')
+        .not('[href="#productCarousel"]')
         .click(function(event) {
         // On-page links
         if (

@@ -146,9 +146,9 @@ class Review extends DB
         $reviewID;
         //First set up a query to find latest review ID
         
-        $query = "SELECT max(rev_ID) 
+        $query = "SELECT COALESCE(MAX(rev_ID), 0) + 1 
                     FROM review";
-        $maxID = $this->get_results($query);
+        $maxID = $this->get_results($query); //Originally just used MAX() to find most recent id
  
         //Dig through associative array to get last inserted ID
         foreach($maxID as $id)
@@ -158,14 +158,6 @@ class Review extends DB
                 $reivewID = $reviewID;
             }
         }
-
-        //Check value
-        if($reviewID === NULL)
-        {
-            $reivewID = 1;
-        }
-        else
-            $reviewID += 1;
 
         //Set up array of values for insertion
         $reviewArray = array(
