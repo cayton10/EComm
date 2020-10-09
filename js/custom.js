@@ -21,10 +21,10 @@ $(document).ready(function(){
 
     $(function() {
         //For read ratings, set readOnly to true
-        $('.readRating').starrr({
-            readOnly: true,
+        $('.starrr').starrr({
+            readOnly: false,
         });
-        $('.readRating > a').removeAttr('href');
+        $('.starrr').removeAttr('href');
     });
 
 /* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */

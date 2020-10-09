@@ -87,6 +87,27 @@ class Review extends DB
         return $output;
     }
 
+/* ------ STATIC FUNCTION TO PRINT BECAUSE I PAINTED MYSELF IN A CORNER ----- */
+
+    public static function staticAvgRating($avg)
+    {
+        //Variable to store output to return
+        $output = "";
+
+        if($avg > 0)
+        {
+            $output = "<p class='col-6 reviewSection'><strong class='text-primary h5'>
+                        <span id='rating'>" . number_format($avg, 2) ."</span> / 5 </strong>
+            <i class='fa fa-star single'></i></p>";
+        }
+        else
+        {
+            $output .= "<p class='col-6 reviewSection'><strong class='text-primary h5'>Product Not Rated</strong></p>";
+        }
+
+        return $output;
+    }
+
     //Print product reviews method
     public function printReview($count)
     {
@@ -94,13 +115,13 @@ class Review extends DB
 
         if($count > 0)
         {
+            $output .= "<h2 class='reviewHeader'>Product Reviews</h2>";
             //Call class method
             $reviews = $this->getFullReviewInfo();
             //Process for return
             foreach($reviews as $review)
               {
-                $output .= "<h2 class='reviewHeader'>Product Reviews</h2>
-                                <div class='container reviewContainer'>
+                $output .= "    <div class='container reviewContainer'>
                                     <div class='row justify-content-left fNameDiv'><h5 class='fname'>" . $review['fname'] . "</h5></div>
                                     <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
                                     <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>

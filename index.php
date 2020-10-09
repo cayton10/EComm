@@ -108,7 +108,6 @@
                 $featured = new Featured();
                 //Store results of method call into 'featuredProds
                 $featuredProds = $featured->getFeaturedProds();
-                print_r($featuredProds);
                 //Process results and ouput product cards
                 foreach ($featuredProds as $feat)
                 {
@@ -126,7 +125,7 @@
                               <p class='mb-0'>" . $feat['Title'] . "</p>
                               <p class='text-primary font-weight-bold'> $" . number_format($feat['Price'], 2) . "</p>
                             </div>
-                            <div class=''>" . $avgScore . "</div>
+                            <div class='avgRating'>" . Review::staticAvgRating($feat['avgScore']) . "</div>
                           </div>
                         </div>";
                 }
