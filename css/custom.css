@@ -192,6 +192,10 @@ p.deets{
     margin-top:1.5rem;
 }
 
+.ratingError{
+    color: rgb(207, 65, 65);
+}
+
 /*Fixes long names in dropright menu for text wrapping*/
 a.p-2{
     white-space: nowrap;

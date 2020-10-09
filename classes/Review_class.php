@@ -59,7 +59,8 @@ class Review extends DB
         $query = "SELECT cus_FirstName fname, rev_Score score, rev_Detail deets
                     FROM review t1
                     INNER JOIN customer t2 ON t1.cus_ID = t2.cus_ID
-                    WHERE pro_ID = $id";
+                    WHERE pro_ID = $id
+                    ORDER BY rev_ID DESC";
 
         //Fire query and store results
         $results = $this->get_results($query);
@@ -81,7 +82,9 @@ class Review extends DB
         }
         else
         {
-            $output .= "<p class='col-6 reviewSection'><strong class='text-primary h5'>Product Not Rated</p>";
+            $output .= "<p class='col-6 reviewSection'><strong class='text-primary h5'>
+                        <span id='rating'>Product Not Rated</span></strong>
+                        <i class='fa fa-star single'></i><span class='ratingCount'></span></p>";
         }
 
         return $output;
@@ -102,7 +105,7 @@ class Review extends DB
         }
         else
         {
-            $output .= "<p class='col-6 reviewSection'><strong class='text-primary h5'>Product Not Rated</strong></p>";
+            $output .= "<p class='col-6 reviewSection'><strong class='text-primary h5'><span id='rating'>Product Not Rated</span></strong></p>";
         }
 
         return $output;
@@ -115,7 +118,7 @@ class Review extends DB
 
         if($count > 0)
         {
-            $output .= "<h2 class='reviewHeader'>Product Reviews</h2>";
+            $output .= "<h2 id='reviewHeader' class='reviewHeader'>Product Reviews</h2>";
             //Call class method
             $reviews = $this->getFullReviewInfo();
             //Process for return
@@ -126,10 +129,11 @@ class Review extends DB
                                     <div class='row justify-content-left scoreDiv'><p class='pScore' data-rating='" . $review['score'] . "'></p></div>
                                     <div class='row deetsDiv'><p class='deets'>" . $review['deets'] . "</p></div>
                                 </div>";
+
               }
         }
         else 
-            $output .= "<h2 class='reviewHeader'>No Product Reviews...Yet</h2>";
+            $output .= "<h2 id='reviewHeader' class='reviewHeader'>No Product Reviews...Yet</h2>";
         
 
         return $output;

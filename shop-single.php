@@ -166,7 +166,7 @@
             </div>
             <div class ='row-fluid cartReview'>
               <p class='col-6 addToCartButton'><a href="cart.php" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
-              <p class='col-6 leaveReviewButton'><a href="cart.php" class="buy-now btn btn-sm btn-primary">Leave Review</a></p>
+              <p class='col-6 leaveReviewButton'><a href="#reviewSection" class="buy-now btn btn-sm btn-primary">Leave Review</a></p>
             </div>
 
           </div>
@@ -190,12 +190,16 @@
           </div>
         </div>
         <div class="row justify-content-center">
+          <section id='reviewSection'></section>
           <div class="col-md-7 site-section-heading text-center pt-4">
             <h2 class='reviewText'>Leave Review</h2>
             <div class='container reviewContainer'>
                 <div class='row justify-content-left messagetoUser'><h5 class='message'>Penny For Your Thoughts?</h5></div>
                 <form action='' class='reviewForm' name='prodID' value='<? echo $queryID ?>' onsubmit='return saveRatings(this);' method='POST' enctype='multipart/form-data' id='reviewForm'>
-                  <div class='row justify-content-left scoreDiv' data-rate=''><input type='hidden' id='stars' class='starrr' required='required'></input></div>
+                  <div id='starrrs' class='row justify-content-left scoreDiv' data-rate=''><input type='hidden' id='stars' class='starrr' required='required'></input></div>
+                  <div id='ratingError' class='ratingError'>
+                    <h4>Please enter a valid rating from 1 to 5 stars.</h4>
+                  </div>
                   <div class='row deetsBox' >
                     <textarea id='reviewDetail' class='reviewDetail' name='reviewDetail' placeholder="Tell us about your experience..." 
                               form='reviewForm'></textarea>

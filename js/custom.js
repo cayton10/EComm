@@ -1,6 +1,7 @@
 //This file will serve as my custom jQuery commands file
 $(document).ready(function(){
 
+    $('#ratingError').hide();
     //Get full year and append to span
     $('#year').append(new Date().getFullYear());
 
@@ -23,11 +24,30 @@ $(document).ready(function(){
 
         //For the reviewer, on change event, store the value of the star in 
         //var ratings
-        $('.scoreDiv').starrr().on('starrr:change', function (event, value) {
+        $('#starrrs').starrr().on('starrr:change', function (event, value) {
             //Add the value of the rating as a data field for reading upon submission
             $('#stars').attr('data-rate', value);
         });
+
+        //For all other star ratings in comments, remove functionality
+        var ratings = document.getElementsByClassName('pScore');
+        for(var a = 0; a < ratings.length; a++)
+        {
+            $(ratings[a]).starrr({
+                readOnly: true,
+                rating: ratings[a].getAttribute("data-rating")
+            });
+            $('.pScore > a').removeAttr('href');
+        }
     });
+
+
+
+/* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */
+
+
+
+
 
 /* ------------------------- SUBMIT REVIEW AJAX CALL ------------------------ */
     //On submit event 
@@ -38,7 +58,7 @@ $(document).ready(function(){
         //Check if a rating has been selected
         if($('#stars').data('rate') == null)
         {
-            alert("FILL THIS OUT");
+            $('#ratingError').slideDown(200);
             return
         }
         //Assign appropriate variables to send via ajax
@@ -58,31 +78,89 @@ $(document).ready(function(){
             dataType: 'JSON',
             success: function(response)
             {
-                if(response.success)
+                if(response == 1)
                 {
-                    alert(response)
+
+/* --------------- SET APPROPRIATE VALUES IN MAIN PRODUCT CARD -------------- */
+                    //Declare variables for calculation
+                    var newAvg;
+                    var total;
+                    //Get value of rating count
+                    var ratingCount = parseInt($('.ratingCount').text());
+                    //Get current rating average
+                    var previousRating = parseFloat($('#rating').text());
+
+/* -------------------- If no ratings have been provided -------------------- */
+
+                    if(isNaN(previousRating) || isNaN(ratingCount))
+                    {
+                        
+                        //Since it wasn't a number, that means we have no ratings... This is the first one
+                        ratingCount = 1;
+                        previousRating = 1;
+                        //remove the text that says "no product ratings"
+                        $('#rating').text('');
+                        $('.ratingCount').text(ratingCount);
+                        //Set new avg variable
+                        newAvg = rating;
+                        //Set rating to string
+
+                        //Set appropriate values
+                        $('#rating').text(newAvg.toFixed(2));
+                        $('#rating').append(' / 5');
+                        $('.ratingCount').text(ratingCount);
+                        $('.ratingCount').append(' Ratings');
+                        $('#reviewHeader').text('Product Reviews');
+                    }
+                    else
+                    {
+                        total = (previousRating * ratingCount) + rating;
+
+                        //Increment rating
+                        ratingCount++;
+                        newAvg = total / ratingCount;
+
+                        newAvg = parseFloat(newAvg.toFixed(2));
+                        //Turn our values back into strings for output
+                        ratingCount = ratingCount.toString();
+
+                        newAvg = newAvg.toString();
+                        $('.ratingCount').text(ratingCount);
+                        $('#rating').text(newAvg);
+                    }
+
+                    console.log(rating);
+                    var output = "<div class='container reviewContainer'>" + 
+                                    "<div class='row justify-content-left fNameDiv'>" + 
+                                        "<h5 class='fname'>PlaceHolder" + "</h5>" + 
+                                        "</div>" +
+                                    "<div class='row justify-content-left scoreDiv'>" + 
+                                    "<p class='pScore' data-rating='" + rating + "'>" + rating + " / 5 <i class='fa fa-star single'></i></p></div>" +
+                                    "<div class='row deetsDiv'><p class='deets'>" + reviewDetail + "</p></div>" +
+                                "</div>";
+                    //So, without reloading the page, I can't get the star rating plugin to work
+                    //with my php class functions to populate it.... :'( this is a major bummer.
+                    //Any suggestions?
+                    //Append the above into the reviews container under the header text
+                    //$('#reviewHeader').append(output);
+                    $(output).hide().appendTo('#reviewHeader').fadeIn(300);
+
+                    //Clear the text field
+                    $('#reviewDetail').val('');
+                    //Clear the stars
+                    $('#stars').removeAttr('data-rate');
+                    //Reinitialize stars
+                    
                     console.log(response);
                 }
                 else
+                {
+                    console.log("failed");
                     console.log(response);
+                }
             }
         })
-
-        alert(reviewDetail);
-
     });
-
-/* -------------- DISPLAY RATINGS FROM REVIEWS AS FILLED STARS -------------- */
-
-    var ratings = document.getElementsByClassName('pScore');
-    for(var a = 0; a < ratings.length; a++)
-    {
-        $(ratings[a]).starrr({
-            readOnly: true,
-            rating: ratings[a].getAttribute("data-rating")
-        });
-        $('.pScore > a').removeAttr('href');
-    }
 
 
 /* -------------------------------------------------------------------------- */
@@ -140,5 +218,47 @@ $(document).ready(function(){
             }
         }
     });
+
+
+
+/* ----------------------------- STOLE THIS FROM ---------------------------- */
+/* -------- https://css-tricks.com/snippets/jquery/smooth-scrolling/ -------- */
+
+        // Select all links with hashes
+        $('a[href*="#"]')
+        // Remove links that don't actually link to anything
+        .not('[href="#"]')
+        .not('[href="#0"]')
+        .click(function(event) {
+        // On-page links
+        if (
+            location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+            && 
+            location.hostname == this.hostname
+        ) {
+            // Figure out element to scroll to
+            var target = $(this.hash);
+            target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+            // Does a scroll target exist?
+            if (target.length) {
+            // Only prevent default if animation is actually gonna happen
+            event.preventDefault();
+            $('html, body').animate({
+                scrollTop: target.offset().top
+            }, 1000, function() {
+                // Callback after animation
+                // Must change focus!
+                var $target = $(target);
+                $target.focus();
+                if ($target.is(":focus")) { // Checking if the target was focused
+                return false;
+                } else {
+                $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+                $target.focus(); // Set focus again
+                };
+            });
+            }
+        }
+        });
 
 });
