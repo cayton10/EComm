@@ -79,9 +79,9 @@
             <li class="has-children active">
               <a href="shop.php?page=1">Browse Inventory</a>
             </li>
-            <li>
+            <!--<li>
                 <a href="featured.php">Featured Products</a>
-            </li>
+            </li> COME BACK AND ADD THE FEATURED PAGE IF YOU'RE FEELING FROGGY  -->
             <li>
                 <a href="cart.php">Cart</a>
             </li>
