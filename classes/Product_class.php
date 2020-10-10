@@ -155,7 +155,7 @@ class Product
                     <p class='mb-0'>" . $row['pro_Name'] . "</p>
                     <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
                   </div>
-                  <div class='avgRating'>" . Review::staticAvgRating($row['pro_ID']) . "</div>
+                  <div class='avgRating'>" . Review::staticAvgRating($row['avgScore']) . "</div>
                 </div>
               </div>";
             }
