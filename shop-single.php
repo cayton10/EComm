@@ -202,7 +202,7 @@
                   </div>
                   <div class='row deetsBox' >
                     <textarea id='reviewDetail' class='reviewDetail' name='reviewDetail' placeholder="Tell us about your experience..." 
-                              form='reviewForm'></textarea>
+                              form='reviewForm' cols='86' rows ='400' ></textarea>
                   </div>
                   <div class='submitButton'>
                     <input id='reviewSubmit' type='submit' value='submit' class='buy-now btn btn-sm btn-primary submit'></input>
