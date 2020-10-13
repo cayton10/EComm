@@ -1,32 +1,53 @@
 <?
 require_once('includes/header.php');
-//Set limit for number of products to return as well as pagination results
-$limit = 9;
-//Instantiate our required object for pagination
-//Doubles as error handling for bogus query strings(kind of)
+
+//Instantiate objects of our required classes
+$product = new Product();
 $pagination = new Paginate();
-//Set total pages required for pagination
-$pagination->setTotalPages($limit);
-//Return that number and store it in a variable
-$totalPages = $pagination->getTotalPages();
+//Set up count variable to store how many results we returned
+$count;
+
+/* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
+if(isset($_GET['category']) && !empty($_GET['category']))
+{
+  $value = htmlspecialchars($_GET['category']);
+  $products = $product->getSubProducts($value);
+  $count = count($products);
+}
+else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
+{
+  $value = htmlspecialchars($_GET['MainCat']);
+  $products = $product->getMainProducts($value);
+  $count = count($products);
+}
+else
+{
+  $products = $product->getAllProducts();
+  $count = count($products);
+}
 
 
-/* -------------------- CHECK AGAINST BOGUS QUERY STRING -------------------- */
+/* ----------------- CHECK QUERY STRING FOR APPROPRIATE PAGE ---------------- */
+
 if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] <= $totalPages && $_GET['page'] > 0)
 {
   $pageNumber = htmlspecialchars($_GET['page']);
   $pagination->setCurrentPage($pageNumber);
-}
-else if (!isset($_GET['page']))//If page isn't a key in the query string...
-{
-  //Set a boolean to populate pagination if we're shopping all products
-  $dontPopulate = true;
 }
 else
 {  
   $pagination->setCurrentPage(1);
   $pageNumber = 1;
 }
+
+$pageCount = ($count / 3);
+//Set total pages required for pagination
+//$pagination->setTotalPages($limit);
+//Return that number and store it in a variable
+//$totalPages = $pagination->getTotalPages();
+
+
+
 ?>
 
     <div class="bg-light py-3">
@@ -63,25 +84,28 @@ else
               <!-- Create instance of product class to populate product thumbnails and info -->
               <?
                 
-                $prods = new Product();
-                //store query string value
-/* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
-                if(isset($_GET['category']) && !empty($_GET['category']))
+/* --------------- PROCESS RESULTANT PRODUCT OBJECT AND OUTPUT -------------- */
+                foreach($products as $prod)
                 {
-                  $value = htmlspecialchars($_GET['category']);
-                  echo $prods->getSubProducts($value);
+                  //Process product ID and grab appropriate image
+                  $image = Image::getImage($prod['ID']);
+
+                  //Output our product cards
+                  echo "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
+                          <div class='block-4 text-center border innerProdContainer'>
+                            <figure class='block-4-image'>
+                              <a href='shop-single.php?id=" . $prod['ID'] . "&name=" . $prod['title'] . "'><img src='" . $image . "' alt='Image placeholder' class='img-fluid prods'></a>
+                            </figure>
+                          <div class='block-4-text p-4 prodInfo'>
+                            <h3><a href='shop-single.php?id=" . $prod['ID'] . "&name=" . $prod['title'] . "'>" . $prod['manu'] . "</a></h3>
+                            <p class='mb-0'>" . $prod['title'] . "</p>
+                            <p class='text-primary font-weight-bold'>" . '$' . number_format($prod['price'], 2) . "</p>
+                          </div>
+                          <div class='avgRating'>" . Review::staticAvgRating($prod['avgScore']) . "</div>
+                        </div>
+                      </div>";
                 }
-                else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
-                {
-                  $value = htmlspecialchars($_GET['MainCat']);
-                  echo $prods->getMainProducts($value);
-                }
-                else if(isset($_GET['page']) && !empty($_GET['page']))
-                {
-                  echo $prods->getAllProducts($pageNumber, $limit);
-                }
-                else
-                  echo $prods->getAllProducts($limit);
+
               ?>
             </div>
 <!-- PAGINATION CLASS METHOD CALLS GO HERE -->

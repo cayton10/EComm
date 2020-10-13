@@ -96,72 +96,27 @@ class Product
 
 
     //Function definition w/ default parameter
-    public function getAllProducts($pageNumber = 1, $limit)
+    public function getAllProducts()
     {
         //Declare output variable to return with formatted product display
         $output = "";
-        $this->limit = $limit;
-        $definedLimit = $this->limit;
-        $start = ($pageNumber - 1) * $limit;
         //Store the current page from query string
           //Define query to pull product information
-          $query = "SELECT t1.pro_ID, 
-                         pro_Name, 
-                         pro_Price, 
-                         pro_Manufacturer,
+          $query = "SELECT t1.pro_ID ID, 
+                         pro_Name title, 
+                         pro_Price price, 
+                         pro_Manufacturer manu,
                          AVG(rev_Score) AS avgScore 
                   FROM product t1
                   LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
-                  GROUP BY t1.pro_ID
-                  LIMIT $start, $definedLimit";
+                  GROUP BY t1.pro_ID";
 
         //Store results for processing
         $results = $this->database->get_results($query);
 
+        //Return our results from DB as array
+        return $results;
         //If results are returned
-        if($results)
-        { 
-
-          //Iterate through results and format product display
-            foreach($results as $row)
-            {
-
-/* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
-              $image = "/products/" . $row['pro_ID'] . "_1";
-              $docRoot = $_SERVER['DOCUMENT_ROOT'] . "/CIT410";
-              $image = $docRoot . $image;
-              if(file_exists($image . ".png"))
-              {
-                $printImage = $row['pro_ID'] . "_1.png";
-              }
-              else if(file_exists($image . ".jpg"))
-              {
-                $printImage = $row['pro_ID'] . "_1.jpg";
-              }
-              else if(file_exists($image . ".gif"))
-              {
-                $printImage = $row['pro_ID'] . "_1.gif";
-              }
-              else
-                $printImage = "noimage.jpg";
-                
-              $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
-                <div class='block-4 text-center border innerProdContainer'>
-                  <figure class='block-4-image'>
-                    <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
-                  </figure>
-                  <div class='block-4-text p-4 prodInfo'>
-                    <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
-                    <p class='mb-0'>" . $row['pro_Name'] . "</p>
-                    <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
-                  </div>
-                  <div class='avgRating'>" . Review::staticAvgRating($row['avgScore']) . "</div>
-                </div>
-              </div>";
-            }
-            return $output;
-        }
-
     }
 
     public function getMainProducts($category)
@@ -170,10 +125,10 @@ class Product
       $output = "";
       //Query to return all products from main category
         $query = "SELECT
-                    t1.pro_ID,
-                    pro_Name,
-                    pro_Price,
-                    pro_Manufacturer,
+                    t1.pro_ID ID,
+                    pro_Name title,
+                    pro_Price price,
+                    pro_Manufacturer manu,
                     AVG(rev_Score) AS avgScore
                   FROM
                       product t1
@@ -186,48 +141,7 @@ class Product
 
       //Store results for processing
       $results = $this->database->get_results($query);
-      //If results are returned
-      if($results)
-      {   //Iterate through results and format product display
-          foreach($results as $row)
-          {
-
-/* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
-
-            $image = "/products/" . $row['pro_ID'] . "_1";
-            $docRoot = $_SERVER['DOCUMENT_ROOT'] . "/CIT410";
-            $image = $docRoot . $image;
-            if(file_exists($image . ".png"))
-            {
-              $printImage = $row['pro_ID'] . "_1.png";
-            }
-            else if(file_exists($image . ".jpg"))
-            {
-              $printImage = $row['pro_ID'] . "_1.jpg";
-            }
-            else if(file_exists($image . ".gif"))
-            {
-              $printImage = $row['pro_ID'] . "_1.gif";
-            }
-            else
-              $printImage = "noimage.jpg";
-              
-            $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
-              <div class='block-4 text-center border innerProdContainer'>
-                <figure class='block-4-image'>
-                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
-                </figure>
-                <div class='block-4-text p-4 prodInfo'>
-                  <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
-                  <p class='mb-0'>" . $row['pro_Name'] . "</p>
-                  <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
-                </div>
-                <div class='avgRating'>" . Review::staticAvgRating($row['avgScore']) . "</div>
-              </div>
-            </div>";
-          }
-          return $output;
-      }
+      return $results;
     }
 
     public function getSubProducts($category)
@@ -235,10 +149,10 @@ class Product
       //Declare output variable to return with formatted product display
       $output = "";
 
-        $query = "SELECT t1.pro_ID,
-                         pro_Name,
-                         pro_Price,
-                         pro_Manufacturer,
+        $query = "SELECT t1.pro_ID ID,
+                         pro_Name title,
+                         pro_Price price,
+                         pro_Manufacturer manu,
                          AVG(rev_Score) AS avgScore
                   FROM product t1
                   LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
@@ -247,51 +161,7 @@ class Product
 
       //Store results for processing
       $results = $this->database->get_results($query);
-      //If results are returned
-      if($results)
-      {   //Iterate through results and format product display
-          foreach($results as $row)
-          {
-
-/* -------------------- GRABS IMAGES OF COMMON EXT TYPES -------------------- */
-
-            $image = "/products/" . $row['pro_ID'] . "_1";
-            $docRoot = $_SERVER['DOCUMENT_ROOT'] . "/CIT410";
-            $image = $docRoot . $image;
-            if(file_exists($image . ".png"))
-            {
-              $printImage = $row['pro_ID'] . "_1.png";
-            }
-            else if(file_exists($image . ".jpg"))
-            {
-              $printImage = $row['pro_ID'] . "_1.jpg";
-            }
-            else if(file_exists($image . ".gif"))
-            {
-              $printImage = $row['pro_ID'] . "_1.gif";
-            }
-            else
-              $printImage = "noimage.jpg";
-              
-            $output .= "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
-              <div class='block-4 text-center border innerProdContainer'>
-                <figure class='block-4-image'>
-                <a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'><img src='../../products/" . $printImage . "' alt='Image placeholder' class='img-fluid prods'></a>
-                </figure>
-                <div class='block-4-text p-4 prodInfo'>
-                  <h3><a href='shop-single.php?id=" . $row['pro_ID'] . "&name=" . $row['pro_Name'] . "'>" . $row['pro_Manufacturer'] . "</a></h3>
-                  <p class='mb-0'>" . $row['pro_Name'] . "</p>
-                  <p class='text-primary font-weight-bold'>" . '$' . number_format($row['pro_Price'], 2) . "</p>
-                </div>
-                <div class='avgRating'>" . Review::staticAvgRating($row['avgScore']) . "</div>
-              </div>
-            </div>";
-          }
-          return $output;
-      }
+      return $results;
     }
-
-
-
 }
 ?>
