@@ -64,7 +64,7 @@ class Paginate
         $next = $this->currentPage + 1;
 
         $output = "";
-        $output .= "<div class='row' data-aos='fade-up'>
+        $output .= "<div id='pagination' class='row' data-aos='fade-up'>
                         <div class='col-md-12 text-center'>
                             <div class='site-block-27'>
                                 <ul>

@@ -14,6 +14,7 @@ $(document).ready(function(){
 
     //Hide search results div on load
     $('#searchResults').hide();
+    //Hide product cards for later showing based on filter and page requirements
 
 
 /* -------------------------------------------------------------------------- */
@@ -80,6 +81,7 @@ $(document).ready(function(){
             {
                 if(response == 1)
                 {
+                    console.log("HERE");
 
 /* --------------- SET APPROPRIATE VALUES IN MAIN PRODUCT CARD -------------- */
                     //Declare variables for calculation
@@ -219,6 +221,16 @@ $(document).ready(function(){
             }
         }
     });
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*             LIMIT RESULTS OF PRODUCT CARDS SHOWN FOR PAGINATION            */
+/* -------------------------------------------------------------------------- */
+
+//Store the number of containers returned
+totalItems = $('.prodContainer').length
 
 
 

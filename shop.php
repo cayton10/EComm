@@ -29,7 +29,7 @@ else
 
 /* ----------------- CHECK QUERY STRING FOR APPROPRIATE PAGE ---------------- */
 
-if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] <= $totalPages && $_GET['page'] > 0)
+if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0)
 {
   $pageNumber = htmlspecialchars($_GET['page']);
   $pagination->setCurrentPage($pageNumber);
@@ -40,7 +40,11 @@ else
   $pageNumber = 1;
 }
 
-$pageCount = ($count / 3);
+$pageCount = ceil($count / 9);
+$currentPage = $pagination->getCurrentPage();
+echo $currentPage;
+
+
 //Set total pages required for pagination
 //$pagination->setTotalPages($limit);
 //Return that number and store it in a variable
@@ -91,18 +95,18 @@ $pageCount = ($count / 3);
                   $image = Image::getImage($prod['ID']);
 
                   //Output our product cards
-                  echo "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up'>
+                  echo "<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=". $prod['manu'] . ">
                           <div class='block-4 text-center border innerProdContainer'>
-                            <figure class='block-4-image'>
-                              <a href='shop-single.php?id=" . $prod['ID'] . "&name=" . $prod['title'] . "'><img src='" . $image . "' alt='Image placeholder' class='img-fluid prods'></a>
-                            </figure>
-                          <div class='block-4-text p-4 prodInfo'>
-                            <h3><a href='shop-single.php?id=" . $prod['ID'] . "&name=" . $prod['title'] . "'>" . $prod['manu'] . "</a></h3>
-                            <p class='mb-0'>" . $prod['title'] . "</p>
-                            <p class='text-primary font-weight-bold'>" . '$' . number_format($prod['price'], 2) . "</p>
+                              <figure class='block-4-image'>
+                                <a href='shop-single.php?id=" . $prod['ID'] . "&name=" . $prod['title'] . "'><img src='" . $image . "' alt='Image placeholder' class='img-fluid prods'></a>
+                              </figure>
+                            <div class='block-4-text p-4 prodInfo'>
+                              <h3><a href='shop-single.php?id=" . $prod['ID'] . "&name=" . $prod['title'] . "'>" . $prod['manu'] . "</a></h3>
+                              <p class='mb-0'>" . $prod['title'] . "</p>
+                              <p class='text-primary font-weight-bold'>" . '$' . number_format($prod['price'], 2) . "</p>
+                            </div>
+                            <div class='avgRating'>" . Review::staticAvgRating($prod['avgScore']) . "</div>
                           </div>
-                          <div class='avgRating'>" . Review::staticAvgRating($prod['avgScore']) . "</div>
-                        </div>
                       </div>";
                 }
 
@@ -114,10 +118,10 @@ $pageCount = ($count / 3);
               TODO: Eliminate this check and set pagination for all products/ main cats/ subcats
               TODO: This will invlove switching up the 'page' key on page load for product cards. Fix that in Product_class.php functions
               */
-            if(!$dontPopulate)
-            {
-              echo $pagination->printPagination();
-            }
+            
+            
+              //echo $pagination->printPagination();
+            
             ?>
           </div>
 
@@ -143,16 +147,45 @@ $pageCount = ($count / 3);
               </div>
 
               <div class="mb-4">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Size</h3>
-                <label for="s_sm" class="d-flex">
-                  <input type="checkbox" id="s_sm" class="mr-2 mt-1"> <span class="text-black">Small (2,319)</span>
-                </label>
-                <label for="s_md" class="d-flex">
-                  <input type="checkbox" id="s_md" class="mr-2 mt-1"> <span class="text-black">Medium (1,282)</span>
-                </label>
-                <label for="s_lg" class="d-flex">
-                  <input type="checkbox" id="s_lg" class="mr-2 mt-1"> <span class="text-black">Large (1,392)</span>
-                </label>
+              <?
+
+/* ------------ CREATE INSTANCE OF FILTER CLASS FOR MANUFACTURER ------------ */
+
+                $manufac = new Filter();
+                //Control logic to populate appropriate results
+                if(isset($_GET['category']) && !empty($_GET['category']))
+                {
+                  $value = htmlspecialchars(trim($_GET['category']));
+                  $manuFilter = $manufac->getSubManu($value);
+                }
+                else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
+                {
+                  $value = htmlspecialchars(trim($_GET['MainCat']));
+                  $manuFilter = $manufac->getMainManu($value);
+                }
+                else
+                {
+                  $manuFilter = $manufac->getAllManu();
+                }
+                
+                if(!empty($manuFilter))
+                {
+                  //Set up the filter header
+                  echo "<h3 class='mb-3 h6 text-uppercase text-black d-block'>Manufacturer</h3>";
+
+                  //Access our results array and process
+                  foreach($manuFilter as $manu)
+                  {
+                    //Output appropriate manufacturer filter checkboxes
+                    echo "<label for='s_sm' class='d-flex'>
+                            <input type='checkbox' class='mr-2 mt-1 manuCheck'> <span class='text-black'>" . $manu['manu'] . "</span>
+                          </label>";
+                  }
+                }
+              
+              ?> 
+
+                
               </div>
 
               <div class="mb-4">
@@ -184,7 +217,7 @@ $pageCount = ($count / 3);
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0" data-aos="fade" data-aos-delay="">
+                  <div class="col-sm-6 col-md-6 col-lg-4 mb-4 mb-lg-0 categoryCard" data-aos="fade" data-aos-delay="">
                     <a class="block-2-item" href="#">
                       <figure class="image">
                         <img src="images/women.jpg" alt="" class="img-fluid">
@@ -195,7 +228,7 @@ $pageCount = ($count / 3);
                       </div>
                     </a>
                   </div>
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="100">
+                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0 categoryCard" data-aos="fade" data-aos-delay="100">
                     <a class="block-2-item" href="#">
                       <figure class="image">
                         <img src="images/children.jpg" alt="" class="img-fluid">
@@ -206,7 +239,7 @@ $pageCount = ($count / 3);
                       </div>
                     </a>
                   </div>
-                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0" data-aos="fade" data-aos-delay="200">
+                  <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0 categoryCard" data-aos="fade" data-aos-delay="200">
                     <a class="block-2-item" href="#">
                       <figure class="image">
                         <img src="images/men.jpg" alt="" class="img-fluid">
