@@ -51,22 +51,41 @@ class Filter extends DB
         return $prices;
     }
 
+/* -------------------------------------------------------------------------- */
+/*                FUNCTIONS TO GET MANUFACTURERS FOR FILTERING                */
+/* -------------------------------------------------------------------------- */
+
+    public function getAllManu()
+    {
+        $query = "SELECT pro_Manufacturer manu
+                    FROM product";
+
+        $results = $this->get_results($query);
+
+        return $results;
+    }
+
+    public function getMainManu($category)
+    {
+        $query = "SELECT pro_Manufacturer manu
+                    FROM product t1
+                    LEFT JOIN category t2 ON t1.cat_ID = t2.cat_ID
+                    WHERE manu = $title AND t2.cat_SubCat = $category";
+
+        $results = $this->get_results($query);
+
+        return $results;
+    }
+
+    public function getSubManu($category)
+    {
+        $query = "SELECT pro_Manufacturer manu
+                    FROM product
+                    WHERE cat_ID = $category";
+    }
+
 
 }
 
 
 ?>
-"SELECT
-                    t1.pro_ID,
-                    pro_Name,
-                    pro_Price,
-                    pro_Manufacturer,
-                    AVG(rev_Score) AS avgScore
-                  FROM
-                      product t1
-                  LEFT JOIN category t2
-                  ON t1.cat_ID = t2.cat_ID
-                  LEFT JOIN review t3
-                  ON t1.pro_ID = t3.pro_ID
-                  WHERE t2.cat_SubCat = $category
-                  GROUP BY t1.pro_ID";

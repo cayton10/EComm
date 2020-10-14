@@ -202,7 +202,7 @@ I'll let you know how it goes...
 Wow... just wow. 
 
 ##### Rating Plugins
-I went through 3 differen star rating plugins before I found one that I could make work, and it still doesn't do everything I want it to. The one I wound up going with is 
+I went through 3 differen star rating plugins before I found one that I could make work, and it still doesn't do everything I want it to. The one I wound up going with is: 
 ###### Starrr
 <link>https://github.com/dobtco/starrr</link>
 I've managed to make it do what I need. Was really running out of time with this deadline so I just ran with it. 
@@ -212,3 +212,10 @@ The review class essentially does all of my querying and formatting of informati
 
 #### Leave Review
 Need to get this finished ASAP because I still need to work on filtering... wonder if I can get this done in time D:
+
+### 10.12.2020
+Refactored Product_class.php to prep for finishing filtering. Wasn't too hard. Though a lot about how to approach the filtering / pagination problem. 
+
+### 10.13.2020
+After having bounced the idea off Brian this morning I've decided to implement an ajax based filtering system that wil query the DB when called. Returned results will dictate how to refresh pagination on the fly
+
