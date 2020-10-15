@@ -171,25 +171,26 @@ $(document).ready(function(){
 //Initialize the slider
 var siteSliderRange = function() {
     //Set min and max values for slider
-    var min = Math.floor($('#slider-range').data('min'));
+    var min = 0;
     var max = Math.ceil($('#slider-range').data('max'));
     var value = parseInt($('#slider-range').data('value'))
     var type = $('#slider-range').data('type');
-
-    
+    var step = ((max - min) / 10);
 //Set slider specifics 
 $( "#slider-range" ).slider({
   range: true,
   min: min,
   max: max,
+  step: step,
   values: [ min, max],
   slide: function( event, ui ) {
 
+    console.log(step);
     //Get values as they change
     min = ui.values[0];
     max = ui.values[1];
 
-    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+    $( "#amount" ).val( "$" + ui.values[ 0 ].toFixed(0) + " - $" + ui.values[ 1 ].toFixed(0) );
 
     //Stringify the information to send
     infotosend = JSON.stringify({min: min, max: max, value: value, type: type})
@@ -202,13 +203,18 @@ $( "#slider-range" ).slider({
         data: {data: infotosend},
         dataType: 'json',
         
-        success: function(data){
+        success: function (products){
+
 
             //Remove our original product containers
             $('.prodContainer').remove();
 
+            //Remove our original manufacturer checkboxes
+            $('.manufact').remove();
+            //Set previous manu var for manufacturer filter
+            var previousManu;  
             //Print our new product cards
-            $.each(data, function(key, value)
+            $.each(products, function(key, value)
             {
                 var ID = value.ID;
                 var title = value.title;
@@ -216,25 +222,48 @@ $( "#slider-range" ).slider({
                 var manu = value.manu;
                 var avgScore = value.avgScore;
 
-                //Make our second ajax call to grab image
-                image = getImageAjax(ID);
-                image = image[0];
+                //Make a promise for image
+
+/* ---- NOTE MADE PROMISES FOR IMAGES AND IT SEVERELY HAMPERS PERFORMANCE --- */
+/* ------------ ALSO, THE IMAGES AREN'T EVEN POPULATED CORRECTLY ------------ */
+/* -------- I HATE JQUERY AND ALL FRONT END LANGUAGES THIS IS STUPID -------- */
+/* ---------- CAN WRITE BACKEND STUFF - WORKS FIRST TIME EVERY TIME --------- */
                 
                 $('#cardContainer').append
                 
                 ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
                     <div class='block-4 text-center border innerProdContainer'>\
                         <figure class='block-4-image'>\
-                      <a href='shop-single.php?id=" + ID + "&name=" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
-                    </figure>\
-                  <div class='block-4-text p-4 prodInfo'>\
-                    <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
-                    <p class='mb-0'>" + title + "</p>\
-                    <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
-                  </div>\
-                  <div class='avgRating'>" + avgScore + "</div>\
-                </div>\
-            </div>")
+                        <a href='shop-single.php?id=" + ID + "&name=" + title + "'><img src='../../products/" + ID + "_1.jpg' alt='Image placeholder' class='img-fluid prods'></a>\
+                        </figure>\
+                    <div class='block-4-text p-4 prodInfo'>\
+                        <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                        <p class='mb-0'>" + title + "</p>\
+                        <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                    </div>\
+                    <div class='avgRating'>" + avgScore + "</div>\
+                    </div>\
+                </div>")
+
+
+/* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+
+                if(manu != previousManu)
+                {
+                    $('.manufactDiv').append
+
+                    ("<label for='s_sm' class='d-flex manufact'>\
+                        <input type='checkbox' class='mr-2 mt-1 manuCheck'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                    </label>");
+                    previousManu = manu;
+                    console.log(previousManu);
+                }
+                else
+                {
+                    console.log("Same");
+                }
+                
+                
             });
         },
         error: function (xhr, error) {
@@ -256,20 +285,29 @@ siteSliderRange();
 
 
 /* ----- SECOND AJAX CALL TO MAKE CALL TO getImage METHOD IN IMAGE CLASS ---- */
-function getImageAjax(imageID){
-    $.ajax({
-        url: 'ajax/getImage.php',
-        type: 'GET',
-        data: {data: imageID},
-        dataType: 'json',
+/* ---------- https://petetasker.com/using-async-await-jquerys-ajax --------- */
+/* --------- only way i could figure this out without killing myself -------- */
+/* ------ was with async / await, which from what i read is essentially ----- */
+/* --------------------- just promises "under the hood" --------------------- */
 
-        success: function(data)
-        {
-            console.log("Success");
-            var image = $.parseJSON(data);
-            return image;
-        }
-    });
+async function getImageAjax(imageID){
+    
+    let result;
+
+    //Do some error handling for this 'under the hood promise'
+    try {
+        result = await $.ajax({
+            url: 'ajax/getImage.php',
+            type: 'GET',
+            data: {data: imageID},
+            dataType: 'json'
+        });
+        //Return results of ajax call back to function call
+        return result;
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 

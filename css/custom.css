@@ -282,3 +282,20 @@ img {
     justify-content: flex-end;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/*                               FILTER STYLING                               */
+/* -------------------------------------------------------------------------- */
+
+/* Manufacturer checkbox*/
+
+.manuCheck{
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.manufact{
+    font-weight: normal!important;
+    font-size: 1rem !important;
+}
+

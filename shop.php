@@ -189,7 +189,7 @@ echo $currentPage;
                 
               </div>
 
-              <div class="mb-4">
+              <div class="mb-4 manufactDiv">
               <?
 
 /* ------------ CREATE INSTANCE OF FILTER CLASS FOR MANUFACTURER ------------ */
@@ -214,14 +214,14 @@ echo $currentPage;
                 if(!empty($manuFilter))
                 {
                   //Set up the filter header
-                  echo "<h3 class='mb-3 h6 text-uppercase text-black d-block'>Manufacturer</h3>";
+                  echo "<h3 id='manufactFilter' class='mb-3 h6 text-uppercase text-black d-block'>Manufacturer</h3>";
 
                   //Access our results array and process
                   foreach($manuFilter as $manu)
                   {
                     //Output appropriate manufacturer filter checkboxes
-                    echo "<label for='s_sm' class='d-flex'>
-                            <input type='checkbox' class='mr-2 mt-1 manuCheck'> <span class='text-black'>" . $manu['manu'] . "</span>
+                    echo "<label for='s_sm' class='d-flex manufact'>
+                            <input type='checkbox' class='mr-2 mt-1 manuCheck'> <span class='text-black manCheckBox'>" . $manu['manu'] . "</span>
                           </label>";
                   }
                 }
