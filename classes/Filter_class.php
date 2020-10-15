@@ -14,6 +14,10 @@ class Filter extends DB
     }
 
 
+/* -------------------------------------------------------------------------- */
+/*                  QUERIES AND RETURNS FOR PRICE INFORMATION                 */
+/* -------------------------------------------------------------------------- */
+
     //Get all prices for all products browsing page
     public function getAllPrices()
     {
@@ -57,7 +61,7 @@ class Filter extends DB
 
     public function getAllManu()
     {
-        $query = "SELECT pro_Manufacturer manu
+        $query = "SELECT DISTINCT pro_Manufacturer manu
                     FROM product";
 
         $results = $this->get_results($query);
@@ -67,10 +71,10 @@ class Filter extends DB
 
     public function getMainManu($category)
     {
-        $query = "SELECT pro_Manufacturer manu
+        $query = "SELECT DISTINCT pro_Manufacturer manu
                     FROM product t1
                     LEFT JOIN category t2 ON t1.cat_ID = t2.cat_ID
-                    WHERE manu = $title AND t2.cat_SubCat = $category";
+                    WHERE t2.cat_SubCat = $category";
 
         $results = $this->get_results($query);
 
@@ -79,11 +83,84 @@ class Filter extends DB
 
     public function getSubManu($category)
     {
-        $query = "SELECT pro_Manufacturer manu
+        $query = "SELECT DISTINCT pro_Manufacturer manu
                     FROM product
                     WHERE cat_ID = $category";
+
+        $results = $this->get_results($query);
+
+        return $results;
     }
 
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*              QUERIES FOR AJAX CALLS FROM ajax/filterPrices.php             */
+/* -------------------------------------------------------------------------- */
+
+    public function getProductsInRange($min, $max, $value, $type)
+    {
+        $query = '';
+        //Control flow for sentinel type
+        if($type === 'all')
+        {
+            $query = "SELECT t1.pro_ID ID, 
+                                pro_Name title, 
+                                pro_Price price, 
+                                pro_Manufacturer manu,
+                                AVG(rev_Score) AS avgScore 
+                        FROM product t1
+                        LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                        WHERE pro_Price >= $min AND pro_Price <= $max
+                        GROUP BY t1.pro_ID
+                        ORDER BY pro_Price";
+                        
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($type === 'sub')
+        {
+            $query = "SELECT t1.pro_ID ID,
+                                pro_Name title,
+                                pro_Price price,
+                                pro_Manufacturer manu,
+                                AVG(rev_Score) AS avgScore
+                        FROM product t1
+                        LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                        WHERE cat_ID = $value AND pro_Price >= $min AND pro_Price <= $max
+                        GROUP BY t1.pro_ID
+                        ORDER BY pro_Price";
+
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($type === 'main')
+        {
+            $query = "SELECT
+                            t1.pro_ID ID,
+                            pro_Name title,
+                            pro_Price price,
+                            pro_Manufacturer manu,
+                            AVG(rev_Score) AS avgScore
+                        FROM
+                            product t1
+                        LEFT JOIN category t2
+                        ON t1.cat_ID = t2.cat_ID
+                        LEFT JOIN review t3
+                        ON t1.pro_ID = t3.pro_ID
+                        WHERE t2.cat_SubCat = $value AND pro_Price >= $min AND pro_Price <= $max
+                        GROUP BY t1.pro_ID
+                        ORDER BY pro_Price";
+
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+    }
 
 }
 

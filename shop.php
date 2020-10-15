@@ -84,7 +84,7 @@ echo $currentPage;
                 </h2></div>
               </div>
             </div>
-            <div class="row mb-5">
+            <div class="row mb-5" id='cardContainer'>
               <!-- Create instance of product class to populate product thumbnails and info -->
               <?
                 
@@ -141,9 +141,52 @@ echo $currentPage;
 
             <div class="border p-4 rounded mb-4">
               <div class="mb-4">
-                <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-                <div id="slider-range" class="border-primary"></div>
-                <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
+              <?
+
+/* ---------------- CREATE INSTANCE OF FILTER CLASS FOR PRICE --------------- */
+                $prices = new Filter();
+                $filterValue;
+                $filterType;
+                //Control logic to populate appropriate results
+                if(isset($_GET['category']) && !empty($_GET['category']))
+                {
+                  $filterValue = htmlspecialchars(trim($_GET['category']));
+                  $priceRange = $prices->getSubPrices($filterValue);
+                  $filterType = 'sub';
+                }
+                else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
+                {
+                  $filterValue = htmlspecialchars(trim($_GET['MainCat']));
+                  $priceRange = $prices->getMainPrices($filterValue);
+                  $filterType = 'main';
+                }
+                else
+                {
+                  $priceRange = $prices->getAllPrices();
+                  //Set a sentinel value for default
+                  $filterType = 'all';
+                }
+                //Output the price slider with appropriate prices
+                if(!empty($priceRange))
+                {
+                  foreach($priceRange as $price)
+                  {
+                    echo "<h3 class='mb-3 h6 text-uppercase text-black d-block'>Filter by Price</h3>
+                    <div id='slider-range' class='border-primary' 
+                          data-min='" . $price['minPrice'] . "' 
+                          data-max='" . $price['maxPrice'] . "' 
+                          data-value='" . $filterValue . "'
+                          data-type='" . $filterType . "'></div>
+                    <input type='text' name='text' id='amount' class='form-control border-0 pl-0 bg-white' disabled='' />";
+                  }
+                }
+                else
+                {
+                  echo "Can't connect to databse";
+                }
+
+              ?>
+                
               </div>
 
               <div class="mb-4">
@@ -181,6 +224,10 @@ echo $currentPage;
                             <input type='checkbox' class='mr-2 mt-1 manuCheck'> <span class='text-black'>" . $manu['manu'] . "</span>
                           </label>";
                   }
+                }
+                else
+                {
+                  "Database connection error";
                 }
               
               ?> 

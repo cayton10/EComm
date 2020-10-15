@@ -81,7 +81,6 @@ $(document).ready(function(){
             {
                 if(response == 1)
                 {
-                    console.log("HERE");
 
 /* --------------- SET APPROPRIATE VALUES IN MAIN PRODUCT CARD -------------- */
                     //Declare variables for calculation
@@ -164,6 +163,114 @@ $(document).ready(function(){
             }
         })
     });
+
+
+/* -------------------------------------------------------------------------- */
+/*                       AJAX FUNCTION FOR PRICE FILTER                       */
+/* -------------------------------------------------------------------------- */
+//Initialize the slider
+var siteSliderRange = function() {
+    //Set min and max values for slider
+    var min = Math.floor($('#slider-range').data('min'));
+    var max = Math.ceil($('#slider-range').data('max'));
+    var value = parseInt($('#slider-range').data('value'))
+    var type = $('#slider-range').data('type');
+
+    
+//Set slider specifics 
+$( "#slider-range" ).slider({
+  range: true,
+  min: min,
+  max: max,
+  values: [ min, max],
+  slide: function( event, ui ) {
+
+    //Get values as they change
+    min = ui.values[0];
+    max = ui.values[1];
+
+    $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+
+    //Stringify the information to send
+    infotosend = JSON.stringify({min: min, max: max, value: value, type: type})
+    console.log(infotosend);
+    //Put together AJAX request to send server side,
+     
+    $.ajax({
+        url: 'ajax/filterPrices.php',
+        type: 'POST',
+        data: {data: infotosend},
+        dataType: 'json',
+        
+        success: function(data){
+
+            //Remove our original product containers
+            $('.prodContainer').remove();
+
+            //Print our new product cards
+            $.each(data, function(key, value)
+            {
+                var ID = value.ID;
+                var title = value.title;
+                var price = value.price;
+                var manu = value.manu;
+                var avgScore = value.avgScore;
+
+                //Make our second ajax call to grab image
+                image = getImageAjax(ID);
+                image = image[0];
+                
+                $('#cardContainer').append
+                
+                ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
+                    <div class='block-4 text-center border innerProdContainer'>\
+                        <figure class='block-4-image'>\
+                      <a href='shop-single.php?id=" + ID + "&name=" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
+                    </figure>\
+                  <div class='block-4-text p-4 prodInfo'>\
+                    <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                    <p class='mb-0'>" + title + "</p>\
+                    <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                  </div>\
+                  <div class='avgRating'>" + avgScore + "</div>\
+                </div>\
+            </div>")
+            });
+        },
+        error: function (xhr, error) {
+            console.log(error);
+        }
+        
+    });
+  }
+});
+$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+  " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+
+
+    
+
+
+};
+siteSliderRange();
+
+
+/* ----- SECOND AJAX CALL TO MAKE CALL TO getImage METHOD IN IMAGE CLASS ---- */
+function getImageAjax(imageID){
+    $.ajax({
+        url: 'ajax/getImage.php',
+        type: 'GET',
+        data: {data: imageID},
+        dataType: 'json',
+
+        success: function(data)
+        {
+            console.log("Success");
+            var image = $.parseJSON(data);
+            return image;
+        }
+    });
+}
 
 
 /* -------------------------------------------------------------------------- */
