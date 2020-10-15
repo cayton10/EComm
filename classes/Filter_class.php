@@ -115,7 +115,7 @@ class Filter extends DB
                         LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
                         WHERE pro_Price >= $min AND pro_Price <= $max
                         GROUP BY t1.pro_ID
-                        ORDER BY pro_Price";
+                        ORDER BY manu";
                         
             $results = $this->get_results($query);
 
@@ -132,7 +132,7 @@ class Filter extends DB
                         LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
                         WHERE cat_ID = $value AND pro_Price >= $min AND pro_Price <= $max
                         GROUP BY t1.pro_ID
-                        ORDER BY pro_Price";
+                        ORDER BY manu";
 
             $results = $this->get_results($query);
 
@@ -154,7 +154,7 @@ class Filter extends DB
                         ON t1.pro_ID = t3.pro_ID
                         WHERE t2.cat_SubCat = $value AND pro_Price >= $min AND pro_Price <= $max
                         GROUP BY t1.pro_ID
-                        ORDER BY pro_Price";
+                        ORDER BY manu";
 
             $results = $this->get_results($query);
 
