@@ -175,7 +175,7 @@ var siteSliderRange = function() {
     var max = Math.ceil($('#slider-range').data('max'));
     var value = parseInt($('#slider-range').data('value'))
     var type = $('#slider-range').data('type');
-    var step = ((max - min) / 10);
+    var step = ((max - min) / 20);
 //Set slider specifics 
 $( "#slider-range" ).slider({
   range: true,
@@ -221,6 +221,7 @@ $( "#slider-range" ).slider({
                 var price = value.price;
                 var manu = value.manu;
                 var avgScore = value.avgScore;
+                var image = value.image;
 
                 //Make a promise for image
 
@@ -234,7 +235,7 @@ $( "#slider-range" ).slider({
                 ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
                     <div class='block-4 text-center border innerProdContainer'>\
                         <figure class='block-4-image'>\
-                        <a href='shop-single.php?id=" + ID + "&name=" + title + "'><img src='../../products/" + ID + "_1.jpg' alt='Image placeholder' class='img-fluid prods'></a>\
+                        <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
                         </figure>\
                     <div class='block-4-text p-4 prodInfo'>\
                         <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
