@@ -4,28 +4,15 @@ require_once('includes/header.php');
 //Instantiate objects of our required classes
 $product = new Product();
 $pagination = new Paginate();
-//Set up count variable to store how many results we returned
-$count;
 
-/* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
-if(isset($_GET['category']) && !empty($_GET['category']))
-{
-  $value = htmlspecialchars($_GET['category']);
-  $products = $product->getSubProducts($value);
-  $count = count($products);
-}
-else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
-{
-  $value = htmlspecialchars($_GET['MainCat']);
-  $products = $product->getMainProducts($value);
-  $count = count($products);
-}
-else
-{
-  $products = $product->getAllProducts();
-  $count = count($products);
-}
+//Use this function in some control flow to check validity of page query string
+$totalPages = $pagination->setTotalPages();
 
+//Set limit for how many products can be shown per page / also for queries
+$limit = 9;
+$value = '';
+$type = '';
+$pageNumber = '';
 
 /* ----------------- CHECK QUERY STRING FOR APPROPRIATE PAGE ---------------- */
 
@@ -33,22 +20,46 @@ if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0)
 {
   $pageNumber = htmlspecialchars($_GET['page']);
   $pagination->setCurrentPage($pageNumber);
+
+  echo $pageNumber;
 }
 else
 {  
-  $pagination->setCurrentPage(1);
   $pageNumber = 1;
+  $pagination->setCurrentPage($pageNumber);
 }
 
-$pageCount = ceil($count / 9);
+/* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
+if(isset($_GET['category']) && !empty($_GET['category']))
+{
+  $type = 'sub';
+  $value = htmlspecialchars($_GET['category']);
+  //Set appropriate number of pages based on query string
+  $pagination->setTotalPages($limit, $value, $type);
+  $products = $product->getSubProducts($limit, $value, $pageNumber);
+
+}
+else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
+{
+  $type = 'main';
+  $value = htmlspecialchars($_GET['MainCat']);
+  $pagination->setTotalPages($limit, $value, $type);
+
+  $products = $product->getMainProducts($limit, $value, $pageNumber);
+}
+else
+{
+  $pagination->setTotalPages($limit, $value, $type);
+  $products = $product->getAllProducts($limit, $pageNumber);
+}
+
+
+
 $currentPage = $pagination->getCurrentPage();
-echo $currentPage;
 
 
-//Set total pages required for pagination
-//$pagination->setTotalPages($limit);
 //Return that number and store it in a variable
-//$totalPages = $pagination->getTotalPages();
+$totalPages = $pagination->getTotalPages();
 
 
 
@@ -120,7 +131,7 @@ echo $currentPage;
               */
             
             
-              //echo $pagination->printPagination();
+              echo $pagination->printPagination();
             
             ?>
           </div>

@@ -219,3 +219,15 @@ Refactored Product_class.php to prep for finishing filtering. Wasn't too hard. T
 ### 10.13.2020
 After having bounced the idea off Brian this morning I've decided to implement an ajax based filtering system that wil query the DB when called. Returned results will dictate how to refresh pagination on the fly
 
+
+### 10.16.2020
+
+
+#### Filtering
+Finished both filters and developed so they can work in tandem. Took a long time, and I didn't really take good notes, update this readme with everything that I learned, but there are A LOT of comments in custom.js for implemenation of those functions. 
+
+#### Updating Pagination
+I essentially had to trash my pagination class and start from scratch since I technically botched it the first time through. Refactoring the pagination code so everything populates on page load, then I have to account for pagination being drawn dynamically after making the filter ajax calls. Will see how this goes. 
+
+
+

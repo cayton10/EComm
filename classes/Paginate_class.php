@@ -28,12 +28,28 @@ class Paginate
         return $this->totalPages;
     }
     //Set total pages
-    public function setTotalPages($limit)
+    public function setTotalPages($limit, $value, $type)
     {
         $this->limit = $limit;
         //Query DB to get total count of all products
-        $query = "SELECT count(pro_ID) AS id
-                  FROM product";
+
+        if($value == '')
+        {
+            $query = "SELECT count(pro_ID) AS id
+                        FROM product";
+        }
+        else if($type == 'sub')
+        {
+            $query = "SELECT count(pro_ID) AS id
+                        FROM product
+                        WHERE cat_ID = $value";
+        }
+        else
+            $query = "SELECT count(pro_ID) AS id
+                        FROM product t1
+                        LEFT JOIN category t2 ON t1.cat_ID = t2.cat_ID
+                        WHERE t2.cat_SubCat = $value";
+        
         //Store result as array
         $result = $this->database->get_results($query);
         //Access array for total products in DB
@@ -51,6 +67,11 @@ class Paginate
     public function getCurrentPage()
     {
         return $this->currentPage;
+    }
+
+    public static function setStart($page, $limit)
+    {
+        $start = (($page - 1) * $limit) + 1;
     }
 
 

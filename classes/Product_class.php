@@ -10,8 +10,11 @@ class Product
 {
     //Database private member variable
     private $database;
-    //Limit for pagination
+    //Limit and page for pagination
     private $limit;
+    private $page;
+    private $start;
+
     //Private members for item details page
     private $id;
     private $description;
@@ -94,10 +97,15 @@ class Product
     }
 
 
-
     //Function definition w/ default parameter
-    public function getAllProducts()
+    public function getAllProducts($limit, $page)
     {
+
+        $start = (($page - 1) * $limit);
+
+        $this->start = Paginate::setStart($page, $limit);
+        echo $limit;
+        echo $start;
         //Store the current page from query string
           //Define query to pull product information
           $query = "SELECT t1.pro_ID ID, 
@@ -107,7 +115,8 @@ class Product
                          AVG(rev_Score) AS avgScore 
                   FROM product t1
                   LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
-                  GROUP BY t1.pro_ID";
+                  GROUP BY t1.pro_ID
+                  LIMIT $start, $limit";
 
         //Store results for processing
         $results = $this->database->get_results($query);
@@ -117,7 +126,7 @@ class Product
         //If results are returned
     }
 
-    public function getMainProducts($category)
+    public function getMainProducts($limit, $category, $page)
     {
 
       //Query to return all products from main category
@@ -141,7 +150,7 @@ class Product
       return $results;
     }
 
-    public function getSubProducts($category)
+    public function getSubProducts($limit, $category, $page)
     {
 
 
