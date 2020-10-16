@@ -195,33 +195,40 @@ echo $currentPage;
 /* ------------ CREATE INSTANCE OF FILTER CLASS FOR MANUFACTURER ------------ */
 
                 $manufac = new Filter();
+                $filterValue;
+                $filterType;
                 //Control logic to populate appropriate results
                 if(isset($_GET['category']) && !empty($_GET['category']))
                 {
                   $value = htmlspecialchars(trim($_GET['category']));
                   $manuFilter = $manufac->getSubManu($value);
+                  $filterType = 'sub';
                 }
                 else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
                 {
                   $value = htmlspecialchars(trim($_GET['MainCat']));
                   $manuFilter = $manufac->getMainManu($value);
+                  $filterType = 'main';
                 }
                 else
                 {
                   $manuFilter = $manufac->getAllManu();
+                  $filterType = 'all';
                 }
                 
                 if(!empty($manuFilter))
                 {
                   //Set up the filter header
-                  echo "<h3 id='manufactFilter' class='mb-3 h6 text-uppercase text-black d-block'>Manufacturer</h3>";
+                  echo "<h3 id='manufactFilter' class='mb-3 h6 text-uppercase text-black d-block' 
+                          data-type='" . $filterType . "'
+                          data-value='" . $filterValue . "'>Manufacturer</h3>";
 
                   //Access our results array and process
                   foreach($manuFilter as $manu)
                   {
                     //Output appropriate manufacturer filter checkboxes
                     echo "<label for='s_sm' class='d-flex manufact'>
-                            <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" . $manu['manu'] . "'> <span class='text-black manCheckBox'>" . $manu['manu'] . "</span>
+                            <input name='manufacturerBox' type='checkbox' class='mr-2 mt-1 manuCheck' value='" . $manu['manu'] . "'> <span class='text-black manCheckBox'>" . $manu['manu'] . "</span>
                           </label>";
                   }
                 }

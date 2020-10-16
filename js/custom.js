@@ -14,7 +14,8 @@ $(document).ready(function(){
 
     //Hide search results div on load
     $('#searchResults').hide();
-    //Hide product cards for later showing based on filter and page requirements
+
+
 
 
 /* -------------------------------------------------------------------------- */
@@ -358,6 +359,9 @@ var manuName = 'all';
 
 $(document).on('click', '.manuCheck', function() {
 
+    var value = $('#manufactFilter').data('value');
+    var type = $('#manufactFilter').data('type');
+
     //Logic to execute appropriate code based on checkbox state
     if($('input.manuCheck').is(':checked'))
     {
@@ -434,7 +438,6 @@ $(document).on('click', '.manuCheck', function() {
         manuName = 'all';
         maxPrice = maxHandle;
         minPrice = minHandle;
-        alert(manuName);
     
         //Make our ajax call
         $.ajax({
@@ -442,7 +445,9 @@ $(document).on('click', '.manuCheck', function() {
             data: {
                 name: manuName,
                 maxPrice: maxPrice,
-                minPrice: minPrice
+                minPrice: minPrice,
+                type: type,
+                value: value,
             },
             dataType: 'JSON',
             method: 'POST',
@@ -454,6 +459,7 @@ $(document).on('click', '.manuCheck', function() {
                 $('.manufact').remove();
 
                 var previousManu
+                var i = 0;
 
                 $.each(products, function(key, value)
                 {
@@ -481,6 +487,13 @@ $(document).on('click', '.manuCheck', function() {
                         <div class='avgRating'>" + avgScore + "</div>\
                         </div>\
                     </div>")
+
+
+                    if(i = 0)
+                    {
+                        $('#slider-range').data('max', price);
+                    }
+                    i++;
 
 
     /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */

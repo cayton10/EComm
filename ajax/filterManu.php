@@ -7,6 +7,8 @@
     $manuName = $_POST['name'];
     $maxPrice = $_POST['maxPrice'];
     $minPrice = $_POST['minPrice'];
+    $type = $_POST['type'];
+    $value = $_POST['value'];
 
 
     //Instantiate object to call filter class method
@@ -17,7 +19,7 @@
     if($manuName === 'all')
     {
         //Fire appropriate query to store results for all manufacturers
-        $products = $filter->getAllProductsFromManu($maxPrice, $minPrice);
+        $products = $filter->getProductsInRange($minPrice, $maxPrice, $value, $type, $manuName);
     }
     else
     {
