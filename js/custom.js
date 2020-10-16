@@ -167,7 +167,15 @@ $(document).ready(function(){
 
 
 /* -------------------------------------------------------------------------- */
-/*                       AJAX FUNCTION FOR PRICE FILTER                       */
+/*                       AJAX FUNCTION FOR PRICE FILTER
+
+    this comment header marks the beginning of all filter function jquery
+    for this file. It is a lot to process. I'm sure I can go back and
+    refactor this code. I imagine I could probably store the similar
+    ajax calls within a single function and pass paramaters depending
+    on which filter is need (manufacturer or price). Being that I built
+    these filters successively, I did not anticipate them to be so similar.
+    May go back and refactor when I have some free time (which does not exist).
 /* -------------------------------------------------------------------------- */
 
 //Declare max and min variables to use in other functions
@@ -432,6 +440,9 @@ $(document).on('click', '.manuCheck', function() {
             }
         });
     }
+
+/* ----------- IF WE WANT TO GET OUR MANUFACTURER CHECKBOXES BACK ----------- */
+
     else
     {
         //Set up the data to send via ajax
@@ -487,13 +498,6 @@ $(document).on('click', '.manuCheck', function() {
                         <div class='avgRating'>" + avgScore + "</div>\
                         </div>\
                     </div>")
-
-
-                    if(i = 0)
-                    {
-                        $('#slider-range').data('max', price);
-                    }
-                    i++;
 
 
     /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
