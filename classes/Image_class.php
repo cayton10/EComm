@@ -38,7 +38,7 @@ class Image
           $printImage = $image . ".jpg";
         }
         else
-          $printImage = '../../products/' . "noimage.jpg";
+          $printImage = '../../products/noimage.jpg';
 
         //return image
         return $printImage;

@@ -10,6 +10,7 @@
     $max = $data['max'];
     $value = $data['value'];
     $type = $data['type'];
+    $manu = $data['manu'];
 
     //convert back to appropriate datatypes for db query
     $min = (float)$min;
@@ -19,6 +20,7 @@
         $value = (int)$value;
     }
     $type = (string)$type;
+    $manu = (string)$manu;
 
     //$min = 2100.00;
     //$max = 7788.00;
@@ -28,9 +30,8 @@
     //Instantiate a filtering object
     $filterPrice = new Filter();
     //store query
-    $results = $filterPrice->getProductsInRange($min, $max, $value, $type);
+    $results = $filterPrice->getProductsInRange($min, $max, $value, $type, $manu);
 
-    $customJSON = array();
     $i = 0;
 
     //echo $results[0]['ID'];

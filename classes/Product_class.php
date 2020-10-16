@@ -98,8 +98,6 @@ class Product
     //Function definition w/ default parameter
     public function getAllProducts()
     {
-        //Declare output variable to return with formatted product display
-        $output = "";
         //Store the current page from query string
           //Define query to pull product information
           $query = "SELECT t1.pro_ID ID, 
@@ -121,8 +119,7 @@ class Product
 
     public function getMainProducts($category)
     {
-      //Declare output variable to return with formatted product display
-      $output = "";
+
       //Query to return all products from main category
         $query = "SELECT
                     t1.pro_ID ID,
@@ -146,8 +143,7 @@ class Product
 
     public function getSubProducts($category)
     {
-      //Declare output variable to return with formatted product display
-      $output = "";
+
 
         $query = "SELECT t1.pro_ID ID,
                          pro_Name title,

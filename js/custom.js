@@ -168,110 +168,171 @@ $(document).ready(function(){
 /* -------------------------------------------------------------------------- */
 /*                       AJAX FUNCTION FOR PRICE FILTER                       */
 /* -------------------------------------------------------------------------- */
+
+//Declare max and min variables to use in other functions
+var minHandle;
+var maxHandle;
+
 //Initialize the slider
 var siteSliderRange = function() {
     //Set min and max values for slider
-    var min = 0;
-    var max = Math.ceil($('#slider-range').data('max'));
+    minHandle = 0;
+    maxHandle = Math.ceil($('#slider-range').data('max'));
     var value = parseInt($('#slider-range').data('value'))
     var type = $('#slider-range').data('type');
-    var step = ((max - min) / 20);
-//Set slider specifics 
-$( "#slider-range" ).slider({
-  range: true,
-  min: min,
-  max: max,
-  step: step,
-  values: [ min, max],
-  slide: function( event, ui ) {
+    var step = ((maxHandle - minHandle) / 20);
 
-    console.log(step);
-    //Get values as they change
-    min = ui.values[0];
-    max = ui.values[1];
+
+    //Set slider specifics 
+    $( "#slider-range" ).slider({
+    range: true,
+    min: minHandle,
+    max: maxHandle,
+    step: step,
+    values: [ minHandle, maxHandle],
+    slide: function( event, ui ) {
+
+        //Get values as they change
+        minHandle = ui.values[0];
+        maxHandle = ui.values[1];
 
     $( "#amount" ).val( "$" + ui.values[ 0 ].toFixed(0) + " - $" + ui.values[ 1 ].toFixed(0) );
 
     //Stringify the information to send
-    infotosend = JSON.stringify({min: min, max: max, value: value, type: type})
-    console.log(infotosend);
+    infotosend = JSON.stringify({min: minHandle, max: maxHandle, value: value, type: type, manu: manuName})
     //Put together AJAX request to send server side,
-     
-    $.ajax({
-        url: 'ajax/filterPrices.php',
-        type: 'POST',
-        data: {data: infotosend},
-        dataType: 'json',
-        
-        success: function (products){
-
-
-            //Remove our original product containers
-            $('.prodContainer').remove();
-
-            //Remove our original manufacturer checkboxes
-            $('.manufact').remove();
-            //Set previous manu var for manufacturer filter
-            var previousManu;  
-            //Print our new product cards
-            $.each(products, function(key, value)
-            {
-                var ID = value.ID;
-                var title = value.title;
-                var price = value.price;
-                var manu = value.manu;
-                var avgScore = value.avgScore;
-                var image = value.image;
-
-                //Make a promise for image
-
-/* ---- NOTE MADE PROMISES FOR IMAGES AND IT SEVERELY HAMPERS PERFORMANCE --- */
-/* ------------ ALSO, THE IMAGES AREN'T EVEN POPULATED CORRECTLY ------------ */
-/* -------- I HATE JQUERY AND ALL FRONT END LANGUAGES THIS IS STUPID -------- */
-/* ---------- CAN WRITE BACKEND STUFF - WORKS FIRST TIME EVERY TIME --------- */
-                
-                $('#cardContainer').append
-                
-                ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
-                    <div class='block-4 text-center border innerProdContainer'>\
-                        <figure class='block-4-image'>\
-                        <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
-                        </figure>\
-                    <div class='block-4-text p-4 prodInfo'>\
-                        <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
-                        <p class='mb-0'>" + title + "</p>\
-                        <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
-                    </div>\
-                    <div class='avgRating'>" + avgScore + "</div>\
-                    </div>\
-                </div>")
-
-
-/* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
-
-                if(manu != previousManu)
+    
+/* -------------- MAKE APPROPRIATE AJAX CALL WITH OTHER FILTER -------------- */
+    if(manuName === 'all')
+    {
+        $.ajax({
+            url: 'ajax/filterPrices.php',
+            type: 'POST',
+            data: {data: infotosend},
+            dataType: 'json',
+            
+            success: function (products){
+    
+    
+                //Remove our original product containers
+                $('.prodContainer').remove();
+    
+                //Remove our original manufacturer checkboxes
+                $('.manufact').remove();
+                //Set previous manu var for manufacturer filter
+                var previousManu;  
+                //Print our new product cards
+                $.each(products, function(key, value)
                 {
+                    var ID = value.ID;
+                    var title = value.title;
+                    var price = value.price;
+                    var manu = value.manu;
+                    var avgScore = value.avgScore;
+                    var image = value.image;
+    
+                    
+                    $('#cardContainer').append
+                    
+                    ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
+                        <div class='block-4 text-center border innerProdContainer'>\
+                            <figure class='block-4-image'>\
+                            <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
+                            </figure>\
+                        <div class='block-4-text p-4 prodInfo'>\
+                            <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                            <p class='mb-0'>" + title + "</p>\
+                            <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                        </div>\
+                        <div class='avgRating'>" + avgScore + "</div>\
+                        </div>\
+                    </div>")
+    
+    
+    /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+    
+                    if(manu != previousManu)
+                    {
+                        $('.manufactDiv').append
+    
+                        ("<label for='s_sm' class='d-flex manufact'>\
+                            <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                        </label>");
+                        previousManu = manu;
+                    }
+                    
+                    
+                });
+            },
+            error: function (xhr, error) {
+                console.log(error);
+            }
+            
+        });
+    }
+    else
+    {
+        $.ajax({
+            url: 'ajax/filterPrices.php',
+            type: 'POST',
+            data: {data: infotosend},
+            dataType: 'json',
+            
+            success: function (products){
+    
+    
+                //Remove our original product containers
+                $('.prodContainer').remove();
+    
+                //Remove our original manufacturer checkboxes
+                $('.manufact').remove();
+
+                
+                //Print our new product cards
+                $.each(products, function(key, value)
+                {
+                    var ID = value.ID;
+                    var title = value.title;
+                    var price = value.price;
+                    var manu = value.manu;
+                    var avgScore = value.avgScore;
+                    var image = value.image;
+    
+                    
+                    $('#cardContainer').append
+                    
+                    ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
+                        <div class='block-4 text-center border innerProdContainer'>\
+                            <figure class='block-4-image'>\
+                            <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
+                            </figure>\
+                        <div class='block-4-text p-4 prodInfo'>\
+                            <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                            <p class='mb-0'>" + title + "</p>\
+                            <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                        </div>\
+                        <div class='avgRating'>" + avgScore + "</div>\
+                        </div>\
+                    </div>")
+                    
+                });
+
+                /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+    
                     $('.manufactDiv').append
 
                     ("<label for='s_sm' class='d-flex manufact'>\
-                        <input type='checkbox' class='mr-2 mt-1 manuCheck'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                        <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manuName + "' checked> <span class='text-black manCheckBox'>" + manuName + "</span>\
                     </label>");
-                    previousManu = manu;
-                    console.log(previousManu);
-                }
-                else
-                {
-                    console.log("Same");
-                }
-                
-                
-            });
-        },
-        error: function (xhr, error) {
-            console.log(error);
-        }
-        
-    });
+
+            },
+            error: function (xhr, error) {
+                console.log(error);
+            }
+            
+        });
+    }
+    
   }
 });
 $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
@@ -285,31 +346,163 @@ $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
 siteSliderRange();
 
 
-/* ----- SECOND AJAX CALL TO MAKE CALL TO getImage METHOD IN IMAGE CLASS ---- */
-/* ---------- https://petetasker.com/using-async-await-jquerys-ajax --------- */
-/* --------- only way i could figure this out without killing myself -------- */
-/* ------ was with async / await, which from what i read is essentially ----- */
-/* --------------------- just promises "under the hood" --------------------- */
 
-async function getImageAjax(imageID){
+/* -------------------------------------------------------------------------- */
+/*                   AJAX FUNCTIONS FOR MANUFACTURER FILTER                   */
+/* -------------------------------------------------------------------------- */
+
+//Set default manu name to 1.) pass to manufacturer filter, and two pass back to price filter
+var manuName = 'all';
+
+//Bind event to document since .manuCheck is dynamically created element
+
+$(document).on('click', '.manuCheck', function() {
+
+    //Logic to execute appropriate code based on checkbox state
+    if($('input.manuCheck').is(':checked'))
+    {
+        //Set up the data to send via ajax
+        manuName = $(this).attr('value');
+        maxPrice = maxHandle;
+        minPrice = minHandle;
     
-    let result;
+        //Make our ajax call
+        $.ajax({
+            url: 'ajax/filterManu.php',
+            data: {
+                name: manuName,
+                maxPrice: maxPrice,
+                minPrice: minPrice
+            },
+            dataType: 'JSON',
+            method: 'POST',
+    
+            success: function(products)
+            {
+                //Remove our product cards and manufacturer checkboxes
+                $('.prodContainer').remove();
+                $('.manufact').remove();
 
-    //Do some error handling for this 'under the hood promise'
-    try {
-        result = await $.ajax({
-            url: 'ajax/getImage.php',
-            type: 'GET',
-            data: {data: imageID},
-            dataType: 'json'
+                var previousManu
+
+                $.each(products, function(key, value)
+                {
+                    var ID = value.ID;
+                    var title = value.title;
+                    var price = value.price;
+                    var manu = value.manu;
+                    var avgScore = value.avgScore;
+                    var image = value.image;
+
+
+                    
+                    $('#cardContainer').append
+                    
+                    ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
+                        <div class='block-4 text-center border innerProdContainer'>\
+                            <figure class='block-4-image'>\
+                            <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
+                            </figure>\
+                        <div class='block-4-text p-4 prodInfo'>\
+                            <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                            <p class='mb-0'>" + title + "</p>\
+                            <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                        </div>\
+                        <div class='avgRating'>" + avgScore + "</div>\
+                        </div>\
+                    </div>")
+
+
+    /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+
+                    if(manu != previousManu)
+                    {
+                        $('.manufactDiv').append
+
+                        ("<label for='s_sm' class='d-flex manufact'>\
+                            <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "' checked> <span class='text-black manCheckBox'>" + manu + "</span>\
+                        </label>");
+                        previousManu = manu;
+                    }             
+                });
+            }
         });
-        //Return results of ajax call back to function call
-        return result;
-
-    } catch (error) {
-        console.error(error);
     }
-}
+    else
+    {
+        //Set up the data to send via ajax
+        manuName = 'all';
+        maxPrice = maxHandle;
+        minPrice = minHandle;
+        alert(manuName);
+    
+        //Make our ajax call
+        $.ajax({
+            url: 'ajax/filterManu.php',
+            data: {
+                name: manuName,
+                maxPrice: maxPrice,
+                minPrice: minPrice
+            },
+            dataType: 'JSON',
+            method: 'POST',
+    
+            success: function(products)
+            {
+                //Remove our product cards and manufacturer checkboxes
+                $('.prodContainer').remove();
+                $('.manufact').remove();
+
+                var previousManu
+
+                $.each(products, function(key, value)
+                {
+                    var ID = value.ID;
+                    var title = value.title;
+                    var price = value.price;
+                    var manu = value.manu;
+                    var avgScore = value.avgScore;
+                    var image = value.image;
+
+
+                    
+                    $('#cardContainer').append
+                    
+                    ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
+                        <div class='block-4 text-center border innerProdContainer'>\
+                            <figure class='block-4-image'>\
+                            <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
+                            </figure>\
+                        <div class='block-4-text p-4 prodInfo'>\
+                            <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                            <p class='mb-0'>" + title + "</p>\
+                            <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                        </div>\
+                        <div class='avgRating'>" + avgScore + "</div>\
+                        </div>\
+                    </div>")
+
+
+    /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+
+                    if(manu != previousManu)
+                    {
+                        $('.manufactDiv').append
+
+                        ("<label for='s_sm' class='d-flex manufact'>\
+                            <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                        </label>");
+                        previousManu = manu;
+                    }             
+                });
+            }
+        });
+    }
+
+});
+
+
+
 
 
 /* -------------------------------------------------------------------------- */
