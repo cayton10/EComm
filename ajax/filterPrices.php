@@ -22,10 +22,7 @@
     $type = (string)$type;
     $manu = (string)$manu;
 
-    //$min = 2100.00;
-    //$max = 7788.00;
-    //$value = 100;
-    //$type = 'main';
+
 
     //Instantiate a filtering object
     $filterPrice = new Filter();
@@ -34,7 +31,6 @@
 
     $i = 0;
 
-    //echo $results[0]['ID'];
     //Unwrap our results array and customize it w/ Image and Rating info 
     foreach($results as $key => $value)
     {
