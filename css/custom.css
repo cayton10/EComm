@@ -216,7 +216,7 @@ img {
 /*CAROUSEL ICON POSITION*/
 .carousel-control-prev,
 .carousel-control-next{
-    bottom: -150%;
+    bottom: -115%;
 }
 
 /*CAROUSEL ICON COLORS*/
@@ -262,7 +262,6 @@ img {
     display: flex;
     justify-content: flex-end;
 }
-
 
 
 /* ----------------------------- BUTTON SPACING ----------------------------- */

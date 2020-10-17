@@ -102,7 +102,7 @@ class Paginate
                     $back = 1;
                 }
                 $next = $this->currentPage + 1;
-                if($next > $totalPages)
+                if($next > $this->currentPage + 1)                
                 {
                     $next = $this->totalPages;
                 }
@@ -140,7 +140,7 @@ class Paginate
                     $back = 1;
                 }
                 $next = $this->currentPage + 1;
-                if($next > $totalPages)
+                if($next > $this->currentPage + 1)
                 {
                     $next = $this->totalPages;
                 }
@@ -180,7 +180,7 @@ class Paginate
                 $back = 1;
             }
             $next = $this->currentPage + 1;
-            if($next > $totalPages)
+            if($next > $this->currentPage + 1)            
             {
                 $next = $this->totalPages;
             }

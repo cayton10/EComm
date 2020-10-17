@@ -31,6 +31,7 @@ if(isset($_GET['category']) && !empty($_GET['category']))
   $pagination->setTotalPages($limit, $value, $type);
   //Confirm page exists
   $pageNumber = $pagination->confirmPage();
+  $pagination->setCurrentPage($pageNumber);
   
   $products = $product->getSubProducts($limit, $value, $pageNumber);
 
@@ -42,6 +43,7 @@ else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
   $pagination->setTotalPages($limit, $value, $type);
   //confirm page exists
   $pageNumber = $pagination->confirmPage();
+  $pagination->setCurrentPage($pageNumber);
 
   $products = $product->getMainProducts($limit, $value, $pageNumber);
 }
@@ -50,10 +52,9 @@ else
   $pagination->setTotalPages($limit, $value, $type);
   //Confirm page exists
   $pageNumber = $pagination->confirmPage();
+  $pagination->setCurrentPage($pageNumber);
 
-  echo $pageNumber;
   $products = $product->getAllProducts($limit, $pageNumber);
-
 }
 
 
