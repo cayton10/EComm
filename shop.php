@@ -25,7 +25,7 @@ if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0)
 /* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
 if(isset($_GET['category']) && !empty($_GET['category']))
 {
-  $type = 'sub';
+  $type = 'category';
   $value = htmlspecialchars($_GET['category']);
   //Set appropriate number of pages based on query string
   $pagination->setTotalPages($limit, $value, $type);
@@ -37,7 +37,7 @@ if(isset($_GET['category']) && !empty($_GET['category']))
 }
 else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
 {
-  $type = 'main';
+  $type = 'MainCat';
   $value = htmlspecialchars($_GET['MainCat']);
   $pagination->setTotalPages($limit, $value, $type);
   //confirm page exists
@@ -134,7 +134,7 @@ $totalPages = $pagination->getTotalPages();
               */
             
             
-              echo $pagination->printPagination();
+              echo $pagination->printPagination($value, $type);
             
             ?>
           </div>
