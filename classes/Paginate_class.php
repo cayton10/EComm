@@ -69,9 +69,20 @@ class Paginate
         return $this->currentPage;
     }
 
-    public static function setStart($page, $limit)
+    public function confirmPage()
     {
-        $start = (($page - 1) * $limit) + 1;
+        $pageNumber = $this->getCurrentPage();
+        $totalPages = $this->getTotalPages();
+
+        if($pageNumber > 0 && $pageNumber <= $totalPages)
+        {
+            return $pageNumber;
+        }
+        else
+        {
+            $pageNumber = 1;
+            return $pageNumber;
+        }
     }
 
 
@@ -82,7 +93,15 @@ class Paginate
     {
         //Declare variables and logic for << >> buttons on pagination
         $back = $this->currentPage - 1;
+        if($back <= 0)
+        {
+            $back = 1;
+        }
         $next = $this->currentPage + 1;
+        if($next > $totalPages)
+        {
+            $next = $this->totalPages;
+        }
 
         $output = "";
         $output .= "<div id='pagination' class='row' data-aos='fade-up'>

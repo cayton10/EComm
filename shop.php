@@ -6,26 +6,19 @@ $product = new Product();
 $pagination = new Paginate();
 
 //Use this function in some control flow to check validity of page query string
-$totalPages = $pagination->setTotalPages();
+//$totalPages = $pagination->setTotalPages();
 
 //Set limit for how many products can be shown per page / also for queries
 $limit = 9;
 $value = '';
 $type = '';
-$pageNumber = '';
+$pageNumber;
 
 /* ----------------- CHECK QUERY STRING FOR APPROPRIATE PAGE ---------------- */
 
 if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0)
 {
-  $pageNumber = htmlspecialchars($_GET['page']);
-  $pagination->setCurrentPage($pageNumber);
-
-  echo $pageNumber;
-}
-else
-{  
-  $pageNumber = 1;
+  $pageNumber = htmlspecialchars(trim($_GET['page']));
   $pagination->setCurrentPage($pageNumber);
 }
 
@@ -36,6 +29,9 @@ if(isset($_GET['category']) && !empty($_GET['category']))
   $value = htmlspecialchars($_GET['category']);
   //Set appropriate number of pages based on query string
   $pagination->setTotalPages($limit, $value, $type);
+  //Confirm page exists
+  $pageNumber = $pagination->confirmPage();
+
   $products = $product->getSubProducts($limit, $value, $pageNumber);
 
 }
@@ -44,13 +40,20 @@ else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
   $type = 'main';
   $value = htmlspecialchars($_GET['MainCat']);
   $pagination->setTotalPages($limit, $value, $type);
+  //confirm page exists
+  $pageNumber = $pagination->confirmPage();
 
   $products = $product->getMainProducts($limit, $value, $pageNumber);
 }
 else
 {
   $pagination->setTotalPages($limit, $value, $type);
+  //Confirm page exists
+  $pageNumber = $pagination->confirmPage();
+
+  echo $pageNumber;
   $products = $product->getAllProducts($limit, $pageNumber);
+
 }
 
 

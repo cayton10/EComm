@@ -100,12 +100,9 @@ class Product
     //Function definition w/ default parameter
     public function getAllProducts($limit, $page)
     {
-
         $start = (($page - 1) * $limit);
 
-        $this->start = Paginate::setStart($page, $limit);
-        echo $limit;
-        echo $start;
+
         //Store the current page from query string
           //Define query to pull product information
           $query = "SELECT t1.pro_ID ID, 
