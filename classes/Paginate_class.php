@@ -77,10 +77,12 @@ class Paginate
         if($pageNumber > 0 && $pageNumber <= $totalPages)
         {
             return $pageNumber;
+            $this->currentPage = $this->setCurrentPage($pageNumber);
         }
         else
         {
             $pageNumber = 1;
+            $this->currentPage = $this->setCurrentPage($pageNumber);
             return $pageNumber;
         }
     }

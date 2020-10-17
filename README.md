@@ -202,7 +202,9 @@ I'll let you know how it goes...
 Wow... just wow. 
 
 ##### Rating Plugins
-I went through 3 differen star rating plugins before I found one that I could make work, and it still doesn't do everything I want it to. The one I wound up going with is: 
+I went through 3 differen star rating plugins before I found one that I could make work, and it still doesn't do everything I want it to. The one I wound up going with is:
+
+
 ###### Starrr
 <link>https://github.com/dobtco/starrr</link>
 I've managed to make it do what I need. Was really running out of time with this deadline so I just ran with it. 

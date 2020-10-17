@@ -31,7 +31,7 @@ if(isset($_GET['category']) && !empty($_GET['category']))
   $pagination->setTotalPages($limit, $value, $type);
   //Confirm page exists
   $pageNumber = $pagination->confirmPage();
-
+  
   $products = $product->getSubProducts($limit, $value, $pageNumber);
 
 }
