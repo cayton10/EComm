@@ -384,7 +384,9 @@ $(document).on('click', '.manuCheck', function() {
             data: {
                 name: manuName,
                 maxPrice: maxPrice,
-                minPrice: minPrice
+                minPrice: minPrice,
+                type: type,
+                value: value
             },
             dataType: 'JSON',
             method: 'POST',

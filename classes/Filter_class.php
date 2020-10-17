@@ -107,8 +107,65 @@ class Filter extends DB
     {
         $query = '';
         //Control flow for sentinel type
-        if($manu !== 'all')
+        if($type === 'all' && $manu !== 'all')
         {
+            $query = "SELECT t1.pro_ID ID, 
+                                pro_Name title, 
+                                pro_Price price, 
+                                pro_Manufacturer manu,
+                                AVG(rev_Score) AS avgScore 
+                        FROM product t1
+                        LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                        WHERE pro_Price >= $min AND pro_Price <= $max AND pro_Manufacturer = '" . $manu . "'
+                        GROUP BY t1.pro_ID
+                        ORDER BY manu, price";
+                        
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($type === 'category' && $manu !== 'all')
+        {
+            $query = "SELECT t1.pro_ID ID,
+                                pro_Name title,
+                                pro_Price price,
+                                pro_Manufacturer manu,
+                                AVG(rev_Score) AS avgScore
+                        FROM product t1
+                        LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                        WHERE cat_ID = $value AND pro_Price >= $min AND pro_Price <= $max AND pro_Manufacturer = '". $manu ."'
+                        GROUP BY t1.pro_ID
+                        ORDER BY manu, price";
+
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($type === 'MainCat' && $manu !== 'all')
+        {
+
+            $query = "SELECT
+                            t1.pro_ID ID,
+                            pro_Name title,
+                            pro_Price price,
+                            pro_Manufacturer manu,
+                            AVG(rev_Score) AS avgScore
+                        FROM
+                            product t1
+                        LEFT JOIN category t2
+                        ON t1.cat_ID = t2.cat_ID
+                        LEFT JOIN review t3
+                        ON t1.pro_ID = t3.pro_ID
+                        WHERE t2.cat_SubCat = $value AND pro_Price >= $min AND pro_Price <= $max AND pro_Manufacturer = '" . $manu ."'                        GROUP BY t1.pro_ID
+                        ORDER BY manu, price";
+
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($manu !== 'all')
+        {
+
             $query = "SELECT t1.pro_ID ID, 
                                 pro_Name title, 
                                 pro_Price price, 
@@ -141,7 +198,7 @@ class Filter extends DB
 
             return $results;
         }
-        else if($type === 'sub')
+        else if($type === 'category')
         {
             $query = "SELECT t1.pro_ID ID,
                                 pro_Name title,
@@ -158,7 +215,7 @@ class Filter extends DB
 
             return $results;
         }
-        else if($type === 'main')
+        else if($type === 'MainCat')
         {
             $query = "SELECT
                             t1.pro_ID ID,
@@ -180,6 +237,7 @@ class Filter extends DB
 
             return $results;
         }
+        
 
     }
 

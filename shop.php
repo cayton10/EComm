@@ -167,13 +167,13 @@ $totalPages = $pagination->getTotalPages();
                 {
                   $filterValue = htmlspecialchars(trim($_GET['category']));
                   $priceRange = $prices->getSubPrices($filterValue);
-                  $filterType = 'sub';
+                  $filterType = 'category';
                 }
                 else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
                 {
                   $filterValue = htmlspecialchars(trim($_GET['MainCat']));
                   $priceRange = $prices->getMainPrices($filterValue);
-                  $filterType = 'main';
+                  $filterType = 'MainCat';
                 }
                 else
                 {
@@ -217,13 +217,13 @@ $totalPages = $pagination->getTotalPages();
                 {
                   $value = htmlspecialchars(trim($_GET['category']));
                   $manuFilter = $manufac->getSubManu($value);
-                  $filterType = 'sub';
+                  $filterType = 'category';
                 }
                 else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
                 {
                   $value = htmlspecialchars(trim($_GET['MainCat']));
                   $manuFilter = $manufac->getMainManu($value);
-                  $filterType = 'main';
+                  $filterType = 'MainCat';
                 }
                 else
                 {

@@ -16,16 +16,11 @@
     
     $products;
     //If checkbox is empty then manuName will be none... if that's the case,
-    if($manuName === 'all')
-    {
-        //Fire appropriate query to store results for all manufacturers
-        $products = $filter->getProductsInRange($minPrice, $maxPrice, $value, $type, $manuName);
-    }
-    else
-    {
-        //Store results in var products
-        $products = $filter->getProductsFromManu($manuName, $maxPrice, $minPrice);
-    }
+
+
+    //Fire appropriate query to store results for all manufacturers
+    $products = $filter->getProductsInRange($minPrice, $maxPrice, $value, $type, $manuName);
+
 
     $i = 0;
 
