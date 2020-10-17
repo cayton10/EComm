@@ -183,7 +183,7 @@ I had a helpful tutorial video I heavily referenced from my CIT313 class. It was
 
 #### Dynamic Rating System
 
-So, I'm aware that I could just make a simple form and '<select>' element that would let me do what I need as far as updating reviews and displaying them as calculations on product cards, but I'm really stuck on the star system. In my quest to complete this function I've already blown through three plugins and they have all failed to meet the needs of this function.
+So, I'm aware that I could just make a simple form and '< select >' element that would let me do what I need as far as updating reviews and displaying them as calculations on product cards, but I'm really stuck on the star system. In my quest to complete this function I've already blown through three plugins and they have all failed to meet the needs of this function.
 
 ##### rateYo
 A lightweight jQuery rating plugin that almost worked for my needs, but when styling the elements on the product cards, the foreground SVG would go haywire within the parent div while leaving the background (unfilled stars) where they were intended to be placed. I tried for about 3 hours to find workarounds and they all failed.
