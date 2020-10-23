@@ -64,9 +64,9 @@ $(document).ready(function(){
             return
         }
         //Assign appropriate variables to send via ajax
-        prodID = $('#reviewForm').attr('value');
-        rating = $('#stars').data('rate');
-        reviewDetail = $('#reviewDetail').val();
+        var prodID = $('#reviewForm').attr('value');
+        var rating = $('#stars').data('rate');
+        var reviewDetail = $('#reviewDetail').val();
         console.log(rating);
         $.ajax({
             url: 'ajax/saveRatings.php',
@@ -208,7 +208,7 @@ var siteSliderRange = function() {
     $( "#amount" ).val( "$" + ui.values[ 0 ].toFixed(0) + " - $" + ui.values[ 1 ].toFixed(0) );
 
     //Stringify the information to send
-    infotosend = JSON.stringify({min: minHandle, max: maxHandle, value: value, type: type, manu: manuName})
+    var infotosend = JSON.stringify({min: minHandle, max: maxHandle, value: value, type: type, manu: manuName})
     //Put together AJAX request to send server side,
     
 /* -------------- MAKE APPROPRIATE AJAX CALL WITH OTHER FILTER -------------- */
@@ -375,8 +375,8 @@ $(document).on('click', '.manuCheck', function() {
     {
         //Set up the data to send via ajax
         manuName = $(this).attr('value');
-        maxPrice = maxHandle;
-        minPrice = minHandle;
+        var maxPrice = maxHandle;
+        var minPrice = minHandle;
     
         //Make our ajax call
         $.ajax({
@@ -537,7 +537,7 @@ $(document).on('click', '.manuCheck', function() {
         {
             //Provide a check for string length... limit ajax calls
             if($(this).val().length < 2)
-            return;
+                return;
             //Once check is met, fire ajax call
             else
             {
@@ -581,14 +581,6 @@ $(document).on('click', '.manuCheck', function() {
     });
 
 
-
-
-/* -------------------------------------------------------------------------- */
-/*             LIMIT RESULTS OF PRODUCT CARDS SHOWN FOR PAGINATION            */
-/* -------------------------------------------------------------------------- */
-
-//Store the number of containers returned
-totalItems = $('.prodContainer').length
 
 
 

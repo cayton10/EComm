@@ -1,12 +1,13 @@
 <?
 require_once('includes/header.php');
 
+
+
 //Instantiate objects of our required classes
 $product = new Product();
 $pagination = new Paginate();
 
-//Use this function in some control flow to check validity of page query string
-//$totalPages = $pagination->setTotalPages();
+
 
 //Set limit for how many products can be shown per page / also for queries
 $limit = 9;
@@ -34,7 +35,6 @@ if(isset($_GET['category']) && !empty($_GET['category']))
   $pagination->setCurrentPage($pageNumber);
   
   $products = $product->getSubProducts($limit, $value, $pageNumber);
-
 }
 else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
 {
@@ -94,7 +94,9 @@ $totalPages = $pagination->getTotalPages();
                       echo $text;
                     }
                     else
+                    {
                       echo "Products";
+                    }
                   ?>
                 </h2></div>
               </div>
