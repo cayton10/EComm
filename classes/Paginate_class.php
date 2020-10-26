@@ -99,39 +99,39 @@ class Paginate
 
         if($type == 'MainCat')
         {
-                $back = $this->currentPage - 1;
-                if($back <= 0)
-                {
-                    $back = 1;
-                }
-                $next = $this->currentPage + 1;
-                if($next > $this->currentPage + 1)                
-                {
-                    $next = $this->totalPages;
-                }
+            $back = $this->currentPage - 1;
+            if($back <= 0)
+            {
+                $back = 1;
+            }
+            $next = $this->currentPage + 1;
+            if($next > $this->currentPage + 1)                
+            {
+                $next = $this->totalPages;
+            }
 
-                $output = "";
-                $output .= "<div id='pagination' class='row' data-aos='fade-up'>
-                                <div class='col-md-12 text-center'>
-                                    <div class='site-block-27'>
-                                        <ul>
-                                            <li><a href='shop.php?page=" . $back . "&" . $type . "=" . $value . "'>&lt;</a></li>";
-                        for($i = 1; $i <= $this->totalPages; $i++)
-                        {   //Set active page link
-                            if($i == $this->currentPage)
-                            {
-                                $output .= "<li class='active'><a href='shop.php?page=" . $i . "&" . $type . "=" . $value . "'><span>" . $i . "</span></a></li>";
-                            }
-                            else
-                            {
-                                $output .= "<li><a href='shop.php?page=" . $i . "&" . $type . "=" . $value . "'><span>" . $i . "</span></a></li>";
-                            }
+            $output = "";
+            $output .= "<div id='pagination' class='row' data-aos='fade-up'>
+                            <div class='col-md-12 text-center'>
+                                <div class='site-block-27'>
+                                    <ul>
+                                        <li><a href='shop.php?page=" . $back . "&" . $type . "=" . $value . "'>&lt;</a></li>";
+                    for($i = 1; $i <= $this->totalPages; $i++)
+                    {   //Set active page link
+                        if($i == $this->currentPage)
+                        {
+                            $output .= "<li class='active'><a href='shop.php?page=" . $i . "&" . $type . "=" . $value . "'><span>" . $i . "</span></a></li>";
                         }
-                                $output .= "<li><a href='shop.php?page=" . $next . "&" . $type . "=" . $value . "'>&gt;</a></li>
-                                        </ul>
-                                    </div>
+                        else
+                        {
+                            $output .= "<li><a href='shop.php?page=" . $i . "&" . $type . "=" . $value . "'><span>" . $i . "</span></a></li>";
+                        }
+                    }
+                            $output .= "<li><a href='shop.php?page=" . $next . "&" . $type . "=" . $value . "'>&gt;</a></li>
+                                    </ul>
                                 </div>
-                            </div>";
+                            </div>
+                        </div>";
 
             return $output;
         }
