@@ -21,6 +21,10 @@
         //Send data to insert function and return result
         $result = $addTo->addToCart($cartID, $prodID, $quantity);
 
+        //Quantity to update table with:
+        $updateQty = $tableQty - $quantity;
+        //Reduce product qty in product table
+        $checkNumberItems->removeQty($prodID, $updateQty);
         // build json for our results
         echo json_encode(array("cartQty"=>$result[0], "message"=>"success"));
         

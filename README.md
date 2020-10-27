@@ -274,5 +274,11 @@ Returning correct information from the Cart class query to count the number of i
 
 Pretty easy, really. I was overthinking this a lot. Thinking, "I need to set a session, and then set a cookie if one doesn't exist and blah blah blah"...
 
+### 10.27.2020
+Adding items to cart successfully updates miniCart qty via ajax. Also employed a new Product class method to descrease the ordered product quantity by the amount added to the cart.
+
+#### Cart Modal
+Created a modal to signal to user whether items are added to cart successfully or not. Presents option to continue shopping or go to cart.
+
 
 

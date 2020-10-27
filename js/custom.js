@@ -626,11 +626,32 @@ $('#addToCart').on('click', function(e){
             {
                 if(data.message == "success")
                 {
-                    alert("item added to cart");
+                    //Control flow for modal body output
+                    var output = '';
+                    if(quantity > 1)
+                    {
+                        output = quantity + ' items added to cart!';
+                    }
+                    else if(quantity == 1)
+                    {
+                        output = quantity + ' item added to cart!';
+                    }
+
+                    //Update the modal messaging
+                    $('#cartModalTitle').html('Success!');
+                    $('#cartModalBody').html(output);
+                    $('#cartModal').modal({backdrop: 'static', keyboard: false});
+                    //Update item count in mini cart
+                    $('#miniCartCount').text(data.cartQty);
+
+                    //Present modal for user
                 }
-                else
+                else if(data.message == "lowQty")
                 {
-                    alert("ERROR");
+                    $('#cartModalTitle').html('Unsuccessful :(');
+                    $('#cartModalBody').html("We may be running low on that item. Either reduce the quantity ordered or check back soon!");
+                    $('#cartModal').modal({backdrop: 'static', keyboard: false});
+                    
                 }
             },
             error(xhr, error)

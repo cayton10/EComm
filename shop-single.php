@@ -33,6 +33,28 @@
   
 ?>
 
+
+<!-- Modal -->
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cartModalTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="cartModalBody">
+      </div>
+      <div class="modal-footer">
+        <a href='cart.php' type="button" class="btn btn-primary" data-dismiss="modal">Go To Cart</a>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">

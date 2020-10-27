@@ -179,5 +179,17 @@ class Product
         $results = $this->database->get_results($query);
         return $results;
     }
+
+
+/* -------------------------------------------------------------------------- */
+/*         REMOVE PRODUCTS FROM PRODUCT TABLE ON SUCCESSFUL ADDTOCART         */
+/* -------------------------------------------------------------------------- */
+
+    public function removeQty($prodID, $quantity)
+    {
+        $update = array('pro_Qty' => $quantity);
+        $update_where = array('pro_ID' => $prodID);
+        $this->database->update( 'product', $update, $update_where, 1);
+    }
 }
 ?>

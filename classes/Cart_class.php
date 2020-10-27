@@ -18,7 +18,7 @@
         {
             $cartID = htmlspecialchars(trim($value));
 
-            $query = "SELECT COUNT(cart_qty) total
+            $query = "SELECT SUM(cart_qty) total
                         FROM cart
                         WHERE cart_ID = '" . $cartID . "'";
             
