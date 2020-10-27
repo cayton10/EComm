@@ -581,6 +581,64 @@ $(document).on('click', '.manuCheck', function() {
     });
 
 
+    
+
+/* -------------------------------------------------------------------------- */
+/*                    QUANTITY CHANGE ARROWS ON SHOP.SINGLE                   */
+/* -------------------------------------------------------------------------- */
+$('#addQty').on('click', function(){
+    //Read current input qty value
+    var currentVal = $('#inputQty').val();
+    //Update the value of the input field for sending to DB
+    $('#inputQty').val(currentVal++);
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                         ADD ITEMS TO SHOPPING CART                         */
+/* -------------------------------------------------------------------------- */
+
+$('#addToCart').on('click', function(e){
+    //Prevent default so we don't reload / exit page, etc
+    e.preventDefault();
+    //Grab our quantity
+    var quantity = parseInt($('#inputQty').val());
+    //Grab out productID
+    var prodID = parseInt($('#reviewForm').attr('value'));
+    //If they ain't buyin' we ain't workin'
+    if(quantity < 1)
+    {
+        return;
+    }
+
+    //Make our ajax call, lick stamp and send it
+    $.ajax(
+        {
+            url: 'ajax/addToCart.php',
+            data:
+            {
+                quantity: quantity,
+                ID: prodID
+            },
+            dataType: 'JSON',
+            method: 'POST',
+            success: function(data)
+            {
+                if(data.message == "success")
+                {
+                    alert("item added to cart");
+                }
+                else
+                {
+                    alert("ERROR");
+                }
+            },
+            error(xhr, error)
+            {
+                alert(error);
+            }
+    });
+});
 
 
 

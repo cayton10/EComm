@@ -235,6 +235,12 @@ I essentially had to trash my pagination class and start from scratch since I te
 ### 10.26.2020
 Starting work on shopping cart info
 
+<ul>Items Completed
+<li>Pulling cart info on page load for miniCart text bubble</li>
+<li>Adding items to database cart using ajax call</li>
+<li>Adding items accounts for qty input on shop-single page</li>
+</ul>
+
 #### Mini Cart
 Figured I'd start with details of the minicart
 

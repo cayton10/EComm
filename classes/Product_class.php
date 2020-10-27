@@ -165,5 +165,19 @@ class Product
       $results = $this->database->get_results($query);
       return $results;
     }
+
+    //Public function to check the quantity of items remaining 
+    //For specific product ID in product table
+    //Made to use in addToCart.php
+    public function getQuantity($prodID)
+    {
+
+        $query = "SELECT pro_Qty
+                  FROM product
+                  WHERE pro_ID = '" . $prodID ."'";
+
+        $results = $this->database->get_results($query);
+        return $results;
+    }
 }
 ?>
