@@ -1,6 +1,29 @@
 <?
 //DB Connection config file
   require_once('config/config.php');
+
+  //Check if cookie exists
+  if(!empty($_COOKIE['cartID']))
+  {
+    //Set session to ID contained within the cookie
+    session_id($_COOKIE['cartID']);
+  }
+  else
+  {
+    //Set a cookie for us to use for a cart ID
+    setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
+                                                              //Plus include "/" for all directories (made that mistake in 313)
+  }
+
+  //Start session
+  session_start();
+
+  //Create instance of cart class
+  $cart = new Cart();
+
+  //Check number items to include in minicart
+  $miniCart = $cart->getCartInfo(session_id());
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +85,15 @@
                       <!-- MINI CART UTILITY -->
                     <a href="cart.php" class="site-cart">
                       <span class="icon icon-shopping_cart"></span>
-                      <span id="miniCartCount" class="count">2</span>
+                      <!-- PHP FOR UPDATING MINICART ON PAGE LOAD -->
+                      <span id="miniCartCount" class="count">
+                        <?
+                          foreach($miniCart as $item)
+                          {
+                            echo $item['total'];
+                          }
+                        ?>
+                        </span>
                     </a>
                   </li> 
                   <li class="d-inline-block d-md-none ml-md-0"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>

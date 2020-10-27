@@ -165,7 +165,7 @@
 
             </div>
             <div class ='row-fluid cartReview'>
-              <p class='col-6 addToCartButton'><a href="cart.php" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+              <p class='col-6 addToCartButton'><a href="#" class="buy-now btn btn-sm btn-primary" id="addToCart">Add To Cart</a></p>
               <p class='col-6 leaveReviewButton'><a href="#reviewSection" class="buy-now btn btn-sm btn-primary">Leave Review</a></p>
             </div>
 

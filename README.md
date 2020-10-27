@@ -232,4 +232,41 @@ Finished both filters and developed so they can work in tandem. Took a long time
 I essentially had to trash my pagination class and start from scratch since I technically botched it the first time through. Refactoring the pagination code so everything populates on page load, then I have to account for pagination being drawn dynamically after making the filter ajax calls. Will see how this goes. 
 
 
+### 10.26.2020
+Starting work on shopping cart info
+
+#### Mini Cart
+Figured I'd start with details of the minicart
+
+Returning correct information from the Cart class query to count the number of items in a person's cart. Displays properly on minicart text bubble.
+
+##### Setting Sessions and Cookies
+```php
+//Check if cookie exists
+  if(!empty($_COOKIE['cartID']))
+  {
+    //Set session to ID contained within the cookie
+    session_id($_COOKIE['cartID']);
+  }
+  else
+  {
+    //Set a cookie for us to use for a cart ID
+    setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
+                                                              //Plus include "/" for all directories (made that mistake in 313)
+  }
+
+  //Start session
+  session_start();
+
+  //Create instance of cart class
+  $cart = new Cart();
+
+  //Check number items to include in minicart
+  $miniCart = $cart->getCartInfo(session_id());
+
+```
+
+Pretty easy, really. I was overthinking this a lot. Thinking, "I need to set a session, and then set a cookie if one doesn't exist and blah blah blah"...
+
+
 
