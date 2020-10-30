@@ -24,6 +24,7 @@
             
             $results = $this->get_results($query);
 
+
             return $results;
         }
 
@@ -69,7 +70,7 @@
                     else
                     {
                         //Set up our data array to pass using DB Class 'insert' function
-                        $data = array('pro_ID' => $prodID, 'cart_qty' => $quantity);
+                        $data = array('cart_ID' => $cartID, 'pro_ID' => $prodID, 'cart_qty' => $quantity);
                         
                         //Fire
                         $this->insert('cart', $data);
