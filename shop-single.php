@@ -47,7 +47,7 @@
       <div class="modal-body" id="cartModalBody">
       </div>
       <div class="modal-footer">
-        <a href='cart.php' type="button" class="btn btn-primary" data-dismiss="modal">Go To Cart</a>
+        <a href='cart.php' type="button" class="btn btn-primary">Go To Cart</a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
       </div>
     </div>

@@ -1,5 +1,11 @@
 <?
   require_once('includes/header.php');
+
+  //Store product information for cart into variables here
+  //Create cart instance to get cart info
+  $cart = new Cart();
+  $cartDetails = $cart->getCartDetail(session_id());
+  
 ?>
 
     <div class="bg-light py-3">
@@ -27,6 +33,63 @@
                   </tr>
                 </thead>
                 <tbody>
+                <?
+                  //Create product object to get product info
+                  $productInfo = new Product();
+                  foreach($cartDetails as $item)
+                  {
+                    //Set up our output variable
+                    $output = '';
+
+                    //Store our variables from cart details to use in getting things like
+                    //Images, prices, names, etc.
+                    $prodID = $item['prod'];
+                    $quantity = $item['qty'];
+                    //Change type
+                    $quantity = (float) $quantity;
+                    //Get our image
+                    $image = Image::getImage($prodID);
+                    //Pass product ID to get DB values for this item
+                    $productInfo->querySingleItem($prodID);
+                    //Get Product name
+                    $name = $productInfo->getName();
+                    //Get product Price
+                    $price = $productInfo->getPrice();
+                    //Change type
+                    
+                    $total = number_format(($quantity * $price), 2);
+                    $price = number_format($price, 2);
+
+
+                    $output = "<tr>
+                                <td class='product-thumbnail'>
+                                  <img src='" . $image . "' alt='Image' class='img-fluid'>
+                                </td>
+                                <td class='product-name'>
+                                  <h2 class='h5 text-black'>" . $name . "</h2>
+                                </td>
+                                <td>$" . $price . "</td>
+                                <td>
+                                  <div class='input-group mb-3' style='max-width: 120px;'>
+                                    <div class='input-group-prepend'>
+                                      <button class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>
+                                    </div>
+                                    <input type='text' class='form-control text-center' value='" . $quantity . "' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>
+                                    <div class='input-group-append'>
+                                      <button class='btn btn-outline-primary js-btn-plus' type='button'>&plus;</button>
+                                    </div>
+                                  </div>
+            
+                                </td>
+                                <td>$" . $total . "</td>
+                                <td><a href='#' class='btn btn-primary btn-sm'>X</a></td>
+                              </tr>";
+                      
+                      echo $output;
+
+                  }
+                ?>
+                
                   <tr>
                     <td class="product-thumbnail">
                       <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">

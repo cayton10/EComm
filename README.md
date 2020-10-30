@@ -281,4 +281,8 @@ Adding items to cart successfully updates miniCart qty via ajax. Also employed a
 Created a modal to signal to user whether items are added to cart successfully or not. Presents option to continue shopping or go to cart.
 
 
+### 10.30.2020
+Fixed bugs related to miniCart data persistence. More issues w/ starting sessions at particular times gave trouble. Fixed by starting session in header.php only.
 
+#### cart.php
+Starting work on setting up the cart inferface.

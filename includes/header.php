@@ -88,10 +88,19 @@
                       <!-- PHP FOR UPDATING MINICART ON PAGE LOAD -->
                       <span id="miniCartCount" class="count">
                         <?
-                          foreach($miniCart as $item)
+
+                          if($miniCart[0]['total'] < 1)
                           {
-                            echo $item['total'];
+                            echo "0";
                           }
+                          else
+                          {
+                            foreach($miniCart as $item)
+                            {
+                              echo $item['total'];
+                            }
+                          }
+                          
                         ?>
                         </span>
                     </a>

@@ -28,6 +28,21 @@
             return $results;
         }
 
+        //Get all product IDs and product quantities
+        public function getCartDetail($value)
+        {
+            $cartID = htmlspecialchars(trim($value));
+
+            $query = "SELECT pro_ID prod, cart_qty qty
+                        FROM cart
+                        WHERE cart_ID = '" . $cartID . "'";
+
+            //Fire query and store results
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+
         //Add items to cart
         public function addToCart($cartID, $prodID, $quantity)
         {

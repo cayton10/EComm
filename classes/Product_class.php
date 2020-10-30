@@ -48,7 +48,7 @@ class Product
         $item = $results[0];
         $this->id = $item['pro_ID'];
         $this->description = $item['pro_Descript'];
-        $this->price = number_format($item['pro_Price'],2);
+        $this->price = $item['pro_Price'];
         $this->manufacturer = $item['pro_Manufacturer'];
         $this->name = $item['pro_Name'];
         $this->model = $item['pro_Model'];
