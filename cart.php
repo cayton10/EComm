@@ -57,8 +57,8 @@
                     $price = $productInfo->getPrice();
                     //Change type
                     
-                    $total = number_format(($quantity * $price), 2);
-                    $price = number_format($price, 2);
+                    $total = ($quantity * $price);
+                    
 
 
                     $output = "<tr>
@@ -68,20 +68,20 @@
                                 <td class='product-name'>
                                   <h2 class='h5 text-black'>" . $name . "</h2>
                                 </td>
-                                <td>$" . $price . "</td>
+                                <td id='singleItemPrice" . $prodID . "' data-price='" . $price . "'>$" . number_format($price, 2) . "</td>
                                 <td>
                                   <div class='input-group mb-3' style='max-width: 120px;'>
                                     <div class='input-group-prepend'>
-                                      <button class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>
+                                      <button class='btn btn-outline-primary js-btn-minus reduceQty' data-id='" . $prodID . "' type='button'>&minus;</button>
                                     </div>
-                                    <input type='text' class='form-control text-center' value='" . $quantity . "' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>
+                                    <input id='quantity" . $prodID . "' type='text' class='form-control text-center' value='" . $quantity . "' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>
                                     <div class='input-group-append'>
-                                      <button class='btn btn-outline-primary js-btn-plus' type='button'>&plus;</button>
+                                      <button class='btn btn-outline-primary js-btn-plus addQty' data-id='" . $prodID . "' type='button'>&plus;</button>
                                     </div>
                                   </div>
             
                                 </td>
-                                <td>$" . $total . "</td>
+                                <td>$<span class='totalLine' id='totalLine" . $prodID . "' data-total='" . $total . "'>" . number_format($total, 2) . "</span></td>
                                 <td><a href='#' class='btn btn-primary btn-sm'>X</a></td>
                               </tr>";
                       
@@ -89,54 +89,7 @@
 
                   }
                 ?>
-                
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Top Up T-Shirt</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
 
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
-
-                  <tr>
-                    <td class="product-thumbnail">
-                      <img src="images/cloth_2.jpg" alt="Image" class="img-fluid">
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">Polo Shirt</h2>
-                    </td>
-                    <td>$49.00</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-
-                    </td>
-                    <td>$49.00</td>
-                    <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -150,7 +103,8 @@
                 <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
               </div>
               <div class="col-md-6">
-                <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
+                <button class="btn btn-outline-primary btn-sm btn-block">
+                  <a href='shop.php'>Continue Shopping</a></button>
               </div>
             </div>
             <div class="row">
@@ -171,15 +125,7 @@
               <div class="col-md-7">
                 <div class="row">
                   <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Subtotal</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <h3 class="text-black h4 text-uppercase">Cart Summary</h3>
                   </div>
                 </div>
                 <div class="row mb-5">
@@ -187,7 +133,7 @@
                     <span class="text-black">Total</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">$230.00</strong>
+                    <strong class="text-black">$<span id='total'></span></strong>
                   </div>
                 </div>
 

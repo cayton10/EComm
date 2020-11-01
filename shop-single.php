@@ -16,6 +16,7 @@
   //Store item details so we don't have to keep calling class getters
   $description = $singleProd->getDescript();
   $price = $singleProd->getPrice();
+  $price = number_format($price, 2);
   $manufacturer = $singleProd->getManufacture();
   $name = $singleProd->getName();
   $model = $singleProd->getModel();

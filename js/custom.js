@@ -661,6 +661,99 @@ $('#addToCart').on('click', function(e){
     });
 });
 
+/* -------------------------------------------------------------------------- */
+/*                                  CART MATH                                 */
+/* -------------------------------------------------------------------------- */
+//On page load, grab all totalLine spans and sum them for cart total ouput
+var sum = 0;
+
+$('.totalLine').each(function(){
+    sum += ($(this).data('total'));
+});
+
+//Format output
+var formattedSum = addCommas(sum);
+
+//Set total on cart
+$('#total').html(formattedSum);
+
+/* -------------------------------------------------------------------------- */
+/*                             CART QUANTITY LOGIC                            */
+/* -------------------------------------------------------------------------- */
+$('.addQty').on('click', function(){
+
+    //Store the incremented qty into a variable to use for updating prices
+    var newQty = $('#quantity' + $(this).data('id')).val();
+    
+    //Grab item price and store as well
+    var itemPrice = $('#singleItemPrice' + $(this).data('id')).data('price');
+    
+    //Calculate our new total for item line
+    var newLineTotal = (newQty * itemPrice);
+
+    var formatTotal = addCommas(newLineTotal.toFixed(2));
+    //Update the lineTotal
+    $('#totalLine' + $(this).data('id')).empty();
+    $('#totalLine' + $(this).data('id')).html(formatTotal);
+
+    //Update cart total sum
+    var prevTotal = $('#total').html();
+    prevTotal = prevTotal.replace(',','');
+    prevTotal = parseFloat(prevTotal);
+    itemPrice = parseFloat(itemPrice);
+    //Reset the total
+    $('#total').html('');
+    var newTotal = prevTotal + itemPrice;
+    var formatSum = addCommas(newTotal.toFixed(2));
+    //Output the new cart total
+    $('#total').text(formatSum);
+});
+
+$('.reduceQty').on('click', function(){
+
+    //Store the incremented qty into a variable to use for updating prices
+    var newQty = $('#quantity' + $(this).data('id')).val();
+    
+    //Grab item price and store as well
+    var itemPrice = $('#singleItemPrice' + $(this).data('id')).data('price');
+    
+    //Calculate our new total for item line
+    var newLineTotal = (newQty * itemPrice);
+
+    var formatTotal = addCommas(newLineTotal.toFixed(2));
+    //Update the lineTotal
+    $('#totalLine' + $(this).data('id')).empty();
+    $('#totalLine' + $(this).data('id')).html(formatTotal);
+
+    //Update cart total sum
+    var prevTotal = $('#total').html();
+    prevTotal = prevTotal.replace(',','');
+    prevTotal = parseFloat(prevTotal);
+    itemPrice = parseFloat(itemPrice);
+    //Reset the total
+    $('#total').html('');
+    var newTotal = prevTotal - itemPrice;
+    var formatSum = addCommas(newTotal.toFixed(2));
+    //Output the new cart total
+    $('#total').text(formatSum);
+});
+
+//Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
+
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
+
+
 
 
 /* ----------------------------- STOLE THIS FROM ---------------------------- */
