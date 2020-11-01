@@ -61,7 +61,7 @@
                     
 
 
-                    $output = "<tr>
+                    $output = "<tr id='productRow". $prodID ."'>
                                 <td class='product-thumbnail'>
                                   <img src='" . $image . "' alt='Image' class='img-fluid'>
                                 </td>
@@ -82,7 +82,7 @@
             
                                 </td>
                                 <td>$<span class='totalLine' id='totalLine" . $prodID . "' data-total='" . $total . "'>" . number_format($total, 2) . "</span></td>
-                                <td><a href='#' class='btn btn-primary btn-sm'>X</a></td>
+                                <td><a class='btn btn-primary btn-sm removeItem' data-id='" . $prodID . "'>X</a></td>
                               </tr>";
                       
                       echo $output;

@@ -680,6 +680,7 @@ $('#total').html(formattedSum);
 /* -------------------------------------------------------------------------- */
 /*                             CART QUANTITY LOGIC                            */
 /* -------------------------------------------------------------------------- */
+//Add quantity
 $('.addQty').on('click', function(){
 
     //Store the incremented qty into a variable to use for updating prices
@@ -690,6 +691,14 @@ $('.addQty').on('click', function(){
     
     //Calculate our new total for item line
     var newLineTotal = (newQty * itemPrice);
+
+    //Store miniCart value
+    var miniCartCount = parseInt($('#miniCartCount').html());
+    //Increment the cartCount
+    miniCartCount++;
+    //Update miniCart;
+    $('#miniCartCount').html(miniCartCount);
+    
 
     var formatTotal = addCommas(newLineTotal.toFixed(2));
     //Update the lineTotal
@@ -709,6 +718,7 @@ $('.addQty').on('click', function(){
     $('#total').text(formatSum);
 });
 
+//Reduce quantity
 $('.reduceQty').on('click', function(){
 
     //Store the incremented qty into a variable to use for updating prices
@@ -719,6 +729,13 @@ $('.reduceQty').on('click', function(){
     
     //Calculate our new total for item line
     var newLineTotal = (newQty * itemPrice);
+
+    //Store miniCart value
+    var miniCartCount = parseInt($('#miniCartCount').html());
+    //Decrement the cartCount
+    miniCartCount--;
+    //Update miniCart;
+    $('#miniCartCount').html(miniCartCount);
 
     var formatTotal = addCommas(newLineTotal.toFixed(2));
     //Update the lineTotal
@@ -738,6 +755,41 @@ $('.reduceQty').on('click', function(){
     $('#total').text(formatSum);
 });
 
+/* --------------------------- REMOVE ITEM BUTTON --------------------------- */
+
+$('.removeItem').on('click', function(){
+    var productID = $(this).data('id');
+    
+    //Store all the numbers we need to update the cart summary after removing item
+    var totalLine = $('#totalLine' + productID).html();
+    var prevTotal = $('#total').html();
+    //Remove commas
+    totalLine = totalLine.replace(',', '');
+    prevTotal = prevTotal.replace(',', '');
+    //Convert to float values
+    totalLine = parseFloat(totalLine);
+    prevTotal = parseFloat(prevTotal);
+    //Update total
+    $('#total').html('');
+    var newTotal = prevTotal - totalLine;
+    var formatSum = addCommas(newTotal.toFixed(2));
+
+    //Store miniCart value
+    var miniCartCount = parseInt($('#miniCartCount').html());
+    let lineQty = $('#quantity' + $(this).data('id')).val();
+    miniCartCount -= lineQty;
+    //Update miniCart;
+    $('#miniCartCount').html(miniCartCount);
+
+    //Output the new cart total
+    $('#total').text(formatSum);
+    //Use the stored ID to remove the table row containing that product
+    $('#productRow' + productID).fadeOut(300);
+    
+});
+
+
+
 //Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
 
 function addCommas(nStr)
@@ -752,9 +804,6 @@ function addCommas(nStr)
     }
     return x1 + x2;
 }
-
-
-
 
 /* ----------------------------- STOLE THIS FROM ---------------------------- */
 /* -------- https://css-tricks.com/snippets/jquery/smooth-scrolling/ -------- */
