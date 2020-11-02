@@ -52,6 +52,7 @@ else
   $pagination->setTotalPages($limit, $value, $type);
   //Confirm page exists
   $pageNumber = $pagination->confirmPage();
+
   $pagination->setCurrentPage($pageNumber);
 
   $products = $product->getAllProducts($limit, $pageNumber);
@@ -64,9 +65,6 @@ $currentPage = $pagination->getCurrentPage();
 
 //Return that number and store it in a variable
 $totalPages = $pagination->getTotalPages();
-
-
-
 ?>
 
     <div class="bg-light py-3">

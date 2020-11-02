@@ -191,5 +191,24 @@ class Product
         $update_where = array('pro_ID' => $prodID);
         $this->database->update( 'product', $update, $update_where, 1);
     }
+
+
+/* -------------------------------------------------------------------------- */
+/*                       PROMOTION QUERY AND INFO RETURN                      */
+/* -------------------------------------------------------------------------- */
+
+  public function getPromoItem()
+  {
+    $query = "SELECT pro_ID id, pro_Name title
+              FROM product
+              WHERE pro_Qty = (SELECT MAX(pro_Qty)
+                      FROM product)
+              LIMIT 1";
+
+    $results = $this->database->get_results($query);
+    return $results;
+  }
 }
+
+
 ?>

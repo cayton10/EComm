@@ -1,4 +1,5 @@
 <? 
+    session_start();
     //CREATE DB CONNECTION 
     define('DB_HOST', 'localhost');
     //define('DB_HOST', 'cit.marshall.edu' ); // set database host

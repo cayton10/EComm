@@ -9,7 +9,6 @@
             <div class='col-md-6 col-lg-4'>
               <ul class='list-unstyled'>
                 <li><a href='shop.php'>Browse Inventory</a></li>
-                <li><a href='featured.php'>Featured Products</a></li>
                 <li><a href='cart.php'>Cart</a></li>
               </ul>
             </div>
@@ -22,12 +21,31 @@
           </div>
         </div>
         <div class='col-md-6 col-lg-3 mb-4 mb-lg-0'>
-          <h3 class='footer-heading mb-4'>Promotion</h3>
-          <a href='#' class='block-6'>
-            <img src='images/hero_1.jpg' alt='Image placeholder' class='img-fluid rounded mb-4'>
-            <h3 class='font-weight-light  mb-0'>Use php script to load image and item name of highest stock item.</h3>
-            <p>Short item description</p>
-          </a>
+          <h3 class='footer-heading mb-2'>Promotion</h3>
+          <?
+            //Create instance of product class
+            $promo = new Product();
+
+            $promoInfo = $promo->getPromoItem();
+
+            foreach($promoInfo as $item)
+            {
+              $output = '';
+              //Assign our needed vars
+              $prodID = $item['id'];
+              $title = $item['title'];
+              //Use static image class method to grab image of promo item
+              $image = Image::getImage($prodID);
+
+              $output .= "<a href='shop-single.php?id=" . $prodID . "&name=" . $ittle . "' class='block-6'>
+                            <img id='promoImage' src='" . $image . "' alt='Image placeholder' class='img-fluid rounded mb-2'>
+                            <h3 class='font-weight-light  mb-0'>" . $title . "</h3>
+                          </a>";
+
+              echo $output;
+            }
+
+          ?>
         </div>
         <div class='col-md-6 col-lg-3'>
           <div class='block-5 mb-5'>

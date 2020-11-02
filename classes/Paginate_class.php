@@ -47,18 +47,20 @@ class Paginate
         else
         {
 
-                $query = "SELECT count(pro_ID) AS id
-                            FROM product t1
-                            LEFT JOIN category t2 ON t1.cat_ID = t2.cat_ID
-                            WHERE t2.cat_SubCat = $value";
+            $query = "SELECT count(pro_ID) AS id
+                        FROM product t1
+                        LEFT JOIN category t2 ON t1.cat_ID = t2.cat_ID
+                        WHERE t2.cat_SubCat = $value";
             
-            //Store result as array
-            $result = $this->database->get_results($query);
-            //Access array for total products in DB
-            $total = $result[0]['id'];
-            //Create appropriate page range for number of products in DB
-            $this->totalPages = ceil($total / $this->limit);
         }
+
+        //Store result as array
+        $result = $this->database->get_results($query);
+        //Access array for total products in DB
+        $total = $result[0]['id'];
+
+        //Create appropriate page range for number of products in DB
+        $this->totalPages = ceil($total / $this->limit);
     }
 
     //Sets current page based on query string passed
