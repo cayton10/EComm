@@ -8,16 +8,16 @@ The following information is the assignment overview for CIT410: E-Commerce.
 based)
 * Use the provided database PHP Class for all database accesses
 * Browse products by category/subcategory
-* Filter products on brand, price range, rating (AJAX-based)
+* [Filter](#filtering) products on brand, price range, rating (AJAX-based)
 * Product listing pagination
-* Product Search
-* Product Reviews and Ratings
+* Product [Search](#smart-search-bar)
+* [Product Reviews and Ratings](#dynamic-rating-system)
 * Product Photo Galleries
-* Featured Products
+* [Featured Products](#featured-products)
 * Quick View and Full View of Products
 * Products will support multiple options/colors/sizes, etc.
-* Development of a full shopping cart with ability to edit contents
-* Development of a mini shopping cart for the site template
+* Development of a [full shopping cart](#cart.php) with ability to edit contents
+* Development of a [mini shopping cart](#mini-cart) for the site template
 * Integration of Authorize.NET payments (will discuss as a class)
 * UPS API Integration for calculating and tracking shipments
 * AJAX-Based Checkout system (modeled after your favorite E-Commerce site, but I would also
@@ -227,7 +227,7 @@ After having bounced the idea off Brian this morning I've decided to implement a
 
 
 #### Filtering
-Finished both filters and developed so they can work in tandem. Took a long time, and I didn't really take good notes, update this readme with everything that I learned, but there are A LOT of comments in custom.js for implemenation of those functions. 
+Finished both filters and developed so they can work in tandem. Took a long time, and I didn't really take good notes, update this readme with everything that I learned, but there are A LOT of comments in [custom.js](custom.js) for implemenation of those functions. 
 
 #### Updating Pagination
 I essentially had to trash my pagination class and start from scratch since I technically botched it the first time through. Refactoring the pagination code so everything populates on page load, then I have to account for pagination being drawn dynamically after making the filter ajax calls. Will see how this goes. 

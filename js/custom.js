@@ -716,6 +716,9 @@ $('.addQty').on('click', function(){
     var formatSum = addCommas(newTotal.toFixed(2));
     //Output the new cart total
     $('#total').text(formatSum);
+
+    //Enable update cart button
+    $('#updateCart').attr('disabled', false);
 });
 
 //Reduce quantity
@@ -753,6 +756,9 @@ $('.reduceQty').on('click', function(){
     var formatSum = addCommas(newTotal.toFixed(2));
     //Output the new cart total
     $('#total').text(formatSum);
+
+    //Enable update cart button
+    $('#updateCart').attr('disabled', false);
 });
 
 /* --------------------------- REMOVE ITEM BUTTON --------------------------- */
@@ -787,6 +793,8 @@ $('.removeItem').on('click', function(){
     $('#productRow' + productID).fadeOut(300, function(){
         $(this).remove();
     });
+    //Enable update cart button
+    $('#updateCart').attr('disabled', false);
     
 });
 
@@ -815,16 +823,28 @@ $('#updateCart').on('click', function(){
 
         success: function(data)
         {
-            alert("YAY");
+            //Set our appropriate modal or div to display on success
+            //Update the div w/ appropriate text
+            $('#updateLabel').html('Success');
+            $('#updateMessage').html('Your cart has been successfully updated.');
+            $('#updateState').slideDown('slow').delay(2000).slideUp('slow');
+            $('#updateCart').attr('disabled', true);
         },
         error: function(xhr, error)
         {
-            alert(error);
+            $('#updateLable').html(error);
+            $('updateMessage').html('Cart could not be updated at this time.');
+            $('#updateState').slideDown('slow').delay(2000).slideUp('slow');
+            $('#updateCart').arrt('disabled', true);
         }
     });
 });
-//Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
 
+//Disable update cart button on page load
+$('#updateCart').attr('disabled', true);
+
+
+//Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
 function addCommas(nStr)
 {
     nStr += '';
