@@ -286,3 +286,15 @@ Fixed bugs related to miniCart data persistence. More issues w/ starting session
 
 #### cart.php
 Starting work on setting up the cart inferface.
+
+### 11.1.2020
+Fixing up the cart interface wasn't too bad. Just setting lots of data-(n) fields on the <td> tags, assigning lots of id fields to use a name and concatenate with a product id from the DB or qty, etc. Once all of those things were put in place, the line items, mini cart, cart total, etc all communicate with each other pretty fluidly. The hardest thing to figure out was implementing the <strong><button>Update Cart</button></strong> button. 
+
+The challenge with this was creating a JSON object filled with all of the product ids currently in cart and the qty of each item in the cart. The only reason this was hard was because I don't think I'd ever done it before. Maybe in 313 w/ CIT Pics, but I feel like it was my first time. Getting that information put together in an ajax call took a minute, but it wasn't necessarily hard. The hard part was figuring out how to access the array values in the accompanying PHP script. Took me forever to realize that within the json array, there are objects, and to access object in php you gotta use:
+```php
+$object->key
+```
+Oh well. It was a good learning experience. 
+
+I took care of the server side of things by simply taking the cartID that's supplied, completely deleting the cart, and just repopulating it with what was specified upon clicking the update cart button. I'm sure there's another way. I thought about passing the json object array, making a DB call to return everything in cart and compare the results. Maybe a bit like parallel arrays??? It would have taken me a bit longer to figure out, and I'm just trying to get this stuff wrapped up for now. I may go back and try to optimize that function when I've got more free time / after researching it a bit.
+
