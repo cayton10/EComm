@@ -4,7 +4,7 @@ The following information is the assignment overview for CIT410: E-Commerce.
 
 ## General Site Requirements
 <ul>
-<li> [Site template/theme](#project-1) (Responsive Theme – borrow one from the web, but it has to be Bootstrap
+<li> [Site template](#project-1)/theme (Responsive Theme – borrow one from the web, but it has to be Bootstrap
 based)</li>
 <li>Use the provided database PHP Class for all database accesses</li>
 <li> Browse products by category/subcategory</li>
