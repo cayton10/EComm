@@ -672,7 +672,7 @@ $('.totalLine').each(function(){
 });
 
 //Format output
-var formattedSum = addCommas(sum);
+var formattedSum = addCommas(sum.toFixed(2));
 
 //Set total on cart
 $('#total').html(formattedSum);
@@ -784,12 +784,45 @@ $('.removeItem').on('click', function(){
     //Output the new cart total
     $('#total').text(formatSum);
     //Use the stored ID to remove the table row containing that product
-    $('#productRow' + productID).fadeOut(300);
+    $('#productRow' + productID).fadeOut(300, function(){
+        $(this).remove();
+    });
     
 });
 
 
+$('#updateCart').on('click', function(){
 
+    //Store quantities and product IDs to pass in ajax call
+    var productArray = [];
+
+    $('.quantity').each(function(){
+            productArray.push({
+                id: $(this).data('id'),
+                qty: $(this).val()
+            });
+    });
+
+    //Stringify our array to JSON format
+    var jsonString = JSON.stringify(productArray)
+    //Send our array to php script for cart processing
+    $.ajax(
+    {
+        url: 'ajax/updateCart.php',
+        method: 'POST',
+        data: {data: jsonString},
+        dataType: 'JSON',
+
+        success: function(data)
+        {
+            alert("YAY");
+        },
+        error: function(xhr, error)
+        {
+            alert(error);
+        }
+    });
+});
 //Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
 
 function addCommas(nStr)
