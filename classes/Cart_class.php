@@ -43,6 +43,16 @@
             return $results;
         }
 
+        //Clear cart for updating
+        public function clearCart($cartID)//Tried to think of a better way to do this like comparing values, but.... :/
+        {
+
+            //We're going to clear all the data from the cart so we can reset it
+            $where = array( 'cart_ID' => $cartID);
+            $this->delete('cart', $where);
+            
+        }
+
         //Add items to cart
         public function addToCart($cartID, $prodID, $quantity)
         {

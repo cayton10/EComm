@@ -74,7 +74,7 @@
                                     <div class='input-group-prepend'>
                                       <button class='btn btn-outline-primary js-btn-minus reduceQty' data-id='" . $prodID . "' type='button'>&minus;</button>
                                     </div>
-                                    <input id='quantity" . $prodID . "' type='text' class='form-control text-center' value='" . $quantity . "' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>
+                                    <input data-id='" . $prodID . "' id='quantity" . $prodID . "' type='text' class='form-control text-center quantity' value='" . $quantity . "' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>
                                     <div class='input-group-append'>
                                       <button class='btn btn-outline-primary js-btn-plus addQty' data-id='" . $prodID . "' type='button'>&plus;</button>
                                     </div>
@@ -100,7 +100,7 @@
           <div class="col-md-6">
             <div class="row mb-5">
               <div class="col-md-6 mb-3 mb-md-0">
-                <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
+                <button id='updateCart' class="btn btn-primary btn-sm btn-block">Update Cart</button>
               </div>
               <div class="col-md-6">
                 <button class="btn btn-outline-primary btn-sm btn-block">
