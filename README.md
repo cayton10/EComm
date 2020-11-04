@@ -179,7 +179,7 @@ The smart search feature is located in the header.php, which is included on ever
 
 I had a helpful tutorial video I heavily referenced from my CIT313 class. It was a huge help!
 
-The class implementation for this feature can be found [here](#https://github.com/cayton10/EComm/blob/master/classes/Search_class.php)
+The class implementation for this feature can be found [here](https://github.com/cayton10/EComm/blob/master/classes/Search_class.php)
 
 
 ### 10.7.2020
