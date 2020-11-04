@@ -248,6 +248,7 @@ Starting work on shopping cart info
 Figured I'd start with details of the minicart
 
 Returning correct information from the Cart class query to count the number of items in a person's cart. Displays properly on minicart text bubble.
+The mini cart logic can be found [here](https://github.com/cayton10/EComm/blob/master/js/custom.js).Be warned. This JS file is not for the weak. Just ctrl/CMD + F miniCart and you'll find what you're looking for.
 
 ##### Setting Sessions and Cookies
 ```php
@@ -289,6 +290,7 @@ Fixed bugs related to miniCart data persistence. More issues w/ starting session
 
 #### cart.php
 Starting work on setting up the cart inferface.
+The cart class which is responsible for implementing all of the database interaction can be found [here](https://github.com/cayton10/EComm/blob/master/classes/Cart_class.php)
 
 ### 11.1.2020
 Fixing up the cart interface wasn't too bad. Just setting lots of data-(n) fields on the <td> tags, assigning lots of id fields to use a name and concatenate with a product id from the DB or qty, etc. Once all of those things were put in place, the line items, mini cart, cart total, etc all communicate with each other pretty fluidly. The hardest thing to figure out was implementing the <strong><button>Update Cart</button></strong> button. 
