@@ -22,6 +22,7 @@ class Product
     private $manufacturer;
     private $name;
     private $model;
+    private $qty;
 
 /* ------------------------ CONSTRUCT INSTANCE OF DB ------------------------ */
     public function __construct()
@@ -52,6 +53,7 @@ class Product
         $this->manufacturer = $item['pro_Manufacturer'];
         $this->name = $item['pro_Name'];
         $this->model = $item['pro_Model'];
+        $this->qty = $item['pro_Qty'];
       }
       else//Need to ask Brian about errno() and error handling using this DB class
           //Or just test and find out myself :) 
@@ -87,6 +89,11 @@ class Product
     public function getModel()
     {
       return $this->model;
+    }
+
+    public function getQty()
+    {
+      return $this->qty;
     }
 
     public function getImages()

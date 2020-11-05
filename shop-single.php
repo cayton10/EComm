@@ -20,6 +20,7 @@
   $manufacturer = $singleProd->getManufacture();
   $name = $singleProd->getName();
   $model = $singleProd->getModel();
+  $qty = $singleProd->getQty();
   $images = $singleProd->getImages();
   //Get number of images
   $imageNum = count($images);
@@ -180,6 +181,7 @@
                 <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
               </label>
             </div>
+            <div class='my-2'><p class='stockCount'><span id='stockCount'><?echo $qty?></span> in stock</p></div>
             <div class="mb-5">
               <div class="input-group mb-3" style="max-width: 120px;">
               <div class="input-group-prepend">
