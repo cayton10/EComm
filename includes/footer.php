@@ -87,4 +87,7 @@
 <script src='js/main.js'></script>
 <!-- STARRR PLUGIN REQUIRED JS -->
 <script src='plugins/rating/starrr.js'></script>
+<!-- FANCYBOX CDN -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
 <script src='js/custom.js'></script>

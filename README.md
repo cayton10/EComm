@@ -303,3 +303,9 @@ Oh well. It was a good learning experience.
 
 I took care of the server side of things by simply taking the cartID that's supplied, completely deleting the cart, and just repopulating it with what was specified upon clicking the update cart button. I'm sure there's another way. I thought about passing the json object array, making a DB call to return everything in cart and compare the results. Maybe a bit like parallel arrays??? It would have taken me a bit longer to figure out, and I'm just trying to get this stuff wrapped up for now. I may go back and try to optimize that function when I've got more free time / after researching it a bit.
 
+## Project 5
+#### Shadowbox
+### 11.5.2020
+
+In a previous project requiring full size images I used [fancybox](http://fancyapps.com/fancybox/3/), a lightbox alternative. I decided to implement it for this project as well. 
+

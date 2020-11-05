@@ -49,6 +49,8 @@
     <link rel='stylesheet' href='plugins/rating/starrr.css'>
     <!-- REQUIRED FA STYLESHEET FOR STARRR -->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css'>
+    <!-- CDN FOR FANCYBOX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <!-- CUSTOM CSS -->
     <link rel="stylesheet" href="css/custom.css">
     
