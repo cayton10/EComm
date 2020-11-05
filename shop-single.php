@@ -100,19 +100,24 @@
                         if($i == 0)
                         {
                           //Set a unique ID for jquery
-                          $carouselID = $queryID;
-                          echo "<div class='carousel-item active' id='" . $carouselID . "'>
-                          <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
-                          </div>";
+                          $carouselID = 1;
+                          $imageID = $queryID;
+                          echo "<div class='carousel-item active' id='" . $imageID . "_" . $carouselID . "'>
+                                  <a data-fancybox='gallery' href='" . $image . "'>
+                                    <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
+                                  </a>
+                                </div>";
                         }
 
                         else
                         {
                           //Increment the ID for each successive image
                           $carouselID++;
-                          echo "<div class='carousel-item' id='" . $carouselID . "'>
-                          <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
-                          </div>";
+                          echo "<div class='carousel-item' id='" . $imageID . "_" . $carouselID . "'>
+                                  <a data-fancybox='gallery' href='" . $image . "'>
+                                    <img class='d-block w-100' src='" . $image . "' alt='" . $name . " image'>
+                                  </a>
+                                </div>";
                         }
                       }
                       //If more than one image exists, populate carousel controls

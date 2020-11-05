@@ -899,4 +899,23 @@ function addCommas(nStr)
         }
         });
 
+/* -------------------------------------------------------------------------- */
+/*                         FANCY BOX INIT AND OPTIONS                         */
+/* -------------------------------------------------------------------------- */
+    $('[data-fancybox="gallery"]').fancybox({
+        //Fancybox options
+        loop: false,
+        gutter: 10,
+        arrows: true,
+        inforbar: true,
+        idleTime: 3,
+        transitionEffect: 'slide',
+        spinnerTpl:'<div class="fancybox-loading"></div>',
+        autoScale: true,
+        centerOnScroll: true
+    });
+
+    
+    
+
 });
