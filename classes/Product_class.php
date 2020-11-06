@@ -189,16 +189,34 @@ class Product
 
 
 /* -------------------------------------------------------------------------- */
-/*         REMOVE PRODUCTS FROM PRODUCT TABLE ON SUCCESSFUL ADDTOCART         */
+/*                     FUNCTION TO GET ALL PRODUCT OPTIONS                    */
 /* -------------------------------------------------------------------------- */
 
-    public function removeQty($prodID, $quantity)
-    {
-        $update = array('pro_Qty' => $quantity);
-        $update_where = array('pro_ID' => $prodID);
-        $this->database->update( 'product', $update, $update_where, 1);
-    }
+  public function getProductOptionGroups()
+  {
 
+    //Query the prodopt table in the database to return all product options associated
+    //with this productID
+    $query = "SELECT DISTINCT opt_Group, opt_Name
+              FROM prodopt
+              WHERE pro_ID = '" . $this->id . "'";
+    
+    //Lick stamp and send it
+    $results = $this->database->get_results($query);
+    return $results;
+  }
+
+  //Uses option group number to bring back an array of all options under those constraints
+  public function getProductOptions($value)
+  {
+
+    $query = "SELECT opt_Value, opt_Price
+              FROM prodopt
+              WHERE pro_ID = '" . $this->id . "' AND opt_Group = '" . $value . "'";
+
+    $results = $this->database->get_results($query);
+    return $results;
+  }
 
 /* -------------------------------------------------------------------------- */
 /*                       PROMOTION QUERY AND INFO RETURN                      */

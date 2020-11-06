@@ -307,5 +307,26 @@ I took care of the server side of things by simply taking the cartID that's supp
 #### Shadowbox
 ### 11.5.2020
 
-In a previous project requiring full size images I used [fancybox](http://fancyapps.com/fancybox/3/), a lightbox alternative. I decided to implement it for this project as well. 
+In a previous project requiring full size images I used [fancybox](http://fancyapps.com/fancybox/3/), a lightbox alternative. I decided to implement it for this project as well. Was pretty easy to implement. As far as image galleries are concerned, I had already implemented an image carousel when I designed the product detail page. No big.
+
+#### Changes to index.php
+
+To personalize the site a bit more and steer away from the template, I finally got around to finding appropriate images for the 'collections' links and a hero image for biking. Hard coded links. Would be nice to implement a php class down the line that selects random categories / products and picks an appropriate image on page load to dispaly with an accompanying message. May be something I'll look into at some point.
+
+### 11.6.2020
+
+#### Product Options
+
+Starting work in supporting multiple product options for color, size, etc.
+
+Table structure for prodopt:
+(opt_ID, opt_Group, opt_Name, opt_Value, opt_Price, pro_ID)
+
+My approach to this will be to employ <select> menus for each product option. 
+
+I started implementing this function by writing a new class method within the Product_class.php file. Since the product details page has instantiated a product object with all the information we need( productID, name, price, etc ), I decided to use the instantiated `$id` {:.php} to query the prodopt table of the database and return all options associated with that product.
+
+#### Update:
+Got into developing this feature when I realized one of my classmates entered bogus information which essentially renders the <strong>opt_Group</strong> field pointless for the items they loaded into the database. Awaiting a fix so I can continue working.
+
 

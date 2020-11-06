@@ -12,7 +12,10 @@
   $singleProd = new Product();
   $singleProd->querySingleItem($queryID);
 
-
+  //Store the unique options groups in an array to output our select elements
+  $optionGroups = $singleProd->getProductOptionGroups();
+  echo count($optionGroups);
+  print_r($optionGroups);
   //Store item details so we don't have to keep calling class getters
   $description = $singleProd->getDescript();
   $price = $singleProd->getPrice();
@@ -167,7 +170,35 @@
                 <?echo $reviewObj->printAvgRating($reviewNum);?>
                 
             </div>
+            <!-- PRODUCT OPTIONS -->
             <div class="mb-1 d-flex">
+              
+            <?
+
+              $selectionOutput = '';
+              $i = 0;
+              foreach($optionGroups as $group)
+              {
+                echo $i;
+                $selectionOutput .= "<div class='form-group'>
+                            <label for='" . $group['opt_Name'] . " Select' class='optionLabel'>" . $group['opt_Name'] . "</label>
+                            <select class='form-control' id='" . $group['opt_Name'] . "'>";
+                
+                //Go get our options for this group and product
+                $options = $singleProd->getProductOptions($group['opt_Group']);
+                //Populate options for select element
+                foreach($options as $option)
+                {
+                  $selectionOutput .= "<option>" . $option['opt_Value'] . "</option>";
+                }
+
+                $selectionOutput .= "</select></div>";
+                echo $selectionOutput;
+                $i++;
+              }
+              echo $i;
+            ?>
+            <!--
               <label for="option-sm" class="d-flex mr-3 mb-3">
                 <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-sm" name="shop-sizes"></span> <span class="d-inline-block text-black">Small</span>
               </label>
@@ -180,6 +211,7 @@
               <label for="option-xl" class="d-flex mr-3 mb-3">
                 <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio" id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra Large</span>
               </label>
+            -->
             </div>
             <div class='my-2'><p class='stockCount'><span id='stockCount'><?echo $qty?></span> in stock</p></div>
             <div class="mb-5">
