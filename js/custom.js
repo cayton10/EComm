@@ -594,6 +594,8 @@ $('#addQty').on('click', function(){
 });
 
 
+
+
 /* -------------------------------------------------------------------------- */
 /*                         ADD ITEMS TO SHOPPING CART                         */
 /* -------------------------------------------------------------------------- */
@@ -609,6 +611,41 @@ $('#addToCart').on('click', function(e){
     if(quantity < 1)
     {
         return;
+    }
+
+    //Grab the values in any present <select> fields
+    var selectValues = $('.optionElements').map(function() {
+        return $(this).val();
+    });
+
+    var checkValue;
+    $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
+        if(value == 'default')                  //If there are any defaults, set boolean
+        {
+            checkValue = false;//If we hit one default then return from loop w/ false checkValue
+            return;
+        }
+    });
+
+    //Show appropriate message to user
+    if(checkValue == false)
+    {
+        $('.optionElements').addClass('optionElementsError');
+        //Hide the go to cart button
+        $('#goToCart').hide();
+        $('#cartModalTitle').html('Unsuccessful :(');
+        $('#cartModalBody').html('Please select appropriate product options.');
+        $('#cartModal').modal({backdrop: 'static', keyboard: false});
+
+        //return from the add to cart function
+        return;
+    };
+
+    //Else we made it through, so show the goToCart button if it's hidden
+    if($('#goToCart').is(':hidden'))
+    {
+        $('#goToCart').show();
+        $('.optionElements').removeClass('optionElementsError');
     }
 
     //Make our ajax call, lick stamp and send it
@@ -833,7 +870,7 @@ $('#updateCart').on('click', function(){
         error: function(xhr, error)
         {
             $('#updateLable').html(error);
-            $('updateMessage').html('Cart could not be updated at this time.');
+            $('#updateMessage').html('Cart could not be updated at this time.');
             $('#updateState').slideDown('slow').delay(2000).slideUp('slow');
             $('#updateCart').arrt('disabled', true);
         }
@@ -842,6 +879,30 @@ $('#updateCart').on('click', function(){
 
 //Disable update cart button on page load
 $('#updateCart').attr('disabled', true);
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                         FANCY BOX INIT AND OPTIONS                         */
+/* -------------------------------------------------------------------------- */
+$('[data-fancybox="gallery"]').fancybox({
+    //Fancybox options
+    loop: false,
+    gutter: 10,
+    arrows: true,
+    inforbar: true,
+    idleTime: 3,
+    transitionEffect: 'slide',
+    spinnerTpl:'<div class="fancybox-loading"></div>',
+    autoScale: true,
+    centerOnScroll: true
+});
+
+
+$('.optionElements').on('change', function(){
+
+    alert($('.optionElements').val())
+});
 
 
 //Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
@@ -899,23 +960,7 @@ function addCommas(nStr)
         }
         });
 
-/* -------------------------------------------------------------------------- */
-/*                         FANCY BOX INIT AND OPTIONS                         */
-/* -------------------------------------------------------------------------- */
-    $('[data-fancybox="gallery"]').fancybox({
-        //Fancybox options
-        loop: false,
-        gutter: 10,
-        arrows: true,
-        inforbar: true,
-        idleTime: 3,
-        transitionEffect: 'slide',
-        spinnerTpl:'<div class="fancybox-loading"></div>',
-        autoScale: true,
-        centerOnScroll: true
-    });
 
-    
     
 
 });

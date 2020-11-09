@@ -51,7 +51,7 @@
       <div class="modal-body" id="cartModalBody">
       </div>
       <div class="modal-footer">
-        <a href='cart.php' type="button" class="btn btn-primary">Go To Cart</a>
+        <a href='cart.php' type="button" class="btn btn-primary" id='goToCart'>Go To Cart</a>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Continue Shopping</button>
       </div>
     </div>
@@ -184,11 +184,14 @@
                 
                 //Go get our options for this group and product
                 $options = $singleProd->getProductOptions($group['opt_Group']);
-                //Populate options for select element
                 
+                //Set a placeholder for each option
+                $selectionOutput .= "<option value='default'>" . $group['opt_Name'] . "</option>";
+                
+                //Populate options for select element
                 foreach($options as $option)
                 {
-                  $selectionOutput .= "<option>" . $option['opt_Value'] . "</option>";
+                  $selectionOutput .= "<option value='" . $option['opt_Value'] . "' id='" . $option['opt_ID'] . "'>" . $option['opt_Value'] . "</option>";
                 }
 
                 $selectionOutput .= "</select></div>";
@@ -211,7 +214,7 @@
 
             </div>
             <div class ='row-fluid cartReview'>
-              <p class='col-6 addToCartButton'><a href="#" class="buy-now btn btn-sm btn-primary" id="addToCart">Add To Cart</a></p>
+              <p class='col-6 addToCartButton'><button class="buy-now btn btn-sm btn-primary" id="addToCart">Add To Cart</button></p>
               <p class='col-6 leaveReviewButton'><a href="#reviewSection" class="buy-now btn btn-sm btn-primary">Leave Review</a></p>
             </div>
 

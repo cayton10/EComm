@@ -352,3 +352,10 @@ img {
     justify-content: flex-start;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/*                   STYLING SELECT BOXES ON BOGUS ADDTOCART                  */
+/* -------------------------------------------------------------------------- */
+.optionElementsError{
+    border: 1px solid red;
+}
