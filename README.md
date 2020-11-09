@@ -327,6 +327,13 @@ My approach to this will be to employ <select> menus for each product option.
 I started implementing this function by writing a new class method within the Product_class.php file. Since the product details page has instantiated a product object with all the information we need( productID, name, price, etc ), I decided to use the instantiated `$id` {:.php} to query the prodopt table of the database and return all options associated with that product.
 
 #### Update:
-Got into developing this feature when I realized one of my classmates entered bogus information which essentially renders the <strong>opt_Group</strong> field pointless for the items they loaded into the database. Awaiting a fix so I can continue working.
+Got into developing this feature when I realized one of my classmates entered bogus information which essentially renders the <strong>opt_Group</strong> field pointless for the items they loaded into the database. Awaiting a fix so I can continue working. 
+
+### 11.9.2020
+Fixes to databse for <strong>opt_Group</strong> were implemented. 
+
+I finished up product options feature by returning all `DISTINCT` {:.sql} product options for the instantiated product object. Distinctions are made by using the opt_Group, and opt_Name fields to both plan further querying and output appropriate option labels for the <select> elements. Using an iterative `foreach()`{:.php} approach, I queried the database using the instantiated object's productID, along with <strong><em>that</em><strong> iteration's opt_Group value to bring back all available options for that particular group: IE, color, size, storage, etc.
+
+
 
 

@@ -334,3 +334,21 @@ img {
 #promoImage{
     max-height: 150px;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/*                       PRODUCT SELECT ELEMENT STYLING                       */
+/* -------------------------------------------------------------------------- */
+.optionLabel{
+    font-size: 1.5rem;
+    color: #7971ea;
+}
+
+.selectGroup{
+    margin-right: 2rem;
+}
+
+.selectGroupContainer{
+    justify-content: flex-start;
+}
+

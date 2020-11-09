@@ -189,7 +189,7 @@ class Product
 
 
 /* -------------------------------------------------------------------------- */
-/*                     FUNCTION TO GET ALL PRODUCT OPTIONS                    */
+/*                     FUNCTION TO GET PRODUCT OPTIONS                   */
 /* -------------------------------------------------------------------------- */
 
   public function getProductOptionGroups()
