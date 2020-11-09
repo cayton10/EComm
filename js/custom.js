@@ -899,6 +899,20 @@ $('[data-fancybox="gallery"]').fancybox({
 });
 
 
+/* -------------------------------------------------------------------------- */
+/*                            QUICK VIEW FUNCTIONS                            */
+/* -------------------------------------------------------------------------- */
+$('.innerProdContainer').mouseenter(function () { 
+    $(this).children('.quickViewAccess').slideDown(300);
+});
+
+$('.innerProdContainer').mouseleave(function () {
+    $(this).children('.quickViewAccess').slideUp(300);
+})
+    
+
+
+
 $('.optionElements').on('change', function(){
 
     alert($('.optionElements').val())
