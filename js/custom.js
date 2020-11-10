@@ -976,15 +976,42 @@ $(document).on('click', '.quickViewAccess', function()
                         </div>");
          
                         
-                        //Output the size options
+                        //Append each option group returned from our ajax call to the selectGroupContainer
                         $.each(value.opt_Group, function(key, value){
-                            value.opt_Value;
+
                             $('#selectGroupContainer').append(
                                 "<div class='form-group selectGroup'>\
                                     <label for='" + value.opt_Name + " Select class='optionLabel'>" + value.opt_Name + "</label>\
-                                    <select class='form-control optionElements' id='" + value.opt_Name + "'></select>\
+                                    <select class='form-control optionElements' id='" + value.opt_Name + "'>\
+                                        <option value='default'>" + value.opt_Name + "</size>\
+                                    </select>\
                                 </div>");
                         });
+
+                        //Append the available options to the appropriate select field
+                        $.each(value.opt_Value, function(key, value){
+                            $.each(value, function(k, v)
+                            {
+                                console.log(v.opt_Value);
+                                $('#' + v.opt_Name).append(
+                                    "<option value='" + v.opt_Value + "' id='" + v.opt_ID + "' data-charge='" + v.opt_Price + "'>" + v.opt_Value + "</option>"); 
+                            });
+                        });
+
+                        //Append the increment / decrement select element
+                        $('.productDetails').append(
+                            "<div class='mb-5'>\
+                                <div class='input-group mb-3' style='max-width: 120px;'>\
+                                    <div class='input-group-prepend'>\
+                                        <button id='removeQty' class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>\
+                                    </div>\
+                                    <input id='inputQty' type='text' class='form-control text-center' value='1' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>\
+                                    <div class='input-group-append'>\
+                                        <button id='addQty' class='btn btn-outline-primary js-btn-plus' type='button'>&plus;</button>\
+                                    </div>\
+                                </div>\
+                            </div>"
+                        );
                 
                 $('#quickViewModal').modal({backdrop: 'static', keyboard: true});
 
@@ -996,6 +1023,24 @@ $(document).on('click', '.quickViewAccess', function()
     });
 });
     
+
+/* -------------------------------------------------------------------------- */
+/*             HANDLE DYNAMICALLY ADDED INCREMENT/DECREMENT BUTTON            */
+/* -------------------------------------------------------------------------- */
+$(document).on('click', '.js-btn-minus', function(e){
+    e.preventDefault();
+
+    if ( $(this).closest('.input-group').find('.form-control').val() != 0  ) {
+        $(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) - 1);
+    } else {
+        $(this).closest('.input-group').find('.form-control').val(parseInt(0));
+    }
+});
+
+$(document).on('click', '.js-btn-plus', function(e){
+    e.preventDefault();
+	$(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) + 1);
+});
 
 
 

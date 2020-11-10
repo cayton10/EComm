@@ -203,16 +203,16 @@
             <div class='my-2'><p class='stockCount'><span id='stockCount'><?echo $qty?></span> in stock</p></div>
             <div class="mb-5">
               <div class="input-group mb-3" style="max-width: 120px;">
-              <div class="input-group-prepend">
-                <button id='removeQty' class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-              </div>
-              <input id='inputQty' type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-              <div class="input-group-append">
-                <button id='addQty' class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                <div class="input-group-prepend">
+                  <button id='removeQty' class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                </div>
+                <input id='inputQty' type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <div class="input-group-append">
+                  <button id='addQty' class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                </div>
               </div>
             </div>
-
-            </div>
+            
             <div class ='row-fluid cartReview'>
               <p class='col-6 addToCartButton'><button class="buy-now btn btn-sm btn-primary" id="addToCart">Add To Cart</button></p>
               <p class='col-6 leaveReviewButton'><a href="#reviewSection" class="buy-now btn btn-sm btn-primary">Leave Review</a></p>

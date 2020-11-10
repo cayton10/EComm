@@ -210,7 +210,7 @@ class Product
   public function getProductOptions($value)
   {
 
-    $query = "SELECT opt_ID, opt_Value, opt_Price
+    $query = "SELECT opt_ID, opt_Name, opt_Value, opt_Price
               FROM prodopt
               WHERE pro_ID = '" . $this->id . "' AND opt_Group = '" . $value . "'";
 
