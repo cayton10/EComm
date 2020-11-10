@@ -1,71 +1,92 @@
 <?
-require_once('includes/header.php');
+  require_once('includes/header.php');
 
 
 
-//Instantiate objects of our required classes
-$product = new Product();
-$pagination = new Paginate();
+  //Instantiate objects of our required classes
+  $product = new Product();
+  $pagination = new Paginate();
 
 
 
-//Set limit for how many products can be shown per page / also for queries
-$limit = 9;
-$value = '';
-$type = '';
-$pageNumber;
+  //Set limit for how many products can be shown per page / also for queries
+  $limit = 9;
+  $value = '';
+  $type = '';
+  $pageNumber;
 
-/* ----------------- CHECK QUERY STRING FOR APPROPRIATE PAGE ---------------- */
+  /* ----------------- CHECK QUERY STRING FOR APPROPRIATE PAGE ---------------- */
 
-if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0)
-{
-  $pageNumber = htmlspecialchars(trim($_GET['page']));
-  $pagination->setCurrentPage($pageNumber);
-}
+  if(isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0)
+  {
+    $pageNumber = htmlspecialchars(trim($_GET['page']));
+    $pagination->setCurrentPage($pageNumber);
+  }
 
-/* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
-if(isset($_GET['category']) && !empty($_GET['category']))
-{
-  $type = 'category';
-  $value = htmlspecialchars($_GET['category']);
-  //Set appropriate number of pages based on query string
-  $pagination->setTotalPages($limit, $value, $type);
-  //Confirm page exists
-  $pageNumber = $pagination->confirmPage();
-  $pagination->setCurrentPage($pageNumber);
-  
-  $products = $product->getSubProducts($limit, $value, $pageNumber);
-}
-else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
-{
-  $type = 'MainCat';
-  $value = htmlspecialchars($_GET['MainCat']);
-  $pagination->setTotalPages($limit, $value, $type);
-  //confirm page exists
-  $pageNumber = $pagination->confirmPage();
-  $pagination->setCurrentPage($pageNumber);
+  /* ------------- CHECK IF QUERY STRING CONTAINS PRODUCT ID INFO ------------- */
+  if(isset($_GET['category']) && !empty($_GET['category']))
+  {
+    $type = 'category';
+    $value = htmlspecialchars($_GET['category']);
+    //Set appropriate number of pages based on query string
+    $pagination->setTotalPages($limit, $value, $type);
+    //Confirm page exists
+    $pageNumber = $pagination->confirmPage();
+    $pagination->setCurrentPage($pageNumber);
+    
+    $products = $product->getSubProducts($limit, $value, $pageNumber);
+  }
+  else if(isset($_GET['MainCat']) && !empty($_GET['MainCat']))
+  {
+    $type = 'MainCat';
+    $value = htmlspecialchars($_GET['MainCat']);
+    $pagination->setTotalPages($limit, $value, $type);
+    //confirm page exists
+    $pageNumber = $pagination->confirmPage();
+    $pagination->setCurrentPage($pageNumber);
 
-  $products = $product->getMainProducts($limit, $value, $pageNumber);
-}
-else
-{
-  $pagination->setTotalPages($limit, $value, $type);
-  //Confirm page exists
-  $pageNumber = $pagination->confirmPage();
+    $products = $product->getMainProducts($limit, $value, $pageNumber);
+  }
+  else
+  {
+    $pagination->setTotalPages($limit, $value, $type);
+    //Confirm page exists
+    $pageNumber = $pagination->confirmPage();
 
-  $pagination->setCurrentPage($pageNumber);
+    $pagination->setCurrentPage($pageNumber);
 
-  $products = $product->getAllProducts($limit, $pageNumber);
-}
-
-
-
-$currentPage = $pagination->getCurrentPage();
+    $products = $product->getAllProducts($limit, $pageNumber);
+  }
 
 
-//Return that number and store it in a variable
-$totalPages = $pagination->getTotalPages();
+
+  $currentPage = $pagination->getCurrentPage();
+
+
+  //Return that number and store it in a variable
+  $totalPages = $pagination->getTotalPages();
 ?>
+
+    <!-- Modal -->
+    <div class="modal fade" id="quickViewModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id='quickViewHeader'>
+            <h5 class="modal-title" id="quickViewTitle">Title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Add To Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="bg-light py-3">
       <div class="container">

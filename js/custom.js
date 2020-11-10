@@ -924,7 +924,13 @@ $('.quickViewAccess').on('click', function()
         data: quickID,
         dataType: 'JSON',
         success: function(data){
-            console.log(data);
+
+            //Process everything that comes back
+            $.each(data, function(key, value){
+                $('#quickViewTitle').html(value.title);
+                $('#quickViewModal').modal({backdrop: 'static', keyboard: true});
+
+            });
         },
         error: function(xhr, error){
             console.log(error);
