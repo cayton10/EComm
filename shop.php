@@ -121,7 +121,7 @@ $totalPages = $pagination->getTotalPages();
                               <p class='text-primary font-weight-bold'>" . '$' . number_format($prod['price'], 2) . "</p>
                             </div>
                             <div class='avgRating'>" . Review::staticAvgRating($prod['avgScore']) . "</div>
-                            <button class='quickViewAccess btn btn-primary' id='" . $prod['ID'] . "'>Quick View</button>
+                            <button class='quickViewAccess btn btn-primary' data-id='" . $prod['ID'] . "'>Quick View</button>
                           </div>
                       </div>";
                 }

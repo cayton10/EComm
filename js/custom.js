@@ -902,13 +902,35 @@ $('[data-fancybox="gallery"]').fancybox({
 /* -------------------------------------------------------------------------- */
 /*                            QUICK VIEW FUNCTIONS                            */
 /* -------------------------------------------------------------------------- */
+//When mouse enters
 $('.innerProdContainer').mouseenter(function () { 
     $(this).children('.quickViewAccess').slideDown(300);
 });
-
+//When mouse leaves
 $('.innerProdContainer').mouseleave(function () {
     $(this).children('.quickViewAccess').slideUp(300);
-})
+});
+
+
+//Click function to show modal containing product info
+$('.quickViewAccess').on('click', function()
+{
+    //grab the product ID from the quickview button
+    var quickID = { "ID": $(this).data('id') };
+
+    $.ajax({
+        url: 'ajax/quickView.php',
+        method: 'POST',
+        data: quickID,
+        dataType: 'JSON',
+        success: function(data){
+            console.log(data);
+        },
+        error: function(xhr, error){
+            console.log(error);
+        }
+    });
+});
     
 
 

@@ -324,16 +324,22 @@ Table structure for prodopt:
 
 My approach to this will be to employ <select> menus for each product option. 
 
-I started implementing this function by writing a new class method within the Product_class.php file. Since the product details page has instantiated a product object with all the information we need( productID, name, price, etc ), I decided to use the instantiated `$id` {:.php} to query the prodopt table of the database and return all options associated with that product.
+I started implementing this function by writing a new class method within the Product_class.php file. Since the product details page has instantiated a product object with all the information we need( productID, name, price, etc ), I decided to use the instantiated `$id` to query the prodopt table of the database and return all options associated with that product.
 
 #### Update:
+
 Got into developing this feature when I realized one of my classmates entered bogus information which essentially renders the <strong>opt_Group</strong> field pointless for the items they loaded into the database. Awaiting a fix so I can continue working. 
 
 ### 11.9.2020
+
 Fixes to databse for <strong>opt_Group</strong> were implemented. 
 
-I finished up product options feature by returning all `DISTINCT` {:.sql} product options for the instantiated product object. Distinctions are made by using the opt_Group, and opt_Name fields to both plan further querying and output appropriate option labels for the <select> elements. Using an iterative `foreach()`{:.php} approach, I queried the database using the instantiated object's productID, along with <strong><em>that</em><strong> iteration's opt_Group value to bring back all available options for that particular group: IE, color, size, storage, etc.
+I finished up product options feature by returning all `DISTINCT` product options for the instantiated product object. Distinctions are made by using the opt_Group, and opt_Name fields to both plan further querying and output appropriate option labels for the <select> elements. Using an iterative `foreach()` approach, I queried the database using the instantiated object's productID, along with <strong><em>that</em><strong> iteration's opt_Group value to bring back all available options for that particular group: IE, color, size, storage, etc.
 
+#### Update:
+Realized the way product options are currently laid out in the DB that we may have a problem here. From what I'm seeing, there is no DB structure to support the use of multiple product options when buying. IE, you can't have a product with a color AND size option. The way the PK is set in the prodopt table doesn't allow for this. Didn't realize until I was looking at the cartopt table. This is a problem that I will revisit after meeting tomorrow morning. 
 
+#### Quick View
+I'm implementing something similar to the 'quick shop' feature you can see [here](https://www.katespade.com/). So far, I've only gotten the quick view buttons to `slideUp()`{:.javascript} and `slideDown()`{:.javascript} using <strong>jQuery</strong>. Next is to implement the showing of a modal on click.
 
 

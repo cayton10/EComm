@@ -37,7 +37,7 @@
         //Grab product ID to send off for image collection
         $imageID = $results[$i]['ID'];
         $avgScore = $results[$i]['avgScore'];
-        //echo $results[$i]['avgScore'];
+
         //Append assoc array with image path
         $results[$i]['image'] = Image::getImageAjax($imageID);
         //Append assoc array with correct avgScore info
