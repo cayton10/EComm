@@ -254,6 +254,7 @@ var siteSliderRange = function() {
                             <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
                         </div>\
                         <div class='avgRating'>" + avgScore + "</div>\
+                        <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
                         </div>\
                     </div>")
     
@@ -321,6 +322,7 @@ var siteSliderRange = function() {
                             <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
                         </div>\
                         <div class='avgRating'>" + avgScore + "</div>\
+                        <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
                         </div>\
                     </div>")
                     
@@ -423,6 +425,7 @@ $(document).on('click', '.manuCheck', function() {
                             <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
                         </div>\
                         <div class='avgRating'>" + avgScore + "</div>\
+                        <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
                         </div>\
                     </div>")
 
@@ -498,6 +501,7 @@ $(document).on('click', '.manuCheck', function() {
                             <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
                         </div>\
                         <div class='avgRating'>" + avgScore + "</div>\
+                        <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
                         </div>\
                     </div>")
 
@@ -903,18 +907,24 @@ $('[data-fancybox="gallery"]').fancybox({
 /*                            QUICK VIEW FUNCTIONS                            */
 /* -------------------------------------------------------------------------- */
 //When mouse enters
-$('.innerProdContainer').mouseenter(function () { 
+
+//Document mouseenter takes care of both static and dynamically created div content
+$(document).on('mouseenter', '.innerProdContainer', function(){
     $(this).children('.quickViewAccess').slideDown(300);
 });
+
 //When mouse leaves
-$('.innerProdContainer').mouseleave(function () {
+$(document).on('mouseleave', '.innerProdContainer', function(){
     $(this).children('.quickViewAccess').slideUp(300);
 });
 
 
+
 //Click function to show modal containing product info
-$('.quickViewAccess').on('click', function()
+$(document).on('click', '.quickViewAccess', function()
 {
+
+    console.log($(this).data('id'));
     //grab the product ID from the quickview button
     var quickID = { "ID": $(this).data('id') };
 
