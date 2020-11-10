@@ -243,6 +243,8 @@ class Product
     $query = "SELECT t1.pro_ID ID,
               pro_Name title, 
               pro_Price price,
+              pro_Manufacturer manu,
+              pro_Descript descr,
               AVG(rev_Score) AS avgScore
               FROM product t1
               LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID

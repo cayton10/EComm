@@ -906,15 +906,24 @@ $('[data-fancybox="gallery"]').fancybox({
 /* -------------------------------------------------------------------------- */
 /*                            QUICK VIEW FUNCTIONS                            */
 /* -------------------------------------------------------------------------- */
-//When mouse enters
+
+var that;//JS forgets what $(this) is when we get into the setTimeout function so.... we'll help it remember
+var timer;//Store the timer so we can clear it
+
 
 //Document mouseenter takes care of both static and dynamically created div content
 $(document).on('mouseenter', '.innerProdContainer', function(){
-    $(this).children('.quickViewAccess').slideDown(300);
+
+    that = this;
+    timer = setTimeout(function(){
+        $(that).children('.quickViewAccess').slideDown(300);
+    }, 1000);
+    
 });
 
 //When mouse leaves
 $(document).on('mouseleave', '.innerProdContainer', function(){
+    clearTimeout(timer);
     $(this).children('.quickViewAccess').slideUp(300);
 });
 
@@ -924,7 +933,6 @@ $(document).on('mouseleave', '.innerProdContainer', function(){
 $(document).on('click', '.quickViewAccess', function()
 {
 
-    console.log($(this).data('id'));
     //grab the product ID from the quickview button
     var quickID = { "ID": $(this).data('id') };
 
@@ -934,10 +942,50 @@ $(document).on('click', '.quickViewAccess', function()
         data: quickID,
         dataType: 'JSON',
         success: function(data){
-
-            //Process everything that comes back
+            console.log(data);
+            //Process everything that comes back and output into modal
             $.each(data, function(key, value){
-                $('#quickViewTitle').html(value.title);
+
+                //Set manufacturer title
+                $('#quickViewTitle').html(value.manu);
+
+                //Set link for 'more details' button
+                $('#moreDetails').attr('href', "shop-single.php?id=" + value.ID + "&name=" + value.title);
+                //Format our price for output
+                price = addCommas(value.price);
+
+                var iterator = 0;
+                //Start output of quickViewBody
+                $('#quickViewBody').html(
+                    "<div class='row'>\
+                        <div class='col-md-6'>\
+                            <img class='d-block w-100' src='" + value.image + "' alt='" + value.title + "'>\
+                        </div>\
+                    \
+                        <div class='col-md-6 productDetails' mt-5 mt-md-0>\
+                            <h4 class='text-black'>" + value.title + "</h4>\
+                            <p class='mb-4'>" + value.descr + "</p>\
+                            <div class='row-fluid priceRating'>\
+                                <p class='col-6 priceSection'>\
+                                    <strong class='text-primary h5'>$" + price + "</strong>\
+                                </p>"
+                                    + value.avgScore + 
+                            "</div>\
+                            <div class='mb-q d-flex selectGroupContainer' id='selectGroupContainer'>\
+                            </div>\
+                        </div>");
+         
+                        
+                        //Output the size options
+                        $.each(value.opt_Group, function(key, value){
+                            value.opt_Value;
+                            $('#selectGroupContainer').append(
+                                "<div class='form-group selectGroup'>\
+                                    <label for='" + value.opt_Name + " Select class='optionLabel'>" + value.opt_Name + "</label>\
+                                    <select class='form-control optionElements' id='" + value.opt_Name + "'></select>\
+                                </div>");
+                        });
+                
                 $('#quickViewModal').modal({backdrop: 'static', keyboard: true});
 
             });

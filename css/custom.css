@@ -368,4 +368,8 @@ img {
     display: none;
 }
 
+#quickViewFooter{
+    display: flex;
+    justify-content: space-around;
+}
 
