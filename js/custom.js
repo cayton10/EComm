@@ -598,6 +598,78 @@ $('#addQty').on('click', function(){
 });
 
 
+
+/* -------------------------------------------------------------------------- */
+/*               PROCESS OPTION PRICING TO REFLECT DYNAMIC PRICE              */
+/* -------------------------------------------------------------------------- */
+
+
+let originalPrice;
+
+var selectionIterator = 0;
+
+$(document).on('change', '.optionElements', function(){
+
+
+    //Store the original price
+    if(selectionIterator == 0)
+    {
+        originalPrice = parseFloat($('#prodPrice').html());     //Had to do this for dynamically created spans
+    }
+    
+
+    //Since we've made a selection, count that iterator
+    selectionIterator++;
+
+    var currentPrice = parseFloat($('#prodPrice').html());
+
+
+    //Declare an array to store price information for options
+    var addedCost = [];
+    //Grab the values in any present <select> fields
+    $('.optionElements').each(function(index, value) {
+
+        value = $(this).children('option:selected').data('charge');
+        addedCost.push({cost: value});
+
+    });
+
+    var totalAdded = 0;
+
+    
+    $.each(addedCost, function(index, value){
+
+        //Parse this for every iteration because it may reset
+        currentPrice = parseFloat(currentPrice);
+
+        totalAdded += parseFloat(value.cost);
+        
+        console.log(originalPrice);
+        console.log(totalAdded);
+
+        if(value.cost != 0)
+        {
+            var newCost = originalPrice + totalAdded;
+            newCost = parseFloat(newCost);
+            //Format the price
+
+            console.log(typeof(newCost));
+            newCost = addCommas(newCost.toFixed(2));
+
+            //Output the new price for user
+            $('#prodPrice').html(newCost);
+        }
+        else
+        {
+            currentPrice = originalPrice + totalAdded;
+            currentPrice = addCommas(currentPrice.toFixed(2));
+            $('#prodPrice').html(currentPrice);
+        }
+        
+    });
+    
+});
+
 /* -------------------------------------------------------------------------- */
 /*                       ADD ITEMS TO CART ON QUICKVIEW                       */
 /* -------------------------------------------------------------------------- */
@@ -614,9 +686,12 @@ $('#addToCartQuick').on('click', function(e){
         return;
     }
 
-    //Grab values in any present <select> fields
+    //Grab the values in any present <select> fields
     var selectValues = $('.optionElements').map(function() {
-        return $(this).val();
+        
+        var optionFields = [$(this).val(), $(this).find(':selected').data('id'), $(this).find(':selected').data('charge')];
+        return optionFields;
+        
     });
 
     var checkValue;
@@ -643,7 +718,8 @@ $('#addToCartQuick').on('click', function(e){
             data:
             {
                 quantity: quantity,
-                ID: prodID
+                ID: prodID,
+                option: selectValues
             },
             dataType: 'JSON',
             method: 'POST',
@@ -686,7 +762,18 @@ $('#addToCartQuick').on('click', function(e){
                 alert(error);
             }
     });
+
+    //Reset selection iterator
+    selectionIterator = 0;
 });
+
+//Reset selection iterator on closing modal button
+$(document).on('click', '#closeQuickView', function(){
+
+    //reset iterator
+    selectionIterator = 0;
+})
+
 
 
 
@@ -703,18 +790,24 @@ $('#addToCart').on('click', function(e){
     var quantity = parseInt($('#inputQty').val());
     //Grab out productID
     var prodID = parseInt($('#reviewForm').attr('value'));
+    
+    
     //If they ain't buyin' we ain't workin'
     if(quantity < 1)
     {
         return;
     }
 
+
     //Grab the values in any present <select> fields
     var selectValues = $('.optionElements').map(function() {
         
-        return $(this).val();
+        var optionFields = [$(this).val(), $(this).find(':selected').data('id'), $(this).find(':selected').data('charge')];
+        return optionFields;
         
     });
+
+    console.log(selectValues);
 
     var checkValue;
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
@@ -754,7 +847,8 @@ $('#addToCart').on('click', function(e){
             data:
             {
                 quantity: quantity,
-                ID: prodID
+                ID: prodID,
+                option: selectValues
             },
             dataType: 'JSON',
             method: 'POST',
@@ -1062,7 +1156,7 @@ $(document).on('click', '.quickViewAccess', function()
                             <p class='mb-4'>" + value.descr + "</p>\
                             <div class='row-fluid priceRating'>\
                                 <p class='col-6 priceSection'>\
-                                    <strong class='text-primary h5'>$" + price + "</strong>\
+                                    <strong class='text-primary h5'>$<span id='prodPrice'>" + price + "</span></strong>\
                                 </p>"
                                     + value.avgScore + 
                             "</div>\
@@ -1077,8 +1171,8 @@ $(document).on('click', '.quickViewAccess', function()
                             $('#selectGroupContainer').append(
                                 "<div class='form-group selectGroup'>\
                                     <label for='" + value.opt_Name + " Select class='optionLabel'>" + value.opt_Name + "</label>\
-                                    <select class='form-control optionElements' id='" + value.opt_Name + "'>\
-                                        <option value='default'>" + value.opt_Name + "</size>\
+                                    <select class='form-control optionElements' id='" + value.opt_Group + "'>\
+                                        <option value='default' id='default' data-charge='0'>" + value.opt_Name + "</size>\
                                     </select>\
                                 </div>");
                         });
@@ -1088,8 +1182,8 @@ $(document).on('click', '.quickViewAccess', function()
                             $.each(value, function(k, v)
                             {
 
-                                $('#' + v.opt_Name).append(
-                                    "<option value='" + v.opt_Value + "' id='" + v.opt_ID + "' data-charge='" + v.opt_Price + "'>" + v.opt_Value + "</option>"); 
+                                $('#' + v.opt_Group).append(
+                                    "<option value='" + v.opt_Value + "' data-id='" + v.opt_ID + "' data-charge='" + v.opt_Price + "'>" + v.opt_Value + "</option>"); 
                             });
                         });
 

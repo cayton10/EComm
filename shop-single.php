@@ -165,7 +165,7 @@
               ?>
             </p>
             <div class='row-fluid priceRating'>
-                <p class='col-6 priceSection'><strong class="text-primary h4">$<? echo $price; ?></strong></p>
+                <p class='col-6 priceSection'><strong class="text-primary h4">$<span id='prodPrice'><? echo $price; ?></span></strong></p>
                 <?echo $reviewObj->printAvgRating($reviewNum);?>
                 
             </div>
@@ -186,12 +186,12 @@
                 $options = $singleProd->getProductOptions($group['opt_Group']);
                 
                 //Set a placeholder for each option
-                $selectionOutput .= "<option value='default'>" . $group['opt_Name'] . "</option>";
+                $selectionOutput .= "<option value='default' data-id='default' data-charge='0'>" . $group['opt_Name'] . "</option>";
                 
                 //Populate options for select element
                 foreach($options as $option)
                 {
-                  $selectionOutput .= "<option value='" . $option['opt_Value'] . "' id='" . $option['opt_ID'] . "'>" . $option['opt_Value'] . "</option>";
+                  $selectionOutput .= "<option value='" . $option['opt_Value'] . "' data-id='" . $option['opt_ID'] . "' data-charge='" . $option['opt_Price'] . "'>" . $option['opt_Value'] . "</option>";
                 }
 
                 $selectionOutput .= "</select></div>";
