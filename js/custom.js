@@ -610,7 +610,7 @@ var selectionIterator = 0;
 
 $(document).on('change', '.optionElements', function(){
 
-
+    console.log(selectionIterator);
     //Store the original price
     if(selectionIterator == 0)
     {
@@ -686,17 +686,20 @@ $('#addToCartQuick').on('click', function(e){
         return;
     }
 
+    //Declare an array to store price information for options
+    var selectValues = [];
     //Grab the values in any present <select> fields
-    var selectValues = $('.optionElements').map(function() {
-        
-        var optionFields = [$(this).val(), $(this).find(':selected').data('id'), $(this).find(':selected').data('charge')];
-        return optionFields;
-        
+    $('.optionElements').each(function(index, value) {
+
+        value = $(this).children('option:selected').data('id');
+        selectValues.push({id: value});
+
     });
 
     var checkValue;
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
     
+        console.log(value.id);
         if(value == 'default')                  //If there are any defaults, set boolean
         {
             checkValue = false;//If we hit one default then return from loop w/ false checkValue
@@ -799,12 +802,14 @@ $('#addToCart').on('click', function(e){
     }
 
 
+    //Declare an array to store price information for options
+    var selectValues = [];
     //Grab the values in any present <select> fields
-    var selectValues = $('.optionElements').map(function() {
-        
-        var optionFields = [$(this).val(), $(this).find(':selected').data('id'), $(this).find(':selected').data('charge')];
-        return optionFields;
-        
+    $('.optionElements').each(function(index, value) {
+
+        value = $(this).children('option:selected').data('id');
+        selectValues.push({id: value});
+
     });
 
     console.log(selectValues);
@@ -812,7 +817,7 @@ $('#addToCart').on('click', function(e){
     var checkValue;
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
     
-        if(value == 'default')                  //If there are any defaults, set boolean
+        if(value.id == 'default')                  //If there are any defaults, set boolean
         {
             checkValue = false;//If we hit one default then return from loop w/ false checkValue
             return;
