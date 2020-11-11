@@ -598,6 +598,97 @@ $('#addQty').on('click', function(){
 });
 
 
+/* -------------------------------------------------------------------------- */
+/*                       ADD ITEMS TO CART ON QUICKVIEW                       */
+/* -------------------------------------------------------------------------- */
+$('#addToCartQuick').on('click', function(e){
+
+    e.preventDefault();
+    //Grab qty
+    var quantity = parseInt($('#inputQty').val());
+    //Grab the productID 
+    var prodID = parseInt($('#inputQty').data('id'));
+
+    if(quantity < 1)
+    {
+        return;
+    }
+
+    //Grab values in any present <select> fields
+    var selectValues = $('.optionElements').map(function() {
+        return $(this).val();
+    });
+
+    var checkValue;
+    $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
+    
+        if(value == 'default')                  //If there are any defaults, set boolean
+        {
+            checkValue = false;//If we hit one default then return from loop w/ false checkValue
+            return;
+        }
+    });
+
+/* --------------------- PUT IN SOME ERROR HANDLING HERE -------------------- */
+
+    if(checkValue == false)
+    {
+        return;
+    }
+
+    //Make our ajax call, lick stamp and send it
+    $.ajax(
+        {
+            url: 'ajax/addToCart.php',
+            data:
+            {
+                quantity: quantity,
+                ID: prodID
+            },
+            dataType: 'JSON',
+            method: 'POST',
+            success: function(data)
+            {
+                if(data.message == "success")
+                {
+                    //Control flow for modal body output
+                    var output = '';
+                    if(quantity > 1)
+                    {
+                        output = quantity + ' items added to cart!';
+                    }
+                    else if(quantity == 1)
+                    {
+                        output = quantity + ' item added to cart!';
+                    }
+
+                    //Close the modal
+                    $('#quickViewModal').modal('hide');
+                    //Update the modal messaging
+                    $('#cartModalTitle').html('Success!');
+                    $('#cartModalBody').html(output);
+                    $('#cartModal').modal({backdrop: 'static', keyboard: false});
+                    //Update item count in mini cart
+                    $('#miniCartCount').text(data.cartQty);
+
+                    //Present modal for user
+                }
+                else if(data.message == "lowQty")
+                {
+                    $('#cartModalTitle').html('Unsuccessful :(');
+                    $('#cartModalBody').html("We may be running low on that item. Either reduce the quantity ordered or check back soon!");
+                    $('#cartModal').modal({backdrop: 'static', keyboard: false});
+                    
+                }
+            },
+            error(xhr, error)
+            {
+                alert(error);
+            }
+    });
+});
+
+
 
 
 /* -------------------------------------------------------------------------- */
@@ -605,6 +696,7 @@ $('#addQty').on('click', function(){
 /* -------------------------------------------------------------------------- */
 
 $('#addToCart').on('click', function(e){
+
     //Prevent default so we don't reload / exit page, etc
     e.preventDefault();
     //Grab our quantity
@@ -619,11 +711,14 @@ $('#addToCart').on('click', function(e){
 
     //Grab the values in any present <select> fields
     var selectValues = $('.optionElements').map(function() {
+        
         return $(this).val();
+        
     });
 
     var checkValue;
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
+    
         if(value == 'default')                  //If there are any defaults, set boolean
         {
             checkValue = false;//If we hit one default then return from loop w/ false checkValue
@@ -942,7 +1037,7 @@ $(document).on('click', '.quickViewAccess', function()
         data: quickID,
         dataType: 'JSON',
         success: function(data){
-            console.log(data);
+
             //Process everything that comes back and output into modal
             $.each(data, function(key, value){
 
@@ -992,7 +1087,7 @@ $(document).on('click', '.quickViewAccess', function()
                         $.each(value.opt_Value, function(key, value){
                             $.each(value, function(k, v)
                             {
-                                console.log(v.opt_Value);
+
                                 $('#' + v.opt_Name).append(
                                     "<option value='" + v.opt_Value + "' id='" + v.opt_ID + "' data-charge='" + v.opt_Price + "'>" + v.opt_Value + "</option>"); 
                             });
@@ -1005,7 +1100,7 @@ $(document).on('click', '.quickViewAccess', function()
                                     <div class='input-group-prepend'>\
                                         <button id='removeQty' class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>\
                                     </div>\
-                                    <input id='inputQty' type='text' class='form-control text-center' value='1' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>\
+                                    <input id='inputQty' data-id='" + value.ID + "'type='text' class='form-control text-center' value='1' placeholder='' aria-label='Example text with button addon' aria-describedby='button-addon1'>\
                                     <div class='input-group-append'>\
                                         <button id='addQty' class='btn btn-outline-primary js-btn-plus' type='button'>&plus;</button>\
                                     </div>\
@@ -1042,12 +1137,6 @@ $(document).on('click', '.js-btn-plus', function(e){
 	$(this).closest('.input-group').find('.form-control').val(parseInt($(this).closest('.input-group').find('.form-control').val()) + 1);
 });
 
-
-
-$('.optionElements').on('change', function(){
-
-    alert($('.optionElements').val())
-});
 
 
 //Ripped this addcommas function from https://stackoverflow.com/a/7327229/12671600
@@ -1104,8 +1193,5 @@ function addCommas(nStr)
             }
         }
         });
-
-
-    
-
+        
 });

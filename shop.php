@@ -81,7 +81,7 @@
           </div>
           <div class="modal-footer" id='quickViewFooter'>
             <a type="button" class="btn btn-primary" id='moreDetails'>More Details</a>
-            <button type="button" class="btn btn-primary" id='addToCart'>Add To Cart</button>
+            <button type="button" class="btn btn-primary" id='addToCartQuick'>Add To Cart</button>
           </div>
         </div>
       </div>
