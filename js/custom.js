@@ -610,6 +610,13 @@ var selectionIterator = 0;
 
 $(document).on('change', '.optionElements', function(){
 
+
+    //Hide error handling if it's there
+    if($('#modalMessage').is(':visible'))
+    {
+        $('#modalMessage').slideUp(200);
+    }
+
     console.log(selectionIterator);
     //Store the original price
     if(selectionIterator == 0)
@@ -673,7 +680,7 @@ $(document).on('change', '.optionElements', function(){
 /* -------------------------------------------------------------------------- */
 /*                       ADD ITEMS TO CART ON QUICKVIEW                       */
 /* -------------------------------------------------------------------------- */
-$('#addToCartQuick').on('click', function(e){
+$(document).on('click', '#addToCartQuick', function(e){
 
     e.preventDefault();
     //Grab qty
@@ -686,23 +693,26 @@ $('#addToCartQuick').on('click', function(e){
         return;
     }
 
+    console.log($('.optionElements').children('option:selected').data('id'));
+
     //Declare an array to store price information for options
     var selectValues = [];
     //Grab the values in any present <select> fields
     $('.optionElements').each(function(index, value) {
 
         value = $(this).children('option:selected').data('id');
+        console.log($(this).children(':selected').data('id'));
         selectValues.push({id: value});
 
     });
 
     var checkValue;
+    console.log(selectValues);
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
     
-        console.log(value.id);
-        if(value == 'default')                  //If there are any defaults, set boolean
+        if(value.id == 'default')                  //If there are any defaults, set boolean
         {
-            checkValue = false;//If we hit one default then return from loop w/ false checkValue
+            checkValue = false;//If we hit any default then return from loop w/ false checkValue
             return;
         }
     });
@@ -711,6 +721,12 @@ $('#addToCartQuick').on('click', function(e){
 
     if(checkValue == false)
     {
+        $('#modalMessage').html(
+            "<p class='text-primary'>Please select options for this product</p>"
+        );
+        $('#modalMessage').attr('display: flex');
+
+        $('#modalMessage').slideDown(300);
         return;
     }
 
@@ -743,10 +759,7 @@ $('#addToCartQuick').on('click', function(e){
 
                     //Close the modal
                     $('#quickViewModal').modal('hide');
-                    //Update the modal messaging
-                    $('#cartModalTitle').html('Success!');
-                    $('#cartModalBody').html(output);
-                    $('#cartModal').modal({backdrop: 'static', keyboard: false});
+
                     //Update item count in mini cart
                     $('#miniCartCount').text(data.cartQty);
 
@@ -754,8 +767,13 @@ $('#addToCartQuick').on('click', function(e){
                 }
                 else if(data.message == "lowQty")
                 {
-                    $('#cartModalTitle').html('Unsuccessful :(');
-                    $('#cartModalBody').html("We may be running low on that item. Either reduce the quantity ordered or check back soon!");
+                    $('#modalMessage').html('');
+                    $('#modalMessage').html(
+                        "<p class='text-primary'>We may be running low on that item. Either reduce the quantity ordered or check back soon!</p>"
+                    );
+                    $('#modalMessage').attr('display: flex');
+            
+                    $('#modalMessage').slideDown(300);
                     $('#cartModal').modal({backdrop: 'static', keyboard: false});
                     
                 }
@@ -1130,6 +1148,7 @@ $(document).on('click', '.quickViewAccess', function()
     //grab the product ID from the quickview button
     var quickID = { "ID": $(this).data('id') };
 
+
     $.ajax({
         url: 'ajax/quickView.php',
         method: 'POST',
@@ -1177,7 +1196,7 @@ $(document).on('click', '.quickViewAccess', function()
                                 "<div class='form-group selectGroup'>\
                                     <label for='" + value.opt_Name + " Select class='optionLabel'>" + value.opt_Name + "</label>\
                                     <select class='form-control optionElements' id='" + value.opt_Group + "'>\
-                                        <option value='default' id='default' data-charge='0'>" + value.opt_Name + "</size>\
+                                        <option selected value='default' data-id='default' data-charge='0'>" + value.opt_Name + "</size>\
                                     </select>\
                                 </div>");
                         });
@@ -1194,7 +1213,8 @@ $(document).on('click', '.quickViewAccess', function()
 
                         //Append the increment / decrement select element
                         $('.productDetails').append(
-                            "<div class='mb-5'>\
+                        "<div class='modal-message' id='modalMessage'></div>\
+                            <div class='mb-5'>\
                                 <div class='input-group mb-3' style='max-width: 120px;'>\
                                     <div class='input-group-prepend'>\
                                         <button id='removeQty' class='btn btn-outline-primary js-btn-minus' type='button'>&minus;</button>\
