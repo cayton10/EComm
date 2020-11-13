@@ -79,7 +79,6 @@
           </div>
           <div class="modal-body" id='quickViewBody'>
           </div>
-          <div class='modal-message' id='modalMessage'></div>
           <div class="modal-footer" id='quickViewFooter'>
             <a type="button" class="btn btn-primary" id='moreDetails'>More Details</a>
             <button type="button" class="btn btn-primary" id='addToCartQuick'>Add To Cart</button>

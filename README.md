@@ -334,7 +334,7 @@ Got into developing this feature when I realized one of my classmates entered bo
 
 Fixes to databse for <strong>opt_Group</strong> were implemented. 
 
-I finished up product options feature by returning all `DISTINCT` product options for the instantiated product object. Distinctions are made by using the opt_Group, and opt_Name fields to both plan further querying and output appropriate option labels for the <select> elements. Using an iterative `foreach()` approach, I queried the database using the instantiated object's productID, along with <strong><em>that</em><strong> iteration's opt_Group value to bring back all available options for that particular group: IE, color, size, storage, etc.
+I finished up product options feature by returning all `DISTINCT` product options for the instantiated product object. Distinctions are made by using the opt_Group, and opt_Name fields to both plan further querying and output appropriate option labels for the <select> elements. Using an iterative `foreach()` approach, I queried the database using the instantiated object's productID, along with <strong><em>that</em></strong> iteration's opt_Group value to bring back all available options for that particular group: IE, color, size, storage, etc.
 
 #### Update:
 

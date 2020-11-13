@@ -67,7 +67,7 @@ $(document).ready(function(){
         var prodID = $('#reviewForm').attr('value');
         var rating = $('#stars').data('rate');
         var reviewDetail = $('#reviewDetail').val();
-        console.log(rating);
+
         $.ajax({
             url: 'ajax/saveRatings.php',
             type: 'POST',
@@ -131,7 +131,6 @@ $(document).ready(function(){
                         $('#rating').text(newAvg);
                     }
 
-                    console.log(rating);
                     var output = "<div class='container reviewContainer'>" + 
                                     "<div class='row justify-content-left fNameDiv'>" + 
                                         "<h5 class='fname'>PlaceHolder" + "</h5>" + 
@@ -617,11 +616,12 @@ $(document).on('change', '.optionElements', function(){
         $('#modalMessage').slideUp(200);
     }
 
-    console.log(selectionIterator);
     //Store the original price
     if(selectionIterator == 0)
     {
-        originalPrice = parseFloat($('#prodPrice').html());     //Had to do this for dynamically created spans
+        originalPrice = $('#prodPrice').html();
+        originalPrice = originalPrice.replace(',', '');         //Strip commas
+        originalPrice = parseFloat(originalPrice);     //Had to do this for dynamically created spans
     }
     
 
@@ -651,8 +651,6 @@ $(document).on('change', '.optionElements', function(){
 
         totalAdded += parseFloat(value.cost);
         
-        console.log(originalPrice);
-        console.log(totalAdded);
 
         if(value.cost != 0)
         {
@@ -660,7 +658,6 @@ $(document).on('change', '.optionElements', function(){
             newCost = parseFloat(newCost);
             //Format the price
 
-            console.log(typeof(newCost));
             newCost = addCommas(newCost.toFixed(2));
 
             //Output the new price for user
@@ -693,7 +690,6 @@ $(document).on('click', '#addToCartQuick', function(e){
         return;
     }
 
-    console.log($('.optionElements').children('option:selected').data('id'));
 
     //Declare an array to store price information for options
     var selectValues = [];
@@ -701,13 +697,14 @@ $(document).on('click', '#addToCartQuick', function(e){
     $('.optionElements').each(function(index, value) {
 
         value = $(this).children('option:selected').data('id');
-        console.log($(this).children(':selected').data('id'));
         selectValues.push({id: value});
 
     });
 
+
+
     var checkValue;
-    console.log(selectValues);
+
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
     
         if(value.id == 'default')                  //If there are any defaults, set boolean
@@ -730,15 +727,18 @@ $(document).on('click', '#addToCartQuick', function(e){
         return;
     }
 
+    //Stringify our array to JSON format
+    var jsonString = JSON.stringify(selectValues);
+
     //Make our ajax call, lick stamp and send it
     $.ajax(
         {
             url: 'ajax/addToCart.php',
             data:
             {
-                quantity: quantity,
                 ID: prodID,
-                option: selectValues
+                quantity: quantity,
+                option: jsonString
             },
             dataType: 'JSON',
             method: 'POST',
@@ -830,7 +830,7 @@ $('#addToCart').on('click', function(e){
 
     });
 
-    console.log(selectValues);
+
 
     var checkValue;
     $.each(selectValues, function(key, value){//Iterate over all of the 'values' from options
@@ -863,6 +863,10 @@ $('#addToCart').on('click', function(e){
         $('.optionElements').removeClass('optionElementsError');
     }
 
+
+    //Stringify our array to JSON format
+    var jsonString = JSON.stringify(selectValues);
+
     //Make our ajax call, lick stamp and send it
     $.ajax(
         {
@@ -871,7 +875,7 @@ $('#addToCart').on('click', function(e){
             {
                 quantity: quantity,
                 ID: prodID,
-                option: selectValues
+                option: jsonString
             },
             dataType: 'JSON',
             method: 'POST',
@@ -1064,6 +1068,44 @@ $('#updateCart').on('click', function(){
             });
     });
 
+    var i = 0;
+
+    
+    
+    //Declare all the indeces we need for object array to store options (if any)
+    $.each(productArray, function(key, value)
+    {
+        
+        $('.option' + value.id).each(function(){
+            productArray[i]['option'] = [];
+        });
+        
+        ++i;
+    });
+
+    //Reset iterator
+    i = 0;
+    
+    //Now load the option array(s) we just initialized in previous loop
+    $.each(productArray, function(key, value)
+    {
+        //Nested array iterator
+        k = 0;
+
+        //Load options in object array
+        $('.option' + value.id).each(function(){
+            productArray[i]['option'][k] = $(this).data('option');
+            k++;
+        });
+
+        ++i;
+    });
+
+
+
+
+    console.log(productArray);
+
     //Stringify our array to JSON format
     var jsonString = JSON.stringify(productArray)
     //Send our array to php script for cart processing
@@ -1088,7 +1130,7 @@ $('#updateCart').on('click', function(){
             $('#updateLable').html(error);
             $('#updateMessage').html('Cart could not be updated at this time.');
             $('#updateState').slideDown('slow').delay(2000).slideUp('slow');
-            $('#updateCart').arrt('disabled', true);
+            $('#updateCart').attr('disabled', true);
         }
     });
 });

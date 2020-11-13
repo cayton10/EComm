@@ -5,6 +5,7 @@
   //Create cart instance to get cart info
   $cart = new Cart();
   $cartDetails = $cart->getCartDetail(session_id());
+  print_r($cartDetails);
   
 ?>
 
@@ -27,6 +28,7 @@
                     <th class="product-thumbnail">Image</th>
                     <th class="product-name">Product</th>
                     <th class="product-price">Price</th>
+                    <th class="product-option">Option</th>
                     <th class="product-quantity">Quantity</th>
                     <th class="product-total">Total</th>
                     <th class="product-remove">Remove</th>
@@ -45,6 +47,7 @@
                     //Images, prices, names, etc.
                     $prodID = $item['prod'];
                     $quantity = $item['qty'];
+                    $options = $item['options'];
                     //Change type
                     $quantity = (float) $quantity;
                     //Get our image
@@ -58,8 +61,14 @@
                     //Change type
                     
                     $total = ($quantity * $price);
-                    
 
+                    $totalOptionPrice = 0;
+                    foreach($options as $option)
+                    {
+                      $totalOptionPrice += $option['opt_Price'];
+                    }
+
+                    $total += $totalOptionPrice;
 
                     $output = "<tr id='productRow". $prodID ."'>
                                 <td class='product-thumbnail'>
@@ -69,6 +78,14 @@
                                   <h2 class='h5 text-black'>" . $name . "</h2>
                                 </td>
                                 <td id='singleItemPrice" . $prodID . "' data-price='" . $price . "'>$" . number_format($price, 2) . "</td>
+                                <td id='itemOptions" . $prodID . "' data-price'" . $totalOptionPrice . "'>";
+
+                                foreach($options as $option)
+                                {
+                                  $output .= $option['opt_Name'] . ": " . $option['opt_Value'] . "<br><hr>Charge: $<span class='option" . $prodID . "' data-option='" . $option['opt_ID'] . "'>" . $option['opt_Price'] . "</span>";
+                                }
+                                  
+                    $output .= "</td>
                                 <td>
                                   <div class='input-group mb-3' style='max-width: 120px;'>
                                     <div class='input-group-prepend'>
