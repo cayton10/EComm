@@ -222,7 +222,14 @@
                 }
 
               ?>
-                
+              <div class='sortPriceDiv'>
+                <label for='sortPriceLowHigh' class='sortedPrice mb-0'>
+                  <input id='lowHigh' name='sortPriceLowHigh' type='radio' value='ASC'> Sort $ Low -> High
+                </label>
+                <label for='sortPriceHighLow' class='sortedPrice'>
+                  <input id='highLow' name='sortPriceHighLow' type='radio' value='DESC'> Sort $ High -> Low
+                </label>
+              </div>
               </div>
 
               <div class="mb-4 manufactDiv">
@@ -276,6 +283,14 @@
               ?> 
 
                 
+              </div>
+              <div class='sortManuDiv'>
+                <label for='manuAtoZ' class='sortedManu mb-0'>
+                  <input id='aZ' name='sortManuAZ' type='radio' value='ASC'> Sort A - Z
+                </label>
+                <label for='manuZtoA' class='sortedManu'>
+                  <input id='zA' name='sortManuZA' type='radio' value='DESC'> Sort Z - A
+                </label>
               </div>
 
                 <!-- SPACE TO ADD FUTURE FILTERING TOOLS -->

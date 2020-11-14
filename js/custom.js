@@ -616,6 +616,7 @@ $(document).on('change', '.optionElements', function(){
         $('#modalMessage').slideUp(200);
     }
 
+
     //Store the original price
     if(selectionIterator == 0)
     {
@@ -777,6 +778,16 @@ $(document).on('click', '#addToCartQuick', function(e){
                     $('#cartModal').modal({backdrop: 'static', keyboard: false});
                     
                 }
+                else if(data.message == "no bueno")
+                {
+                    $('#modalMessage').html('');
+                    $('#modalMessage').html(
+                        "<p class='text-primary'>You already have one of this item with options selected. If you would like to select a different option, please remove the item from your cart.</p>"
+                    );
+                    $('#modalMessage').attr('display: flex');
+
+                    $('#modalMessage').slideDown(300);
+                }
             },
             error(xhr, error)
             {
@@ -795,6 +806,16 @@ $(document).on('click', '#closeQuickView', function(){
     selectionIterator = 0;
 })
 
+
+/* -------------------------------------------------------------------------- */
+/*                  DISABLE QTY CONTROLS IF OPTIONS AVAILABLE                 */
+/* -------------------------------------------------------------------------- */
+if($('.optionElements').length)
+{
+    $('#inputQty').prop('disabled', true);
+    $('#removeQty').prop('disabled', true);
+    $('#addQty').prop('disabled', true);
+}
 
 
 
@@ -942,6 +963,9 @@ $('.addQty').on('click', function(){
 
     //Store the incremented qty into a variable to use for updating prices
     var newQty = $('#quantity' + $(this).data('id')).val();
+
+    //Increment the qty
+    newQty++;
     
     //Grab item price and store as well
     var itemPrice = $('#singleItemPrice' + $(this).data('id')).data('price');
@@ -983,6 +1007,9 @@ $('.reduceQty').on('click', function(){
 
     //Store the incremented qty into a variable to use for updating prices
     var newQty = $('#quantity' + $(this).data('id')).val();
+
+    //Decrement the qty
+    newQty--;
     
     //Grab item price and store as well
     var itemPrice = $('#singleItemPrice' + $(this).data('id')).data('price');
@@ -1102,10 +1129,6 @@ $('#updateCart').on('click', function(){
     });
 
 
-
-
-    console.log(productArray);
-
     //Stringify our array to JSON format
     var jsonString = JSON.stringify(productArray)
     //Send our array to php script for cart processing
@@ -1191,6 +1214,9 @@ $(document).on('click', '.quickViewAccess', function()
     var quickID = { "ID": $(this).data('id') };
 
 
+    
+
+
     $.ajax({
         url: 'ajax/quickView.php',
         method: 'POST',
@@ -1270,6 +1296,15 @@ $(document).on('click', '.quickViewAccess', function()
                         );
                 
                 $('#quickViewModal').modal({backdrop: 'static', keyboard: true});
+
+                //Check if options for this item are available
+                if($('.optionElements').length)
+                {
+                    //If they do, disable quantity options
+                    $('#inputQty').prop('disabled', true);
+                    $('#removeQty').prop('disabled', true);
+                    $('#addQty').prop('disabled', true);
+                }
 
             });
         },

@@ -352,6 +352,23 @@ Added `setTimeout()` function to showing quickViewAccess class buttons. Works we
 
 I was trying to implement this feature with the inclusion of product options, quantity, and the ability to buy straight from this quick view. Product options quickly got out of hand, so I scrapped the idea. Really all this is going to offer users is a product description that isn't available on the product card.
 
+## Syke
 
+I made it work with product options as well. It wound up being significantly more work, but I proved to myself I could do it. 
+
+### 11.13.2020
+
+Finished implementation of product options. This includes:
+    * Being able to select product options from the quickView feature.
+    * Adding product options to the output for the cart page.
+    * Retaining option information when updating the cart
+        * Cart is updated by reading all necessary product info on the page, storing it in an object array, punting it from AJAX to a PHP script where it's processed for DB reentry. 
+
+#### Caveat:
+
+The database has a flaw where if an item is selected with options, only one of that item can be stored in a unique cart. It basically boils down to a PK problem. Due to this, I implemented some user restrictions:
+    * On page load, traverse the DOM and find any '<select>' fields. If they're there, disable the quantity input feature. THERE CAN BE ONLY ONE!
+
+#### Sorting
 
 

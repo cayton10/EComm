@@ -312,6 +312,12 @@ img {
     font-size: 1rem !important;
 }
 
+.sortedPrice{
+    font-size: 1rem;
+    font-weight: normal;
+    color: #7971ea;
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*                           ADDTOCART MODAL STYLING                          */
@@ -378,5 +384,13 @@ img {
     justify-content: space-around;
     font-size: 1rem;
     color: red;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                             CART TABLE STYLING                             */
+/* -------------------------------------------------------------------------- */
+.itemOptions{
+    text-align: left !important;
+    padding: 1% !important;
 }
 

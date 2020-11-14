@@ -5,7 +5,6 @@
   //Create cart instance to get cart info
   $cart = new Cart();
   $cartDetails = $cart->getCartDetail(session_id());
-  print_r($cartDetails);
   
 ?>
 
@@ -78,11 +77,13 @@
                                   <h2 class='h5 text-black'>" . $name . "</h2>
                                 </td>
                                 <td id='singleItemPrice" . $prodID . "' data-price='" . $price . "'>$" . number_format($price, 2) . "</td>
-                                <td id='itemOptions" . $prodID . "' data-price'" . $totalOptionPrice . "'>";
+                                <td id='itemOptions" . $prodID . "' data-price'" . $totalOptionPrice . "' class='itemOptions'>";
 
                                 foreach($options as $option)
                                 {
-                                  $output .= $option['opt_Name'] . ": " . $option['opt_Value'] . "<br><hr>Charge: $<span class='option" . $prodID . "' data-option='" . $option['opt_ID'] . "'>" . $option['opt_Price'] . "</span>";
+                                  $output .= "<span class='optionName'>" . $option['opt_Name'] . ": " . $option['opt_Value'] . "</span><br>
+                                              <span class='optionCharge'>Charge: $</span>
+                                              <span class='option" . $prodID . "' data-option='" . $option['opt_ID'] . "'>" . $option['opt_Price'] . "</span><br>";
                                 }
                                   
                     $output .= "</td>
