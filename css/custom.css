@@ -318,6 +318,26 @@ img {
     color: #7971ea;
 }
 
+.sortedManu{
+    font-size: 1rem;
+    font-weight: normal;
+    color: #7971ea;
+}
+
+.sortManuDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+.sortPriceDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+.form-check-input{
+    background-color: #7971ea !important;
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*                           ADDTOCART MODAL STYLING                          */

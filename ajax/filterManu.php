@@ -9,17 +9,18 @@
     $minPrice = $_POST['minPrice'];
     $type = $_POST['type'];
     $value = $_POST['value'];
+    $sortType = $_POST['sortType'];
+    $sort = $_POST['sort'];
 
 
     //Instantiate object to call filter class method
     $filter = new Filter();
     
     $products;
-    //If checkbox is empty then manuName will be none... if that's the case,
 
 
     //Fire appropriate query to store results for all manufacturers
-    $products = $filter->getProductsInRange($minPrice, $maxPrice, $value, $type, $manuName);
+    $products = $filter->getProductsInRange($minPrice, $maxPrice, $value, $type, $manuName, $sortType, $sort);
 
 
     $i = 0;

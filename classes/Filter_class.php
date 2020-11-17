@@ -98,16 +98,50 @@ class Filter extends DB
 
 
 
-
 /* -------------------------------------------------------------------------- */
 /*              QUERIES FOR AJAX CALLS FROM ajax/filterPrices.php             */
 /* -------------------------------------------------------------------------- */
 
-    public function getProductsInRange($min, $max, $value, $type, $manu)
+    public function getProductsInRange($min, $max, $value, $type, $manu, $sortType, $sort)
     {
         $query = '';
+
         //Control flow for sentinel type
-        if($type === 'all' && $manu !== 'all')
+        if($type === 'all' && $manu === 'all' && !empty($sortType))
+        {
+            $query = "SELECT t1.pro_ID ID, 
+                                pro_Name title, 
+                                pro_Price price, 
+                                pro_Manufacturer manu,
+                                AVG(rev_Score) AS avgScore 
+                        FROM product t1
+                        LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                        WHERE pro_Price >= $min AND pro_Price <= $max
+                        GROUP BY t1.pro_ID
+                        ORDER BY $sortType $sort";
+                        
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($type === 'all' && $manu !== 'all' && !empty($sortType))
+        {
+            $query = "SELECT t1.pro_ID ID, 
+                                pro_Name title, 
+                                pro_Price price, 
+                                pro_Manufacturer manu,
+                                AVG(rev_Score) AS avgScore 
+                        FROM product t1
+                        LEFT JOIN review t2 ON t1.pro_ID = t2.pro_ID
+                        WHERE pro_Price >= $min AND pro_Price <= $max AND pro_Manufacturer = '" . $manu . "'
+                        GROUP BY t1.pro_ID
+                        ORDER BY $sortType $sort";
+                        
+            $results = $this->get_results($query);
+
+            return $results;
+        }
+        else if($type === 'all' && $manu !== 'all')
         {
             $query = "SELECT t1.pro_ID ID, 
                                 pro_Name title, 

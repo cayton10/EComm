@@ -166,6 +166,125 @@ $(document).ready(function(){
 
 
 /* -------------------------------------------------------------------------- */
+/*                            SORTING FUNCTIONALITY                           */
+/* -------------------------------------------------------------------------- */
+$('.form-check-input').on('click', function(){
+
+    //Log checkbox value if checked
+    var manufactCheck = ($("input[type='checkbox']").val());
+    //Remove checked attribute from previous radio if exists
+    $("input[type='radio'][name='sort']").removeAttr('checked');
+
+    //Find the manufacturer and fill the checkbox again
+    //For some reason it removes it every time the sorting radios are clicked
+    var string = "input[type=checkbox][value=" + manufactCheck + "]";
+    $(string).attr('checked', true);
+    
+    $(this).attr('checked', true);
+
+    
+
+    //Store the information we need to run new query
+    sortType = $(this).data('sort');
+    sort = $(this).val();
+    
+    
+    //Grab the value and type we need
+    var type = $('#slider-range').data('type');
+    var value = parseInt($('#slider-range').data('value'));
+    //Store all of the sorting information we need
+    var infotosend = JSON.stringify(
+        {
+            min: minHandle, 
+            max: maxHandle, 
+            value: value, 
+            type: type, 
+            manu: manuName, 
+            sortType: sortType,
+            sort: sort
+        });
+
+        $.ajax({
+            url: 'ajax/filterPrices.php',
+            type: 'POST',
+            data: {data: infotosend},
+            dataType: 'json',
+                
+            success: function (products){
+        
+        
+                //Remove our original product containers
+                $('.prodContainer').remove();
+
+                //Remove our original manufacturer checkboxes
+                $('.manufact').remove();
+                //Set previous manu var for manufacturer filter
+                var previousManu; 
+                
+                //Store manufacturers under these conditions in an array
+                var manufacturerArray = [];
+                $.each(products, function(key, value)
+                {
+                    manufacturerArray.push(value.manu);
+                });
+
+                //Sort the array for processing
+                manufacturerArray.sort();
+
+                //Print our new product cards
+                $.each(products, function(key, value)
+                {
+                    var ID = value.ID;
+                    var title = value.title;
+                    var price = value.price;
+                    var manu = value.manu;
+                    var avgScore = value.avgScore;
+                    var image = value.image;
+
+                    
+                    $('#cardContainer').append
+                    
+                    ("<div class='col-sm-6 col-lg-4 mb-4 prodContainer' data-aos='fade-up' data-manu=" + manu + ">\
+                        <div class='block-4 text-center border innerProdContainer'>\
+                            <figure class='block-4-image'>\
+                            <a href='shop-single.php?id=" + ID + "&name='" + title + "'><img src='" + image + "' alt='Image placeholder' class='img-fluid prods'></a>\
+                            </figure>\
+                        <div class='block-4-text p-4 prodInfo'>\
+                            <h3><a href='shop-single.php?id=" + ID + "&name=" + title + "'>" + manu + "</a></h3>\
+                            <p class='mb-0'>" + title + "</p>\
+                            <p class='text-primary font-weight-bold'>" + '$' + price + "</p>\
+                        </div>\
+                        <div class='avgRating'>" + avgScore + "</div>\
+                        <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
+                        </div>\
+                    </div>");
+                });
+
+                /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+                $.each(manufacturerArray, function(key, value)
+                {
+                    
+                    var manu = value;
+
+                    if(manu != previousManu)
+                    {
+                        $('.manufactDiv').append
+                            ("<label for='s_sm' class='d-flex manufact'>\
+                                <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                            </label>");
+                            previousManu = manu;
+                    }
+
+                });
+                
+
+                }
+            });
+
+    });
+
+
+/* -------------------------------------------------------------------------- */
 /*                       AJAX FUNCTION FOR PRICE FILTER
 
     this comment header marks the beginning of all filter function jquery
@@ -190,6 +309,8 @@ var siteSliderRange = function() {
     var type = $('#slider-range').data('type');
     var step = ((maxHandle - minHandle) / 20);
 
+    
+   
 
     //Set slider specifics 
     $( "#slider-range" ).slider({
@@ -204,10 +325,30 @@ var siteSliderRange = function() {
         minHandle = ui.values[0];
         maxHandle = ui.values[1];
 
+         //Get values for sorting type if exists
+        var sort = "";
+        var sortType = "";
+        var selected = $("input[type='radio'][name='sort']:checked");
+
+        if(selected.length > 0)
+        {
+            sort = selected.val();
+            sortType = selected.data('sort');
+        }
+
     $( "#amount" ).val( "$" + ui.values[ 0 ].toFixed(0) + " - $" + ui.values[ 1 ].toFixed(0) );
 
     //Stringify the information to send
-    var infotosend = JSON.stringify({min: minHandle, max: maxHandle, value: value, type: type, manu: manuName})
+    var infotosend = JSON.stringify(
+        {
+            min: minHandle, 
+            max: maxHandle, 
+            value: value, 
+            type: type, 
+            manu: manuName, 
+            sortType: sortType, 
+            sort: sort
+        });
     //Put together AJAX request to send server side,
     
 /* -------------- MAKE APPROPRIATE AJAX CALL WITH OTHER FILTER -------------- */
@@ -220,15 +361,26 @@ var siteSliderRange = function() {
             dataType: 'json',
             
             success: function (products){
-    
-    
+        
+        
                 //Remove our original product containers
                 $('.prodContainer').remove();
-    
+
                 //Remove our original manufacturer checkboxes
                 $('.manufact').remove();
                 //Set previous manu var for manufacturer filter
-                var previousManu;  
+                var previousManu; 
+                
+                //Store manufacturers under these conditions in an array
+                var manufacturerArray = [];
+                $.each(products, function(key, value)
+                {
+                    manufacturerArray.push(value.manu);
+                });
+
+                //Sort the array for processing
+                manufacturerArray.sort();
+
                 //Print our new product cards
                 $.each(products, function(key, value)
                 {
@@ -238,7 +390,7 @@ var siteSliderRange = function() {
                     var manu = value.manu;
                     var avgScore = value.avgScore;
                     var image = value.image;
-    
+
                     
                     $('#cardContainer').append
                     
@@ -255,24 +407,28 @@ var siteSliderRange = function() {
                         <div class='avgRating'>" + avgScore + "</div>\
                         <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
                         </div>\
-                    </div>")
-    
-    
-    /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
-    
+                    </div>");
+                });
+
+                /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+                $.each(manufacturerArray, function(key, value)
+                {
+                    
+                    var manu = value;
+
                     if(manu != previousManu)
                     {
                         $('.manufactDiv').append
-    
-                        ("<label for='s_sm' class='d-flex manufact'>\
-                            <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
-                        </label>");
-                        previousManu = manu;
+                            ("<label for='s_sm' class='d-flex manufact'>\
+                                <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                            </label>");
+                            previousManu = manu;
                     }
-                    
-                    
+
                 });
-            },
+                
+
+                },
             error: function (xhr, error) {
                 console.log(error);
             }
@@ -371,9 +527,22 @@ $(document).on('click', '.manuCheck', function() {
     var value = $('#manufactFilter').data('value');
     var type = $('#manufactFilter').data('type');
 
+    //Get values for sorting type if exists
+    var sort = "";
+    var sortType = "";
+    var selected = $("input[type='radio'][name='sort']:checked");
+
+    if(selected.length > 0)
+    {
+        sort = selected.val();
+        sortType = selected.data('sort');
+    }
+
     //Logic to execute appropriate code based on checkbox state
     if($('input.manuCheck').is(':checked'))
     {
+        //Disable sorting by manufacturer
+        $('.sortedManu').prop('disabled', true);
         //Set up the data to send via ajax
         manuName = $(this).attr('value');
         var maxPrice = maxHandle;
@@ -387,7 +556,9 @@ $(document).on('click', '.manuCheck', function() {
                 maxPrice: maxPrice,
                 minPrice: minPrice,
                 type: type,
-                value: value
+                value: value,
+                sortType: sortType,
+                sort: sort
             },
             dataType: 'JSON',
             method: 'POST',
@@ -449,6 +620,9 @@ $(document).on('click', '.manuCheck', function() {
 
     else
     {
+
+        //Disable sorting by manufacturer
+        $('.sortedManu').removeAttr('disabled');
         //Set up the data to send via ajax
         manuName = 'all';
         maxPrice = maxHandle;
@@ -463,6 +637,8 @@ $(document).on('click', '.manuCheck', function() {
                 minPrice: minPrice,
                 type: type,
                 value: value,
+                sortType: sortType,
+                sort: sort
             },
             dataType: 'JSON',
             method: 'POST',
@@ -473,8 +649,17 @@ $(document).on('click', '.manuCheck', function() {
                 $('.prodContainer').remove();
                 $('.manufact').remove();
 
-                var previousManu
-                var i = 0;
+                var previousManu; 
+                
+                //Store manufacturers under these conditions in an array
+                var manufacturerArray = [];
+                $.each(products, function(key, value)
+                {
+                    manufacturerArray.push(value.manu);
+                });
+
+                //Sort the array for processing
+                manufacturerArray.sort();
 
                 $.each(products, function(key, value)
                 {
@@ -502,20 +687,24 @@ $(document).on('click', '.manuCheck', function() {
                         <div class='avgRating'>" + avgScore + "</div>\
                         <button class='quickViewAccess btn btn-primary' data-id='" + ID + "'>Quick View</button>\
                         </div>\
-                    </div>")
+                    </div>")            
+                });
 
-
-    /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+                /* --------------- APPEND APPROPRIATE MANUFACTURER CHECKBOXES --------------- */
+                $.each(manufacturerArray, function(key, value)
+                {
+                    
+                    var manu = value;
 
                     if(manu != previousManu)
                     {
                         $('.manufactDiv').append
+                            ("<label for='s_sm' class='d-flex manufact'>\
+                                <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                            </label>");
+                            previousManu = manu;
+                    }
 
-                        ("<label for='s_sm' class='d-flex manufact'>\
-                            <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
-                        </label>");
-                        previousManu = manu;
-                    }             
                 });
             }
         });

@@ -222,15 +222,23 @@
                 }
 
               ?>
+              </div>
               <div class='sortPriceDiv'>
-                <label for='sortPriceLowHigh' class='sortedPrice mb-0'>
-                  <input id='lowHigh' name='sortPriceLowHigh' type='radio' value='ASC'> Sort $ Low -> High
-                </label>
-                <label for='sortPriceHighLow' class='sortedPrice'>
-                  <input id='highLow' name='sortPriceHighLow' type='radio' value='DESC'> Sort $ High -> Low
-                </label>
+                <h4 class='my-2 h6 text-uppercase text-black d-block'>Sort Price</h4>
+                <div class='sortPriceDiv form-check'>
+                  <input class='form-check-input' id='lowHigh' name='sort' type='radio' data-sort='price' value='ASC'>
+                  <label for='sortPriceLowHigh' class='sortedPrice mb-0'>
+                    $ - $$$
+                  </label>
+                </div>
+                <div class='form-check'>
+                  <input class='form-check-input' id='highLow' name='sort' type='radio' data-sort='price' value='DESC'>
+                  <label for='sortPriceHighLow' class='sortedPrice'>
+                    $$$ - $
+                  </label>
+                </div>
               </div>
-              </div>
+              
 
               <div class="mb-4 manufactDiv">
               <?
@@ -281,17 +289,22 @@
                 }
               
               ?> 
+              </div>
 
-                
-              </div>
-              <div class='sortManuDiv'>
-                <label for='manuAtoZ' class='sortedManu mb-0'>
-                  <input id='aZ' name='sortManuAZ' type='radio' value='ASC'> Sort A - Z
-                </label>
-                <label for='manuZtoA' class='sortedManu'>
-                  <input id='zA' name='sortManuZA' type='radio' value='DESC'> Sort Z - A
-                </label>
-              </div>
+              <h4 class='my-2 h6 text-uppercase text-black d-block'>Sort Manufacturer</h4>
+
+                <div class='sortManuDiv form-check'>
+                  <input class='form-check-input sortedManu' id='aZ' name='sort' type='radio' data-sort='manu' value='ASC'>
+                  <label for='manuAtoZ' class='sortedManu mb-0 form-check-label'> 
+                    A - Z
+                  </label>
+                </div>
+                <div class='form-check'>
+                  <input class='form-check-input sortedManu' id='zA' name='sort' type='radio' data-sort='manu' value='DESC'>
+                  <label for='manuZtoA' class='sortedManu form-check-label'>
+                    Z - A
+                  </label>
+                </div>
 
                 <!-- SPACE TO ADD FUTURE FILTERING TOOLS -->
 
