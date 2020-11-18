@@ -14,7 +14,7 @@ require_once('includes/header.php');
       <div class="container">
         <div class="row mb-5">
           <div class="col-md-12">
-            <div class="border p-4 rounded" role="alert">
+            <div id='returningCustomer' class="border p-4 rounded" role="alert">
               Returning customer? <a href="#">Click here</a> to login
             </div>
           </div>

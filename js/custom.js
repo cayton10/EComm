@@ -270,7 +270,7 @@ $('.form-check-input').on('click', function(){
                     {
                         $('.manufactDiv').append
                             ("<label for='s_sm' class='d-flex manufact'>\
-                                <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "'> <span class='text-black manCheckBox'>" + manu + "</span>\
+                                <input type='checkbox' class='mr-2 mt-1 manuCheck' value='" + manu + "' checked> <span class='text-black manCheckBox'>" + manu + "</span>\
                             </label>");
                             previousManu = manu;
                     }
