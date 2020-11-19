@@ -1,5 +1,7 @@
 <?
 require_once('includes/header.php');
+//Create an object for products so we can process our cart info
+$products = new Product();
 
 ?>
 
@@ -56,6 +58,27 @@ require_once('includes/header.php');
             ?>
           </div>
         </div>
+
+<!-- USER'S STORED SHIPPING INFORMATION IF EXISTS -->
+        <?
+          if(isset($_SESSION['user']))
+          {
+            echo "<div class='row mb-5' id='previousAdd'>
+                    <div class='col-12 mb-5 mb-md-0'>
+                      <h2 class='h3 mb-3 text-black'>Previous Shipping Addresses</h2>
+                      <div class='p-3 p-lg-5 border'>
+                        <div class='form-group row'>
+                          <div class='col-md-10'>
+          
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>";
+          }
+        
+        ?>
+
         <div class="row">
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black">Billing Details</h2>
@@ -100,20 +123,28 @@ require_once('includes/header.php');
                 </div>
               </div>
 
-              <div class="form-group">
-                <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account" role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1" id="c_create_account"> Create an account?</label>
-                <div class="collapse" id="create_an_account">
-                  <div class="py-2">
-                    <p class="mb-3">Create an account by setting and confirming your password below.</p>
-                    <div class="form-group">
-                      <label for="c_account_password" class="text-black">Account Password</label>
-                      <input type="email" class="form-control" id="c_account_password" name="c_account_password" placeholder="">
-                      <label for="c_account_password" class="text-black">Confirm Password</label>
-                      <input type="email" class="form-control" id="c_account_password" name="c_account_password" placeholder="">
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <?
+              //If user session variable is not set, preset an option to create account on this form
+                  if(!isset($_SESSION['user']))
+                  {
+                    echo "<div class='form-group'>
+                            <label for='c_create_account' class='text-black' data-toggle='collapse' href='#create_an_account' role='button' aria-expanded='false' aria-controls='create_an_account'><input type='checkbox' value='1' id='c_create_account'> Create an account?</label>
+                            <div class='collapse' id='create_an_account'>
+                              <div class='py-2'>
+                                <p class='mb-3'>Create an account by setting and confirming your password below.</p>
+                                <div class='form-group'>
+                                  <label for='c_account_password' class='text-black'>Account Password</label>
+                                  <input type='email' class='form-control' id='createPW' name='c_account_password' placeholder=''>
+                                  <label for='c_account_password' class='text-black'>Confirm Password</label>
+                                  <input type='email' class='form-control' id='confirmPW' name='c_account_password' placeholder=''>
+                                </div>
+                              </div>
+                            </div>
+                          </div>";
+
+                  }
+              ?>
+              
 
 
               <div class="form-group">
@@ -186,18 +217,54 @@ require_once('includes/header.php');
                       <th>Total</th>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Top Up T-Shirt <strong class="mx-2">x</strong> 1</td>
-                        <td>$250.00</td>
-                      </tr>
-                      <tr>
-                        <td>Polo Shirt <strong class="mx-2">x</strong>   1</td>
-                        <td>$100.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                        <td class="text-black">$350.00</td>
-                      </tr>
+                      <?
+                        if(isset($_COOKIE['cartID']))
+                        {
+                          $cartContents = $cart->getCartDetail($_COOKIE['cartID']);
+
+                          $output = '';
+                          $i = 0;
+                          $subtotal;
+
+                          foreach($cartContents as $item)
+                          {
+                            //Set product ID to var and change from string to int
+                            $prod = $item['prod'];
+                            $prod = (integer)$prod;
+
+
+                            //Set all of THIS item's specifics
+                            $products->querySingleItem($prod);
+
+                            //Set needed info for printing table rows
+                            $prodName = $products->getName();
+                            $output .= "<tr>
+                                          <td>" . $prodName . "<strong class='mx-2'>x</strong>" . $item['qty'] . "</td>";
+
+                            //Work out math for each item
+                            $basePrice = $products->getPrice();
+
+                            foreach($item['options'] as $option)
+                            {
+                              $basePrice += $option['opt_Price'];
+                            }
+
+                            $totalPrice = $basePrice * $item['qty'];
+
+                            $subtotal += $totalPrice;
+
+                            $output .= "<td>$" . number_format($totalPrice, 2) . "</td></tr>";
+                          }
+
+                          $output .= "<tr>
+                                        <td class='text-black font-weight-bold'><strong>Cart Subtotal</strong></td>
+                                        <td class='text-black'><strong>$" . number_format($subtotal, 2) . "</strong></td></tr>";
+                                      
+                          echo $output;
+
+                        }
+                      ?>
+                      
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
                         <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
