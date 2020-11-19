@@ -358,11 +358,16 @@ I made it work with product options as well. It wound up being significantly mor
 
 ### 11.13.2020
 
-Finished implementation of product options. This includes:
-    * Being able to select product options from the quickView feature.
-    * Adding product options to the output for the cart page.
-    * Retaining option information when updating the cart
-        * Cart is updated by reading all necessary product info on the page, storing it in an object array, punting it from AJAX to a PHP script where it's processed for DB reentry. 
+Finished implementation of product options. 
+
+This includes:
+
+* Being able to select product options from the quickView feature.
+* Adding product options to the output for the cart page.
+* Retaining option information when updating the cart
+* Cart is updated by reading all necessary product info on the page, storing it in an object array, punting it from AJAX to a PHP script where it's processed for DB reentry. 
+
+<!-- End list-->
 
 #### Caveat:
 
