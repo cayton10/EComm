@@ -372,3 +372,20 @@ The database has a flaw where if an item is selected with options, only one of t
 #### Sorting
 
 
+### Project 6
+#### 11.17.2020
+#### Analysis Paralysis
+There's a lot to unpack with this project. Will be pulling data from SIX tables in the DB for this single page. Careful planning is needed to not paint myself into a corner. 
+
+The database tables required for this project are:
+
+    * address
+    * card
+    * customer
+    * order
+    * orderdetail
+    * orderdetailopts
+
+I did some brainstorming for a bit after reviewing the current DB and application structure and have determined that I'll write two classes to pull all of the required data for this project requirement. One class for Customer (address, card, customer) and one class for Order(order, orderdetail, orderdetailopts). I started writing the customer class when I noticed that I'll need to implement some simple page elements to start interacting with the database for testing.
+
+First on the docket is login/signup functionality. 

@@ -1,6 +1,7 @@
 <?
     //Include config file
     require_once(__DIR__ . "/../config/config.php");
+
     //Information passed from the review container is sent here for proecssing
 
 //TODO: REPLACE THIS ISSET WITH SESSION WHEN WE GET TO SESSIONS AND ADDING CUSTOMERS
@@ -13,7 +14,7 @@
         $rating = (int)$rating;
         $reviewDetail = htmlspecialchars(trim($_POST['reviewDetail']));
         //Hard code customer ID
-        $cusID = 1;
+        $cusID = 10;
         //Create object of review so can call the method to insert to DB
         $reviewObj = new Review($prodID);
         
