@@ -373,7 +373,8 @@ This includes:
 
 The database has a flaw where if an item is selected with options, only one of that item can be stored in a unique cart. It basically boils down to a PK problem. Due to this, I implemented some user restrictions:
 
-* On page load, traverse the DOM and find any '<select>' fields. If they're there, disable the quantity input feature. THERE CAN BE ONLY ONE!
+* On page load, traverse the DOM and find any 'select' fields. If they're there, disable the quantity input feature. THERE CAN BE ONLY ONE!
+<!-- End List-->
 
 #### Sorting
 
@@ -393,6 +394,7 @@ The database tables required for this project are:
     * order
     * orderdetail
     * orderdetailopts
+<!-- End list-->
 
 I did some brainstorming for a bit after reviewing the current DB and application structure and have determined that I'll write two classes to pull all of the required data for this project requirement. One class for Customer (address, card, customer) and one class for Order(order, orderdetail, orderdetailopts). I started writing the customer class when I noticed that I'll need to implement some simple page elements to start interacting with the database for testing.
 
@@ -410,7 +412,9 @@ IE:
 
 * If logged in as guest, user is prompted to create an account when entering billing info
 * Also prompted to login
-* If user is logged in, they're prompted with previous addresses they can use to autofill their form fields during checkout. 
+* If user is logged in, they're prompted with previous addresses they can use to autofill their form fields during checkout.
+
+<!--End List-->
 
 #### Order Summary
 
