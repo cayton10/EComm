@@ -367,7 +367,8 @@ Finished implementation of product options. This includes:
 #### Caveat:
 
 The database has a flaw where if an item is selected with options, only one of that item can be stored in a unique cart. It basically boils down to a PK problem. Due to this, I implemented some user restrictions:
-    * On page load, traverse the DOM and find any '<select>' fields. If they're there, disable the quantity input feature. THERE CAN BE ONLY ONE!
+
+* On page load, traverse the DOM and find any '<select>' fields. If they're there, disable the quantity input feature. THERE CAN BE ONLY ONE!
 
 #### Sorting
 
