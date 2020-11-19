@@ -373,7 +373,9 @@ The database has a flaw where if an item is selected with options, only one of t
 
 
 ### Project 6
+
 #### 11.17.2020
+
 #### Analysis Paralysis
 There's a lot to unpack with this project. Will be pulling data from SIX tables in the DB for this single page. Careful planning is needed to not paint myself into a corner. 
 
@@ -389,3 +391,23 @@ The database tables required for this project are:
 I did some brainstorming for a bit after reviewing the current DB and application structure and have determined that I'll write two classes to pull all of the required data for this project requirement. One class for Customer (address, card, customer) and one class for Order(order, orderdetail, orderdetailopts). I started writing the customer class when I noticed that I'll need to implement some simple page elements to start interacting with the database for testing.
 
 First on the docket is login/signup functionality. 
+
+
+### 11.19.2020
+
+#### Login Users
+
+Added functionality to login a user from the checkout page. Persistent user information is kept by using the customer's unique PK from the customer table and is stored as a session variable. Implemented this function using a modal, and reloading the page upon success of ajax call using `window.location.reload()` to let PHP do its magic. 
+
+Set up some logic on the checkout.php page to either show or hide information related to the current user's login status. 
+IE:
+
+* If logged in as guest, user is prompted to create an account when entering billing info
+* Also prompted to login
+* If user is logged in, they're prompted with previous addresses they can use to autofill their form fields during checkout. 
+
+#### Order Summary
+
+Set up the order summary information using previously built functions from the Cart class. Wasn't too difficult to implement. 
+
+
