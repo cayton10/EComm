@@ -12,11 +12,19 @@
   {
     //Set a cookie for us to use for a cart ID
     setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
-                                                              //Plus include "/" for all directories (made that mistake in 313)
+                                                               //Plus include "/" for all directories (made that mistake in 313)
   }
 
   //Start session
   session_start();
+
+  $customerInfo = new Customer();
+  //Session started so get our user if it's set
+  if(isset($_SESSION['user']))
+  {
+
+    $customerInfo->customerSetAll($_SESSION['user']);
+  }
 
   //Create instance of cart class
   $cart = new Cart();
@@ -82,7 +90,16 @@
             <div class="col-6 col-md-4 order-3 order-md-3 text-right">
               <div class="site-top-icons">
                 <ul>
-                  <li><a href="account"><span class="icon icon-person"></span></a></li>
+                  <li id='userInfoRow'><p id='userName'>
+                    <?
+                      if(isset($_SESSION['user']))
+                      {
+                        echo $customerInfo->getFirstName();
+                      }
+                      else
+                        echo "Guest";
+                    ?> 
+                  <a href="account"><span class="icon icon-person"></span></a></li>
                   <li>
                       <!-- MINI CART UTILITY -->
                     <a href="cart.php" class="site-cart">

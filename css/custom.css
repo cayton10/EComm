@@ -1,5 +1,9 @@
 /*HEADER STYLING*/
 
+#userInfoRow{
+    display: inline-flex;
+}
+
 /*STYLING FOR SEARCH FUNCTION IN HEADER.PHP*/
 #search{
     border-bottom: 1px solid #ccc !important;
@@ -425,3 +429,4 @@ img {
 #checkoutModalFooter{
     justify-content: center;
 }
+

@@ -46,10 +46,16 @@
             $this->database = DB::getInstance();
         }
 
+        //Grab first name for pretty header and cozy welcome message
+        public function getFirstName()
+        {
+            return $this->cus_FirstName;
+        }
+
         /*customerGetAll
         * Grabs all details for given customer based on 
         * customer_id parameter*/
-        public function customerGetAll($id)
+        public function customerSetAll($id)
         {
             $query = '';
 
@@ -72,30 +78,31 @@
                             t3.car_Active
                         FROM customer t1
                         LEFT JOIN address t2 ON t1.cus_ID = t2.cus_ID
-                        LEFT JOIN card t3 ON t2.cus_ID = t3.cus_ID";
+                        LEFT JOIN card t3 ON t2.cus_ID = t3.cus_ID
+                        WHERE t1.cus_ID = '" . $id . "'";
             
-            $results = $this->database->get_results($id);
+            $results = $this->database->get_results($query);
 
             //Store all the information in our object member variables
             if($results)
             {
                 $data = $results[0];
-                $this->cus_FirstName = $item['cus_FirstName'];
-                $this->cus_LastName = $item['cus_LastName'];
-                $this->cus_EMail = $item['cus_EMail'];
-                $this->cus_Password = $item['cus_Password'];
-                $this->add_ID = $item['add_ID'];
-                $this->add_Street = $item['add_Street'];
-                $this->add_Street2 = $item['add_Street2'];
-                $this->add_City = $item['add_City'];
-                $this->add_State = $item['add_State'];
-                $this->add_Zip = $item['add_Zip'];
-                $this->car_ID = $item['car_ID'];
-                $this->car_Num = $item['car_Num'];
-                $this->car_Name = $item['car_Name'];
-                $this->car_Exp = $item['car_Exp'];
-                $this->car_Sec = $item['car_Sec'];
-                $this->car_Active = $item['car_Active'];
+                $this->cus_FirstName = $data['cus_FirstName'];
+                $this->cus_LastName = $data['cus_LastName'];
+                $this->cus_EMail = $data['cus_EMail'];
+                $this->cus_Password = $data['cus_Password'];
+                $this->add_ID = $data['add_ID'];
+                $this->add_Street = $data['add_Street'];
+                $this->add_Street2 = $data['add_Street2'];
+                $this->add_City = $data['add_City'];
+                $this->add_State = $data['add_State'];
+                $this->add_Zip = $data['add_Zip'];
+                $this->car_ID = $data['car_ID'];
+                $this->car_Num = $data['car_Num'];
+                $this->car_Name = $data['car_Name'];
+                $this->car_Exp = $data['car_Exp'];
+                $this->car_Sec = $data['car_Sec'];
+                $this->car_Active = $data['car_Active'];
             }
         }
 
