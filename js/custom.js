@@ -1505,6 +1505,57 @@ $(document).on('click', '.quickViewAccess', function()
     
 
 /* -------------------------------------------------------------------------- */
+/*                      LOGIN MODAL FORM ON CHECKOUT PAGE                     */
+/* -------------------------------------------------------------------------- */
+
+//Clear the form fields because they're auto populating database info for some reason
+$('#checkoutLogin').on('click', function(){
+    //Clear autopopulated input
+    $('#returningEmail').val('');
+    $('#returningPassword').val('');
+});
+
+//Clear form fields if closing modal
+$('#closeSignInCheckOut').on('click', function(){
+    //Clear all input fields
+    $('#returningEmail').val('');
+    $('#returningPassword').val('');
+});
+
+/* ----------- PROCESS LOGIN CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
+$('#loginButtonCheckOut').on('click', function(){
+    //Store information for back end processing
+    userEmail = $('#returningEmail').val();
+    userPW = $('#returningPassword').val();
+
+    console.log(userEmail);
+    console.log(userPW);
+
+    //Ajax call to compare credentials via PHP
+    $.ajax({
+        url: 'ajax/login.php',
+        method: 'POST',
+        dataType: 'JSON',
+        data:
+        {
+            email: userEmail,
+            pass: userPW
+        },
+
+        //On success
+        success: function(data)
+        {
+            //If successful, reload the page so php can do its work
+            if(data.success == true)
+            {
+                window.location.reload();
+            }
+        }
+    });
+
+});
+
+/* -------------------------------------------------------------------------- */
 /*             HANDLE DYNAMICALLY ADDED INCREMENT/DECREMENT BUTTON            */
 /* -------------------------------------------------------------------------- */
 $(document).on('click', '.js-btn-minus', function(e){

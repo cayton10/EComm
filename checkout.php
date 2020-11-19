@@ -1,5 +1,7 @@
 <?
 require_once('includes/header.php');
+
+var_dump($_SESSION);
 ?>
 
 
@@ -7,18 +9,26 @@ require_once('includes/header.php');
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header" id='loginHeader'>
+        <h5 class="modal-title" id="loginTitle">Login</h5>
+        <button id='closeSignInCheckOut' type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <form id='signInCheckout'>
+          <div class="form-group">
+            <label for='returningEmail'>Email address</label>
+            <input type='email' name='email' class='form-control' id='returningEmail' aria-describedby="emailHelp" autocomplete="off" placeholder='peter@parker.edu' value=''>
+          </div>
+          <div class="form-group">
+            <label for='returningPassword'>Password</label>
+            <input type='password' name='password' class='form-control' id='returningPassword' autocomplete="off" placeholder="******">
+          </div>
+        </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <div class="modal-footer" id='checkoutModalFooter'>
+        <button id='loginButtonCheckOut' type="button" class="btn btn-primary">Login</button>
       </div>
     </div>
   </div>
@@ -37,12 +47,7 @@ require_once('includes/header.php');
         <div class="row mb-5">
           <div class="col-md-12">
             <div id='signing' class="border p-4 rounded" role="alert">
-              <div id='returningCustomer'>
-                Returning customer? <a id='checkoutLogin' href='#' data-toggle='modal' data-target='#exampleModalCenter'>Click here</a> to login
-              </div>
-              <div id='createAccount'>
-                Or <a id='checkoutCreateAcc' href='#' data-toggle='modal' data-target='createAccModal'>create an account</a>
-              </div>
+                Returning customer? <a id='checkoutLogin' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Click here</strong></a> to login
             </div>
             
           </div>

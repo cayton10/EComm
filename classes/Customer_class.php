@@ -100,10 +100,26 @@
         }
 
 
-        //Method to grab customer name for displaying for UX
-        public function getCustomerName($id)
+        //Check if user exists with credentials
+        public function checkUserAndPass($email, $password)
         {
+            $query = "";
+
+            $query = "SELECT cus_ID id
+                        FROM customer
+                        WHERE cus_Email = '" . $email . "' AND cus_Password = '" . $password . "'";
             
+            $rows = $this->database->num_rows($query);
+
+            $id;
+            //Control flow for what to return
+            if($rows == 1)
+            {
+                $id = $this->database->get_results($query);
+                return $id;
+            }
+            else
+                return $rows;
         }
     }
 ?>

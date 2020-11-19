@@ -414,3 +414,14 @@ img {
     padding: 1% !important;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                            CHECKOUT LOGIN MODAL                            */
+/* -------------------------------------------------------------------------- */
+#loginTitle{
+    font-size: 1.5rem;
+    color: #7971ea;
+}
+
+#checkoutModalFooter{
+    justify-content: center;
+}
