@@ -62,7 +62,7 @@ $products = new Product();
 
 <!-- USER'S STORED SHIPPING INFORMATION IF EXISTS -->
         <?
-        /*
+        
         //If the user session variable IS set, show a list of previously used addresses
           if(isset($_SESSION['user']))
           {
@@ -86,22 +86,21 @@ $products = new Product();
                             foreach($address as $stored)//Address arrays were nested from customer class
                             {
 
-                              echo $i;
                               if($i == 0)//Output default (first) used address
                               {
-                                $output .= "<div class='form-check address' id='addressID" . $stored['id'] ."'>
+                                $output .= "<div class='form-check addressPrev p-4 border' id='addressID" . $stored['id'] ." data-add='" . $stored['id'] . "'>
                                               <input class='form-check-input addressRadio' type='radio' name='address' checked>
                                               <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
-                                              . $stored['street'] . " " . $stored['street2'] . "<br>" . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
+                                              . $stored['street'] . " " . $stored['street2'] . " " . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
                                             </div><br>";
                                             
                               }
                               else if ($i > 0)//Output any other associated addresses
                               {
-                                $output .= "<div class='form-check address' id='addressID" . $stored['id'] ."'>
+                                $output .= "<div class='form-check addressPrev p-4 border' id='addressID" . $stored['id'] ."'>
                                               <input class='form-check-input addressRadio' type='radio' name='address'>
                                               <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
-                                              . $stored['street'] . " " . $stored['street2'] . "<br>" . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
+                                              . $stored['street'] . " " . $stored['street2'] . " " . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
                                             </div><br>";
                               }
 
@@ -119,7 +118,7 @@ $products = new Product();
 
                 echo $output;
             }
-            */
+            
         
         ?>
 

@@ -1,21 +1,17 @@
 <?
-//DB Connection config file
+  //DB Connection config file
   require_once('config/config.php');
-
   //Check if cookie exists
   if(!empty($_COOKIE['cartID']))
   {
     //Set session to ID contained within the cookie
     session_id($_COOKIE['cartID']);
-    echo "HEERY";
   }
   else
   {
     //Set a cookie for us to use for a cart ID
     setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
-                                                               //Plus include "/" for all directories (made that mistake in 313)
   }
-
   session_start();
 
   $customerInfo = new Customer();
