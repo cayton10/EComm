@@ -432,4 +432,27 @@ img {
 
 
 
+/* -------------------------------------------------------------------------- */
+/*                          PREVIOUS ADDRESS STYLING                          */
+/* -------------------------------------------------------------------------- */
+#previousShippingAdd{
+    display: flex;
+    justify-content: start;
+}
+
+.addressLabel{
+    font-size: 1.3rem;
+    color: black;
+}
+
+.addressRadio{
+    margin-top: 5px;
+    vertical-align: middle;
+}
+
+.address{
+    vertical-align: middle;
+}
+
+
 

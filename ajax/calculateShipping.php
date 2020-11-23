@@ -1,6 +1,4 @@
 <?
-    //Include config file for classes I've written
-    require_once(__DIR__ . "/../config/config.php");
 
     //Include info required for grabielbull's ups-api wrapper
     require_once(__DIR__ . "/../classes/vendor/autoload.php");
@@ -58,10 +56,9 @@
         
         $calcRate = $rate->getRate($shipment);
 
-        echo $calcRate->ShipmentResults->ShipmentCharges->TransportationCharges->MonetaryValue;
-        print "<pre>";
+
         print_r($calcRate->RatedShipment[0]->TotalCharges->MonetaryValue);
-        print "<pre>";
+
 
         //var_dump($rate->getRate($shipment));
         } catch (Exception $e) {

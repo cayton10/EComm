@@ -21,21 +21,23 @@
         private $cus_EMail;
         private $cus_Password;
 
+
+        private $address = [];
         //Customer information from Address table
-        private $add_ID;
-        private $add_Street;
-        private $add_Street2;
-        private $add_City;
-        private $add_State;
-        private $add_Zip;
+        private $add_ID = [];
+        private $add_Street = [];
+        private $add_Street2 = [];
+        private $add_City = [];
+        private $add_State = [];
+        private $add_Zip = [];
 
         //Customer information from Card table
-        private $car_ID;
-        private $car_Num;
-        private $car_Name;
-        private $car_Exp;
-        private $car_Sec;
-        private $car_Active;
+        private $car_ID = [];
+        private $car_Num = [];
+        private $car_Name = [];
+        private $car_Exp = [];
+        private $car_Sec = [];
+        private $car_Active = [];
 
 
 
@@ -86,23 +88,36 @@
             //Store all the information in our object member variables
             if($results)
             {
-                $data = $results[0];
-                $this->cus_FirstName = $data['cus_FirstName'];
-                $this->cus_LastName = $data['cus_LastName'];
-                $this->cus_EMail = $data['cus_EMail'];
-                $this->cus_Password = $data['cus_Password'];
-                $this->add_ID = $data['add_ID'];
-                $this->add_Street = $data['add_Street'];
-                $this->add_Street2 = $data['add_Street2'];
-                $this->add_City = $data['add_City'];
-                $this->add_State = $data['add_State'];
-                $this->add_Zip = $data['add_Zip'];
-                $this->car_ID = $data['car_ID'];
-                $this->car_Num = $data['car_Num'];
-                $this->car_Name = $data['car_Name'];
-                $this->car_Exp = $data['car_Exp'];
-                $this->car_Sec = $data['car_Sec'];
-                $this->car_Active = $data['car_Active'];
+
+
+                foreach($results as $data)
+                {
+                    $this->cus_FirstName = $data['cus_FirstName'];
+                    $this->cus_LastName = $data['cus_LastName'];
+                    $this->cus_EMail = $data['cus_EMail'];
+                    $this->cus_Password = $data['cus_Password'];
+
+                    //Create associate address array to store in object
+                    $address = array(
+                        "id" => $data['add_ID'],
+                        "street" => $data['add_Street'],
+                        "street2" => $data['add_Street2'],
+                        "city" => $data['add_City'],
+                        "state" => $data['add_State'],
+                        "zip" => $data['add_Zip']
+                    );
+
+                    $this->address[] = $address;
+
+                    $this->car_ID[] = $data['car_ID'];
+                    $this->car_Num[] = $data['car_Num'];
+                    $this->car_Name[] = $data['car_Name'];
+                    $this->car_Exp[] = $data['car_Exp'];
+                    $this->car_Sec[] = $data['car_Sec'];
+                    $this->car_Active[] = $data['car_Active'];
+                    
+                }
+                
             }
         }
 
@@ -127,6 +142,16 @@
             }
             else
                 return $rows;
+        }
+
+        //Returns all addresses for a user if they are registered users
+        public function getUserShipping()
+        {
+            $addresses = array(
+                $this->address
+            );
+
+            return $addresses;
         }
     }
 ?>

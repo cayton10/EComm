@@ -7,6 +7,7 @@
   {
     //Set session to ID contained within the cookie
     session_id($_COOKIE['cartID']);
+    echo "HEERY";
   }
   else
   {
@@ -15,7 +16,6 @@
                                                                //Plus include "/" for all directories (made that mistake in 313)
   }
 
-  //Start session
   session_start();
 
   $customerInfo = new Customer();

@@ -62,22 +62,64 @@ $products = new Product();
 
 <!-- USER'S STORED SHIPPING INFORMATION IF EXISTS -->
         <?
+        /*
         //If the user session variable IS set, show a list of previously used addresses
           if(isset($_SESSION['user']))
           {
-            echo "<div class='row mb-5' id='previousAdd'>
-                    <div class='col-12 mb-5 mb-md-0'>
-                      <h2 class='h3 mb-3 text-black'>Previous Shipping Addresses</h2>
-                      <div class='p-3 p-lg-5 border'>
-                        <div class='form-group row'>
-                          <div class='col-md-10'>
+            $output = '';
+            $output .= "<div class='row mb-5' id='previousAdd'>
+                          <div class='col-12 mb-5 mb-md-0'>
+                            <h2 class='h3 mb-3 text-black'>Previous Shipping Addresses</h2>
+                            <div class='p-3 p-lg-5 border'>
+                              <div class='form-group row'>
+                                <div class='col-md-10' id='previousShippingAdd'>";
+                          
+                          //Print user's known addresses here for selection
+                          $addresses = $customerInfo->getUserShipping();
+
+                         
+
+                          $i = 0; //Use iterator to set first address as checked
+                          //Process these addresses and format with radio button
+                          foreach($addresses as $address)
+                          {
+                            foreach($address as $stored)//Address arrays were nested from customer class
+                            {
+
+                              echo $i;
+                              if($i == 0)//Output default (first) used address
+                              {
+                                $output .= "<div class='form-check address' id='addressID" . $stored['id'] ."'>
+                                              <input class='form-check-input addressRadio' type='radio' name='address' checked>
+                                              <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
+                                              . $stored['street'] . " " . $stored['street2'] . "<br>" . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
+                                            </div><br>";
+                                            
+                              }
+                              else if ($i > 0)//Output any other associated addresses
+                              {
+                                $output .= "<div class='form-check address' id='addressID" . $stored['id'] ."'>
+                                              <input class='form-check-input addressRadio' type='radio' name='address'>
+                                              <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
+                                              . $stored['street'] . " " . $stored['street2'] . "<br>" . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
+                                            </div><br>";
+                              }
+
+                              $i++;
+                            }
+                            
+                          }
+
           
-                          </div>
+                $output.= "</div>
                         </div>
                       </div>
                     </div>
                   </div>";
-          }
+
+                echo $output;
+            }
+            */
         
         ?>
 
@@ -229,6 +271,7 @@ $products = new Product();
                     </thead>
                     <tbody>
                       <?
+
                         if(isset($_COOKIE['cartID']))
                         {
                           $cartContents = $cart->getCartDetail($_COOKIE['cartID']);
