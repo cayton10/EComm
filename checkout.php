@@ -48,6 +48,7 @@ $products = new Product();
         <div class="row mb-5">
           <div class="col-md-12">
             <?
+            //If the user session variable is not set, prompt them to sign in
               if(!isset($_SESSION['user']))
               {
                 echo "<div id='signing' class='border p-4 rounded' role='alert'>
@@ -61,6 +62,7 @@ $products = new Product();
 
 <!-- USER'S STORED SHIPPING INFORMATION IF EXISTS -->
         <?
+        //If the user session variable IS set, show a list of previously used addresses
           if(isset($_SESSION['user']))
           {
             echo "<div class='row mb-5' id='previousAdd'>
@@ -86,40 +88,47 @@ $products = new Product();
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_fname" name="c_fname">
+                  <input type="text" class="form-control" id="billingFName" name="c_fname">
                 </div>
                 <div class="col-md-6">
                   <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname">
+                  <input type="text" class="form-control" id="billingLName" name="c_lname">
                 </div>
               </div>
 
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
+                  <input type="text" class="form-control" id="billingAdd1" name="c_address" placeholder="Street address">
                 </div>
               </div>
 
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                <input type="text" class="form-control" id='billingAdd2' placeholder="Apartment, suite, unit etc. (optional)">
+              </div>
+
+              <div class='form-group row'>
+                <div class='col-md-12'>
+                  <label for='c_city' class='text-black'>City <span class='text-danger'>*</span></label>
+                  <input type='text' class='form-control c_city' id='billingCity' name='billingCity' placeholder='City'>
+                </div>
               </div>
 
               <div class="form-group row">
                 <div class="col-md-6">
-                  <label for="c_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_state_country" name="c_state_country">
+                  <label for="c_state_country" class="text-black">State<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billingState" name="c_state_country">
                 </div>
                 <div class="col-md-6">
-                  <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
+                  <label for="c_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="billingPost" name="c_postal_zip" required>
                 </div>
               </div>
 
               <div class="form-group row mb-5">
                 <div class="col-md-12">
                   <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address">
+                  <input type="text" class="form-control" id="billingEmail" name="c_email_address">
                 </div>
               </div>
 
@@ -145,7 +154,9 @@ $products = new Product();
                   }
               ?>
               
-
+              <div class='form-group'>
+                <label for='shipToSame' class='text-black' role='button' aria-controls='shipToSame'><input type='checkbox' value='1' id='shipToSame'> Ship To Billing Address</label>
+              </div>
 
               <div class="form-group">
                 <label for="c_ship_different_address" class="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address"> Ship To A Different Address?</label>
@@ -156,40 +167,40 @@ $products = new Product();
                     <div class="form-group row">
                       <div class="col-md-6">
                         <label for="c_diff_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_fname" name="c_diff_fname">
+                        <input type="text" class="form-control" id="shipFName" name="c_diff_fname">
                       </div>
                       <div class="col-md-6">
                         <label for="c_diff_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_lname" name="c_diff_lname">
+                        <input type="text" class="form-control" id="shipLName" name="c_diff_lname">
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-md-12">
                         <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_address" name="c_diff_address" placeholder="Street address">
+                        <input type="text" class="form-control" id="shipAddress1" name="c_diff_address" placeholder="Street address">
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
+                      <input type="text" class="form-control" id='shipAddress2' placeholder="Apartment, suite, unit etc. (optional)">
+                    </div>
+
+                    <div class='form-group row'>
+                      <div class='col-md-12'>
+                        <label for='c_city' class='text-black'>City <span class='text-danger'>*</span></label>
+                        <input type='text' class='form-control c_city' id='shipCity' name='billingCity' placeholder='City'>
+                      </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-md-6">
-                        <label for="c_diff_state_country" class="text-black">State / Country <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_state_country" name="c_diff_state_country">
+                        <label for="c_diff_state_country" class="text-black">State<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="shipState" name="c_diff_state_country">
                       </div>
                       <div class="col-md-6">
-                        <label for="c_diff_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_postal_zip" name="c_diff_postal_zip">
-                      </div>
-                    </div>
-
-                    <div class="form-group row mb-5">
-                      <div class="col-md-6">
-                        <label for="c_diff_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_email_address" name="c_diff_email_address">
+                        <label for="c_diff_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="shipPostal" name="c_diff_postal_zip">
                       </div>
                     </div>
 
@@ -225,6 +236,7 @@ $products = new Product();
                           $output = '';
                           $i = 0;
                           $subtotal;
+                          $orderWeight;
 
                           foreach($cartContents as $item)
                           {
@@ -243,26 +255,34 @@ $products = new Product();
 
                             //Work out math for each item
                             $basePrice = $products->getPrice();
-
+                            
                             foreach($item['options'] as $option)
                             {
                               $basePrice += $option['opt_Price'];
                             }
 
                             $totalPrice = $basePrice * $item['qty'];
-
                             $subtotal += $totalPrice;
+
+                            //Work out math for item weights
+                            $orderWeight += $item['wt'] * $item['qty'];
 
                             $output .= "<td>$" . number_format($totalPrice, 2) . "</td></tr>";
                           }
 
                           $output .= "<tr>
-                                        <td class='text-black font-weight-bold'><strong>Cart Subtotal</strong></td>
-                                        <td class='text-black'><strong>$" . number_format($subtotal, 2) . "</strong></td></tr>";
+                                        <td class='text-black font-weight-bold checkSubTot'><strong>Cart Subtotal</strong></td>
+                                        <td class='text-black checkSubTot'><strong>$" . number_format($subtotal, 2) . "</strong></td>
+                                      </tr>
+                                      <tr>
+                                        <td class='text-black checkShipWt'><strong>Shipping Weight</strong></td>
+                                        <td class='text-black checkShipWt'><strong>" . $orderWeight . " lbs</strong></td>
+                                      </tr>";
                                       
                           echo $output;
 
                         }
+
                       ?>
                       
                       <tr>
