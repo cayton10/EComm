@@ -16,6 +16,8 @@ $(document).ready(function(){
     $('#searchResults').hide();
 
 
+    //For floating labels jquery library
+    $('.floatLabel').floatingFormLabels();
 
 
 /* -------------------------------------------------------------------------- */
@@ -44,7 +46,6 @@ $(document).ready(function(){
             $('.pScore > a').removeAttr('href');
         }
     });
-
 
 
 
@@ -1552,6 +1553,159 @@ $('#loginButtonCheckOut').on('click', function(){
             }
         }
     });
+
+});
+
+/* -------------------------------------------------------------------------- */
+/*                USING PREVIOUSLY STORED ADDRESS TO FILL FORM                */
+/* -------------------------------------------------------------------------- */
+$('.addressRadio').on('click', function(){
+
+    //Grab the address id from the input tag and process w/ ajax
+    var addID = $(this).data('add');
+    
+    $.ajax({
+        url: 'ajax/getAddress.php',
+        method: 'POST',
+        dataType: 'JSON',
+        data: {addID: addID},
+
+        success: function(data)
+        {
+            //Iterate through returned address info and populate form
+            $.each(data, function(key, value)
+            {
+                $('#billingFName').val(value.first);
+                $('#shipFName').val(value.first);
+                $('#billingLName').val(value.last);
+                $('#shipLName').val(value.last);
+                $('#billingEmail').val(value.email);
+                $('#billingAdd1').val(value.street);
+                $('#shipAddress1').val(value.street);
+                $('#billingAdd2').val(value.street2);
+                $('#shipAddress2').val(value.street2);
+                $('#billingCity').val(value.city);
+                $('#shipCity').val(value.city);
+                $('#billingState').val(value.state);
+                $('#shipState').val(value.state);
+                $('#billingPost').val(value.zip);
+                $('#shipPostal').val(value.zip);
+
+            });
+            
+            console.log(data);
+            
+        }
+    });
+});
+
+/* --------------------- FOR SHIPPING TO BILLING ADDRESS -------------------- */
+
+$('#shipToSame').on('click', function(){
+    //Store all our required values in variables
+    var fName = $('#billingFName').val();
+    var lName = $('#billingLName').val();
+    var addr1 = $('#billingAdd1').val();
+    var addr2 = $('#billingAdd2').val();
+    var city = $('#billingCity').val();
+    var state = $('#billingState').val();
+    var zip = $('#billingPost').val();
+
+    //Now set all the appropriate fields so we can submit the form
+    $('#shipFName').val(fName);
+    $('#shipFName').prop('required', false);
+
+    $('#shipLName').val(lName);
+    $('#shipLName').prop('required', false);
+
+    $('#shipAddress1').val(addr1);
+    $('#shipAddress1').prop('required', false);
+
+    $('#shipAddress2').val(addr2);
+
+    $('#shipCity').val(city);
+    $('#shipCity').prop('required', false);
+
+    $('#shipState').val(state);
+    $('#shipState').prop('required', false);
+
+    $('#shipPostal').val(zip);
+    $('#shipPostal').prop('required', false);
+});
+
+/* -------------------- FOR SHIPPING TO DIFFERENT ADDRESS ------------------- */
+
+$('#shipDiff').on('click', function(){
+
+    $('#shipFName').val('');//On click, remove all previously populated information
+    $('#shipFName').prop('required', true);
+
+    $('#shipLName').val("");
+    $('#shipLName').prop('required', true);
+
+    $('#shipAddress1').val("");
+    $('#shipAddress1').prop('required', true);
+
+    $('#shipAddress2').val("");
+
+    $('#shipCity').val("");
+    $('#shipCity').prop('required', true);
+
+    $('#shipState').val("");
+    $('#shipState').prop('required', true);
+
+    $('#shipPostal').val("");
+    $('#shipPostal').prop('required', true);
+});
+
+/* -------------------------------------------------------------------------- */
+/*                          CONFIRM SHIPPING FUNCTION                         
+    Essentially just a cheap shot way to calculate shipping costs without 
+    having to redirect to another page or reload current checkout.php page
+/* -------------------------------------------------------------------------- */
+
+$('#confirmShipping').on('click', function(e){
+
+    
+    if($(this).closest('form')[0].checkValidity())
+    {
+        e.preventDefault();
+
+        var shipToZip = $('#shipPostal').val();
+
+        $.ajax({
+            url: 'ajax/calculateShipping.php',
+            method: 'POST',
+            dateType: 'JSON',
+            data: {zip: shipToZip},
+
+            success: function(data)
+            {
+
+            }
+        });
+        console.log(shipToZip);
+    }
+    //Prevent default, gather information, lick stamp and send it via ajax
+    
+
+    
+});
+
+/* -------------------------------------------------------------------------- */
+/*                      ROLLUP SHIPPING ADDRESS ON CLICK                      */
+/* -------------------------------------------------------------------------- */
+$('#shipToSame').on('click', function(){
+    
+    if($('#ship_different_address').hasClass('collapse show'))//This class is present when 'ship to different address is selected'
+    {
+        //Process appropriately to collapse shipping form
+        $('#shipDiffLabel').addClass('collapsed')
+        $('#shipDiffLabel').attr('aria-expanded', false);
+        $('#ship_different_address').removeClass('show');
+    }
+    //Take all the info from the billing fields and populate into shipping
+
 
 });
 

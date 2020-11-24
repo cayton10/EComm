@@ -33,8 +33,9 @@
         {
             $cartID = htmlspecialchars(trim($value));
 
-            $query = "SELECT pro_ID prod, cart_qty qty
-                        FROM cart 
+            $query = "SELECT t1.pro_ID prod, t1.cart_qty qty, t2.pro_Weight wt
+                        FROM cart t1
+                        LEFT JOIN product t2 ON t1.pro_ID = t2.pro_ID
                         WHERE cart_ID = '" . $cartID . "'";
 
             //Fire query and store results

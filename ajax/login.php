@@ -1,4 +1,5 @@
-<?session_start();
+<?
+session_start();
 //Include config file
 require_once(__DIR__ . "/../config/config.php");
 
@@ -20,14 +21,11 @@ $valid = $customer->checkUserAndPass($email, $pw);
 //Declare an array to return JSON response
 $response = [];
 
-$uID = $valid[0]['id'];
-$uID = md5($uID);
 
 //Control flow for returned $valid value
 if($valid != 0)
 {
     $uID = $valid[0]['id'];
-    $uID = md5($uID);
 
     $response['success'] = true;
     $response['message'] = "Valid email and password!";
