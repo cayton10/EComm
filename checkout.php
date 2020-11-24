@@ -88,8 +88,8 @@ $products = new Product();
 
                               if($i == 0)//Output default (first) used address
                               {
-                                $output .= "<div class='form-check addressPrev p-4 border' id='addressID" . $stored['id'] ." data-add='" . $stored['id'] . "'>
-                                              <input class='form-check-input addressRadio' type='radio' name='address' checked>
+                                $output .= "<div class='form-check addressPrev p-4 border' id='addressID" . $stored['id'] ."' data-add='" . $stored['id'] . "'>
+                                              <input class='form-check-input addressRadio' type='radio' name='address' data-add='" . $stored['id'] . "'>
                                               <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
                                               . $stored['street'] . " " . $stored['street2'] . " " . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
                                             </div><br>";
@@ -98,7 +98,7 @@ $products = new Product();
                               else if ($i > 0)//Output any other associated addresses
                               {
                                 $output .= "<div class='form-check addressPrev p-4 border' id='addressID" . $stored['id'] ."'>
-                                              <input class='form-check-input addressRadio' type='radio' name='address'>
+                                              <input class='form-check-input addressRadio' type='radio' name='address' data-add='" . $stored['id'] . "'>
                                               <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
                                               . $stored['street'] . " " . $stored['street2'] . " " . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
                                             </div><br>";
@@ -117,7 +117,7 @@ $products = new Product();
                   </div>";
 
                 echo $output;
-            }
+          }
             
         
         ?>
@@ -126,81 +126,84 @@ $products = new Product();
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black">Billing Details</h2>
             <div class="p-3 p-lg-5 border">
-              <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="billingFName" name="c_fname">
+              <form id='shipBillForm'>
+                <div class="form-group row">
+                  <div class="col-md-6">
+                    <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control text-black" id="billingFName" name="c_fname" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control text-black" id="billingLName" name="c_lname" required>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="billingLName" name="c_lname">
-                </div>
-              </div>
 
-              <div class="form-group row">
-                <div class="col-md-12">
-                  <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="billingAdd1" name="c_address" placeholder="Street address">
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control text-black" id="billingAdd1" name="c_address" placeholder="Street address" required>
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <input type="text" class="form-control" id='billingAdd2' placeholder="Apartment, suite, unit etc. (optional)">
-              </div>
-
-              <div class='form-group row'>
-                <div class='col-md-12'>
-                  <label for='c_city' class='text-black'>City <span class='text-danger'>*</span></label>
-                  <input type='text' class='form-control c_city' id='billingCity' name='billingCity' placeholder='City'>
+                <div class="form-group">
+                  <input type="text" class="form-control" id='billingAdd2' placeholder="Apartment, suite, unit etc. (optional)">
                 </div>
-              </div>
 
-              <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="c_state_country" class="text-black">State<span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="billingState" name="c_state_country">
+                <div class='form-group row'>
+                  <div class='col-md-12'>
+                    <label for='c_city' class='text-black'>City <span class='text-danger'>*</span></label>
+                    <input type='text' class='form-control c_city text-black' id='billingCity' name='billingCity' placeholder='City' required>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <label for="c_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="billingPost" name="c_postal_zip" required>
-                </div>
-              </div>
 
-              <div class="form-group row mb-5">
-                <div class="col-md-12">
-                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="billingEmail" name="c_email_address">
+                <div class="form-group row">
+                  <div class="col-md-6">
+                    <label for="c_state_country" class="text-black">State<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control text-black" id="billingState" name="c_state_country" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="c_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control text-black" id="billingPost" name="c_postal_zip" required>
+                  </div>
                 </div>
-              </div>
 
-              <?
-              //If user session variable is not set, preset an option to create account on this form
-                  if(!isset($_SESSION['user']))
-                  {
-                    echo "<div class='form-group'>
-                            <label for='c_create_account' class='text-black' data-toggle='collapse' href='#create_an_account' role='button' aria-expanded='false' aria-controls='create_an_account'><input type='checkbox' value='1' id='c_create_account'> Create an account?</label>
-                            <div class='collapse' id='create_an_account'>
-                              <div class='py-2'>
-                                <p class='mb-3'>Create an account by setting and confirming your password below.</p>
-                                <div class='form-group'>
-                                  <label for='c_account_password' class='text-black'>Account Password</label>
-                                  <input type='email' class='form-control' id='createPW' name='c_account_password' placeholder=''>
-                                  <label for='c_account_password' class='text-black'>Confirm Password</label>
-                                  <input type='email' class='form-control' id='confirmPW' name='c_account_password' placeholder=''>
+                <div class="form-group row mb-5">
+                  <div class="col-md-12">
+                    <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control text-black" id="billingEmail" name="c_email_address">
+                  </div>
+                </div>
+
+                <?
+                //If user session variable is not set, preset an option to create account on this form
+                    if(!isset($_SESSION['user']))
+                    {
+                      echo "<div class='form-group'>
+                              <label for='c_create_account' class='text-black' data-toggle='collapse' href='#create_an_account' role='button' aria-expanded='false' aria-controls='create_an_account'><input type='checkbox' value='1' id='c_create_account'> Create an account?</label>
+                              <div class='collapse' id='create_an_account'>
+                                <div class='py-2'>
+                                  <p class='mb-3'>Create an account by setting and confirming your password below.</p>
+                                  <div class='form-group'>
+                                    <label for='c_account_password' class='text-black'>Account Password</label>
+                                    <input type='email' class='form-control' id='createPW' name='c_account_password' placeholder=''>
+                                    <label for='c_account_password' class='text-black'>Confirm Password</label>
+                                    <input type='email' class='form-control' id='confirmPW' name='c_account_password' placeholder=''>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </div>";
+                            </div>";
 
-                  }
-              ?>
-              
-              <div class='form-group'>
-                <label for='shipToSame' class='text-black' role='button' aria-controls='shipToSame'><input type='checkbox' value='1' id='shipToSame'> Ship To Billing Address</label>
-              </div>
+                    }
+                ?>
+                
+                <div class='form-check'>
+                  <label for='shipToSame' class='text-black' role='button' aria-controls='shipToSame'><input name='shippingAdd' type='radio' id='shipToSame' required> Ship To Billing Address</label>
+                </div>
 
-              <div class="form-group">
-                <label for="c_ship_different_address" class="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address"> Ship To A Different Address?</label>
+                <div class="form-check">
+                  <label for="shipDiff" class="text-black" data-toggle="collapse" href="#ship_different_address" role="button" aria-expanded="false" aria-controls="ship_different_address" id='shipDiffLabel'><input type="radio" id="shipDiff" name='shippingAdd'> Ship To A Different Address?</label>
+                </div>
+
                 <div class="collapse" id="ship_different_address">
                   <div class="py-2">
 
@@ -208,53 +211,49 @@ $products = new Product();
                     <div class="form-group row">
                       <div class="col-md-6">
                         <label for="c_diff_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shipFName" name="c_diff_fname">
+                        <input type="text" class="form-control text-black" id="shipFName" name="c_diff_fname">
                       </div>
                       <div class="col-md-6">
                         <label for="c_diff_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shipLName" name="c_diff_lname">
+                        <input type="text" class="form-control text-black" id="shipLName" name="c_diff_lname">
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-md-12">
                         <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shipAddress1" name="c_diff_address" placeholder="Street address">
+                        <input type="text" class="form-control text-black" id="shipAddress1" name="c_diff_address" placeholder="Street address">
                       </div>
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control" id='shipAddress2' placeholder="Apartment, suite, unit etc. (optional)">
+                      <input type="text" class="form-control text-black" id='shipAddress2' placeholder="Apartment, suite, unit etc. (optional)">
                     </div>
 
                     <div class='form-group row'>
                       <div class='col-md-12'>
                         <label for='c_city' class='text-black'>City <span class='text-danger'>*</span></label>
-                        <input type='text' class='form-control c_city' id='shipCity' name='billingCity' placeholder='City'>
+                        <input type='text' class='form-control c_city text-black' id='shipCity' name='billingCity' placeholder='City'>
                       </div>
                     </div>
 
                     <div class="form-group row">
                       <div class="col-md-6">
                         <label for="c_diff_state_country" class="text-black">State<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shipState" name="c_diff_state_country">
+                        <input type="text" class="form-control text-black" id="shipState" name="c_diff_state_country">
                       </div>
                       <div class="col-md-6">
                         <label for="c_diff_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="shipPostal" name="c_diff_postal_zip">
+                        <input type="text" class="form-control text-black" id="shipPostal" name="c_diff_postal_zip">
                       </div>
                     </div>
-
                   </div>
-
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label for="c_order_notes" class="text-black">Order Notes</label>
-                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control" placeholder="Write your notes here..."></textarea>
-              </div>
-
+                <div class="form-group">
+                  <button type='submit' class="btn btn-primary btn-lg py-3 btn-block" id='confirmShipping'>Confirm Shipping</button>
+                </div>
+              </form>
             </div>
           </div>
           <div class="col-md-6">
@@ -364,8 +363,8 @@ $products = new Product();
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='thankyou.html'">Place Order</button>
+                  <div class="form-group" id='placeOrderButtonDiv'>
+                    <button class="btn btn-primary btn-lg py-3 btn-block" id='placeOrder' type='submit' onclick="window.location='thankyou.html'">Place Order</button>
                   </div>
 
                 </div>

@@ -4,6 +4,7 @@
     require_once(__DIR__ . "/../classes/vendor/autoload.php");
 
 
+    
     //Posted information from ajax call on checkout page
 
 
@@ -17,10 +18,10 @@
         $shipment = new \Ups\Entity\Shipment();
 
         $shipperAddress = $shipment->getShipper()->getAddress();
-        $shipperAddress->setPostalCode('45619');
+        $shipperAddress->setPostalCode('45619');//Hard coded for project reqs
 
         $address = new \Ups\Entity\Address();
-        $address->setPostalCode('45619');
+        $address->setPostalCode('45619');//Hard coded for project reqs
         $shipFrom = new \Ups\Entity\ShipFrom();
         $shipFrom->setAddress($address);
 
@@ -56,8 +57,10 @@
         
         $calcRate = $rate->getRate($shipment);
 
-
-        print_r($calcRate->RatedShipment[0]->TotalCharges->MonetaryValue);
+        print "<pre>";
+        print_r($calcRate);
+        print "<pre>";
+        //print_r($calcRate->RatedShipment[0]->TotalCharges->MonetaryValue);
 
 
         //var_dump($rate->getRate($shipment));

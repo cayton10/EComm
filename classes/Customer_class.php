@@ -54,6 +54,18 @@
             return $this->cus_FirstName;
         }
 
+        //Grab last name for form field population
+        public function getLastName()
+        {
+            return $this->cus_LastName;
+        }
+
+        //Grab email address for form field population
+        public function getEmail()
+        {
+            return $this->cus_EMail;
+        }
+
         /*customerGetAll
         * Grabs all details for given customer based on 
         * customer_id parameter*/
@@ -152,6 +164,31 @@
             );
 
             return $addresses;
+        }
+
+        /*
+        **Get customer previous address using address ID
+        */
+        public function getPrevAddress($id)
+        {
+            $query = '';
+
+            //Took the time to write this out because don't want DB fields floating around
+            $query = "SELECT add_Street street,
+                                add_Street2 street2,
+                                add_City city,
+                                add_State state,
+                                add_Zip zip,
+                                cus_FirstName first,
+                                cus_LastName last,
+                                cus_EMail email
+                        FROM address t1
+                        LEFT JOIN customer t2 ON t1.cus_ID = t2.cus_ID
+                        WHERE add_ID = $id";
+            
+            $address = $this->database->get_results($query);
+
+            return $address;
         }
     }
 ?>
