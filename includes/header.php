@@ -6,13 +6,15 @@
   {
     //Set session to ID contained within the cookie
     session_id($_COOKIE['cartID']);
+    session_start();
   }
   else
   {
-    //Set a cookie for us to use for a cart ID
     setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
+    session_id('fuck you');
+    session_start();
   }
-  session_start();
+  
 
   $customerInfo = new Customer();
   //Session started so get our user if it's set

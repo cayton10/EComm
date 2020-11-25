@@ -11,25 +11,40 @@ $products = new Product();
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" id='loginHeader'>
-        <h5 class="modal-title" id="loginTitle">Login</h5>
+        <h5 class="modal-title" id="loginTitle"></h5>
         <button id='closeSignInCheckOut' type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <form id='signInCheckout'>
-          <div class="form-group">
-            <label for='returningEmail'>Email address</label>
-            <input type='email' name='email' class='form-control' id='returningEmail' aria-describedby="emailHelp" autocomplete="off" placeholder='peter@parker.edu' value=''>
+          <div class="form-group row">
+            <div class="col-md-6">
+              <label for="registerFirst" class="text-black">First Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control text-black" id="registerFirst" name="registerLast" required>
+            </div>
+            <div class="col-md-6">
+              <label for="registerLast" class="text-black">Last Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control text-black" id="registerLast" name="registerFirst" required>
+            </div>
           </div>
           <div class="form-group">
-            <label for='returningPassword'>Password</label>
-            <input type='password' name='password' class='form-control' id='returningPassword' autocomplete="off" placeholder="******">
+            <label for='email'>Email address</label>
+            <input type='email' name='email' class='form-control' id='email' aria-describedby="emailHelp" autocomplete="off" placeholder='peter@parker.edu' value='' required>
           </div>
+          <div class="form-group">
+            <label for='password'>Password</label>
+            <input type='password' name='password' class='form-control' id='password' autocomplete="off" placeholder="******" required>
+          </div>
+          <div class='form-group' id='confirmPWDiv'>
+            <label for='confirmPassword'>Confirm Password</label>
+            <input type='password' name='confirmPassword' class='form-control' id='confirmPassword' autocomplete='off' placeholder='******'>
+          </div>
+          <div class='checkoutModalError'></div>
         </form>
       </div>
       <div class="modal-footer" id='checkoutModalFooter'>
-        <button id='loginButtonCheckOut' type="button" class="btn btn-primary">Login</button>
+        <button id='loginButtonCheckOut' type="button" class="btn btn-primary"></button>
       </div>
     </div>
   </div>
@@ -51,9 +66,15 @@ $products = new Product();
             //If the user session variable is not set, prompt them to sign in
               if(!isset($_SESSION['user']))
               {
-                echo "<div id='signing' class='border p-4 rounded' role='alert'>
-                        Returning customer? <a id='checkoutLogin' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Click here</strong></a> to login
+                echo "<div id='signin' class='border p-4 rounded' role='alert'>
+                        <div id='login'>
+                          Returning customer? <button class='btn btn-primary' id='checkoutLogin' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Login</strong></button>
+                        </div>
+                        <div id='register'>
+                          New user? <button class='btn btn-primary' id='checkoutRegister' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Register</strong></button>
+                        </div>
                       </div>";
+                      
               }
             
             ?>
@@ -174,27 +195,7 @@ $products = new Product();
                   </div>
                 </div>
 
-                <?
-                //If user session variable is not set, preset an option to create account on this form
-                    if(!isset($_SESSION['user']))
-                    {
-                      echo "<div class='form-group'>
-                              <label for='c_create_account' class='text-black' data-toggle='collapse' href='#create_an_account' role='button' aria-expanded='false' aria-controls='create_an_account'><input type='checkbox' value='1' id='c_create_account'> Create an account?</label>
-                              <div class='collapse' id='create_an_account'>
-                                <div class='py-2'>
-                                  <p class='mb-3'>Create an account by setting and confirming your password below.</p>
-                                  <div class='form-group'>
-                                    <label for='c_account_password' class='text-black'>Account Password</label>
-                                    <input type='email' class='form-control' id='createPW' name='c_account_password' placeholder=''>
-                                    <label for='c_account_password' class='text-black'>Confirm Password</label>
-                                    <input type='email' class='form-control' id='confirmPW' name='c_account_password' placeholder=''>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>";
 
-                    }
-                ?>
                 
                 <div class='form-check'>
                   <label for='shipToSame' class='text-black' role='button' aria-controls='shipToSame'><input name='shippingAdd' type='radio' id='shipToSame' required> Ship To Billing Address</label>

@@ -16,9 +16,9 @@ $(document).ready(function(){
     $('#searchResults').hide();
 
 
-    //For floating labels jquery library
-    $('.floatLabel').floatingFormLabels();
-
+    //Hide the confirm password field unless registering a new user
+    $('#confirmPWDiv').hide();
+    $('.checkoutModalError').hide();
 
 /* -------------------------------------------------------------------------- */
 /*                      INITIALIZE JQUERY STARRR LIBRARY                      */
@@ -1511,26 +1511,55 @@ $(document).on('click', '.quickViewAccess', function()
 
 //Clear the form fields because they're auto populating database info for some reason
 $('#checkoutLogin').on('click', function(){
+
+    //Set appropriate modal title
+    $('#loginTitle').html('User Login');
     //Clear autopopulated input
-    $('#returningEmail').val('');
-    $('#returningPassword').val('');
+    $('#email').val('');
+    $('#password').val('');
+
+    //Add class so we can send to appropriate php script
+    $('#loginButtonCheckOut').addClass('loginCheckout');
+    $('#loginButtonCheckOut').html('Login');
+});
+
+//Same as above
+$('#checkoutRegister').on('click', function(){
+
+    $('#loginTitle').html('User Registration');
+
+    $('#email').val('');
+    $('#password').val('');
+    //Show our hidden confirm password field
+    $('#confirmPWDiv').show();
+
+    //Add class so we can send to appropriate php script
+    $('#loginButtonCheckOut').addClass('registerCheckout');
+    $('#loginButtonCheckOut').html('Register');
 });
 
 //Clear form fields if closing modal
 $('#closeSignInCheckOut').on('click', function(){
+
+    //Clear added classes from login/register selection
+    $('#loginButtonCheckOut').removeClass('loginCheckout');
+    $('#loginButtonCheckOut').removeClass('registerCheckout');
+    $('#loginButtonCheckOut').html('');
+    $('.checkoutModalError').hide();
+    
+    //Take care of confirm PW
+    $('#confirmPWDiv').hide();
     //Clear all input fields
-    $('#returningEmail').val('');
-    $('#returningPassword').val('');
+    $('#email').val('');
+    $('#password').val('');
 });
 
 /* ----------- PROCESS LOGIN CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
-$('#loginButtonCheckOut').on('click', function(){
+$(document).on('click', "button.loginCheckout", function(){
     //Store information for back end processing
-    userEmail = $('#returningEmail').val();
-    userPW = $('#returningPassword').val();
+    userEmail = $('#email').val();
+    userPW = $('#password').val();
 
-    console.log(userEmail);
-    console.log(userPW);
 
     //Ajax call to compare credentials via PHP
     $.ajax({
@@ -1551,6 +1580,75 @@ $('#loginButtonCheckOut').on('click', function(){
             {
                 window.location.reload();
             }
+        },
+
+        error: function(xhr, error)
+        {
+            console.log(error);
+        }
+    });
+
+});
+
+/* ----------- PROCESS REGISTER CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
+$(document).on('click', "button.registerCheckout", function(){
+
+    if($('.checkoutModalError').is(':visible'))
+    {
+        $('.checkoutModalError').slideUp(150);
+    }
+
+    //Store information for back end processing
+    userEmail = $('#email').val();
+    userPW = $('#password').val();
+    confirmPW = $('#confirmPassword').val();
+    firstName = $('#registerFirst').val();
+    lastName = $('#registerLast').val();
+
+    //Check password validation
+    if(userPW !== confirmPW)
+    {
+        $('.checkoutModalError').html('Passwords do not match');
+        $('.checkoutModalError').slideDown(300);
+
+        return;
+    }
+
+
+
+    //Ajax call to compare credentials via PHP
+    $.ajax({
+        url: 'ajax/register.php',
+        method: 'POST',
+        dataType: 'JSON',
+        data:
+        {
+            email: userEmail,
+            pass: userPW,
+            first: firstName,
+            last: lastName
+        },
+
+        //On success
+        success: function(data)
+        {
+            //If successful, reload the page so php can do its work
+            if(data.success == true)
+            {
+                console.log(data.message);
+                window.location.reload();
+            }
+            else if(data.success == false)//If there's an error, show user what it is
+            {
+                $('.checkoutModalError').html(data.message);
+                $('.checkoutModalError').slideDown(300);
+            }
+            
+        },
+
+        error: function(xhr, error)
+        {
+            console.log(error);
         }
     });
 

@@ -156,6 +156,47 @@
                 return $rows;
         }
 
+        //Add new customer to database
+        public function addUser($first, $last, $email, $password)
+        {
+
+            //Declare variable to store customerID
+            $customerID;
+            //First set up a query to find latest customer ID
+            
+            $query = "SELECT COALESCE(MAX(cus_ID), 0) + 1 
+                        FROM customer";
+            $maxID = $this->database->get_results($query); //Originally just used MAX() to find most recent id
+    
+            //Dig through associative array to get last inserted ID
+            foreach($maxID as $id)
+            {
+                foreach($id as $customerID)
+                {
+                    $customerID = $customerID;
+                }
+            }
+
+            //Store our new user information into an array
+            $newUser = array(
+                'cus_ID' => $customerID,
+                'cus_FirstName' => $first,
+                'cus_LastName' => $last,
+                'cus_EMail' => $email,
+                'cus_Password' => $password
+            );
+
+            //Insert that information into customer table
+            $this->database->insert('customer', $newUser);
+
+            //Check if insert was successful
+            $affectedRows['valid'] = $this->database->affected();
+            $affectedRows['uID'] = $customerID; 
+
+            return $affectedRows;
+
+        }
+
         //Returns all addresses for a user if they are registered users
         public function getUserShipping()
         {
@@ -189,6 +230,22 @@
             $address = $this->database->get_results($query);
 
             return $address;
+        }
+
+        /*
+        **Check customer DB for registration email attempt
+        */
+        public function checkEmail($email)
+        {
+            $query = '';
+
+            $query = "SELECT cus_EMail
+                        FROM customer
+                        WHERE cus_EMail = '" . $email . "'";
+            
+            $numRows = $this->database->num_rows($query);
+
+            return $numRows;
         }
     }
 ?>
