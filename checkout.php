@@ -18,14 +18,14 @@ $products = new Product();
       </div>
       <div class="modal-body">
         <form id='signInCheckout'>
-          <div class="form-group row">
+          <div class="form-group row" id='registerNamesDiv'>
             <div class="col-md-6">
               <label for="registerFirst" class="text-black">First Name <span class="text-danger">*</span></label>
-              <input type="text" class="form-control text-black" id="registerFirst" name="registerLast" required>
+              <input type="text" class="form-control text-black" id="registerFirst" name="registerLast">
             </div>
             <div class="col-md-6">
               <label for="registerLast" class="text-black">Last Name <span class="text-danger">*</span></label>
-              <input type="text" class="form-control text-black" id="registerLast" name="registerFirst" required>
+              <input type="text" class="form-control text-black" id="registerLast" name="registerFirst">
             </div>
           </div>
           <div class="form-group">
@@ -34,17 +34,18 @@ $products = new Product();
           </div>
           <div class="form-group">
             <label for='password'>Password</label>
-            <input type='password' name='password' class='form-control' id='password' autocomplete="off" placeholder="******" required>
+            <input type='password' name='password' class='form-control' id='password' autocomplete="off" minlength="6" required>
           </div>
           <div class='form-group' id='confirmPWDiv'>
             <label for='confirmPassword'>Confirm Password</label>
-            <input type='password' name='confirmPassword' class='form-control' id='confirmPassword' autocomplete='off' placeholder='******'>
+            <input type='password' name='confirmPassword' class='form-control' id='confirmPassword' autocomplete='off'>
           </div>
           <div class='checkoutModalError'></div>
+
+          <div class="modal-footer" id='checkoutModalFooter'>
+            <button id='loginButtonCheckOut' type="submit" class="btn btn-primary"></button>
+          </div>
         </form>
-      </div>
-      <div class="modal-footer" id='checkoutModalFooter'>
-        <button id='loginButtonCheckOut' type="button" class="btn btn-primary"></button>
       </div>
     </div>
   </div>
@@ -66,12 +67,13 @@ $products = new Product();
             //If the user session variable is not set, prompt them to sign in
               if(!isset($_SESSION['user']))
               {
-                echo "<div id='signin' class='border p-4 rounded' role='alert'>
+                echo "<div id='tellem' class='text-center text-black'><h2>New Phone... Who dis?</h2></div>
+                      <div id='signin' class='border p-4 rounded' role='alert'>
                         <div id='login'>
-                          Returning customer? <button class='btn btn-primary' id='checkoutLogin' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Login</strong></button>
+                          <button class='btn btn-primary' id='checkoutLogin' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Login</strong></button>
                         </div>
                         <div id='register'>
-                          New user? <button class='btn btn-primary' id='checkoutRegister' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Register</strong></button>
+                          <button class='btn btn-primary' id='checkoutRegister' href='#' data-toggle='modal' data-target='#exampleModalCenter'><strong>Register</strong></button>
                         </div>
                       </div>";
                       
@@ -83,9 +85,13 @@ $products = new Product();
 
 <!-- USER'S STORED SHIPPING INFORMATION IF EXISTS -->
         <?
-        
+
+          //Check if this user has any previous addresses
+          $addresses = $customerInfo->getUserShipping();
+    
+
         //If the user session variable IS set, show a list of previously used addresses
-          if(isset($_SESSION['user']))
+          if(isset($_SESSION['user']) && empty($addresses))
           {
             $output = '';
             $output .= "<div class='row mb-5' id='previousAdd'>
@@ -94,9 +100,6 @@ $products = new Product();
                             <div class='p-3 p-lg-5 border'>
                               <div class='form-group row'>
                                 <div class='col-md-10' id='previousShippingAdd'>";
-                          
-                          //Print user's known addresses here for selection
-                          $addresses = $customerInfo->getUserShipping();
 
                          
 
@@ -252,12 +255,13 @@ $products = new Product();
                 </div>
 
                 <div class="form-group">
-                  <button type='submit' class="btn btn-primary btn-lg py-3 btn-block" id='confirmShipping'>Confirm Shipping</button>
+                  <button type='submit' class="btn btn-primary btn-lg py-3 btn-block" id='confirmShipping'>Confirm Address</button>
                 </div>
               </form>
             </div>
           </div>
           <div class="col-md-6">
+
             
             <div class="row mb-5">
               <div class="col-md-12">
@@ -318,7 +322,7 @@ $products = new Product();
                                       </tr>
                                       <tr>
                                         <td class='text-black checkShipWt'><strong>Shipping Weight</strong></td>
-                                        <td class='text-black checkShipWt'><strong>" . $orderWeight . " lbs</strong></td>
+                                        <td class='text-black checkShipWt'><strong><span id='shipWeight'>" . $orderWeight . "</span> lbs</strong></td>
                                       </tr>";
                                       
                           echo $output;
@@ -326,10 +330,13 @@ $products = new Product();
                         }
 
                       ?>
-                      
+                      <tr class='orderSummaryShipping'>
+                        <td class='text-black'><strong>UPS Ground Shipping</strong></td>
+                        <td class='text-black'><strong><span id='shippingCost'></span></strong></td>
+                      </tr>
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold"><strong>$350.00</strong></td>
+                        <td class="text-black font-weight-bold"><strong><span id='orderTotal'></span></strong></td>
                       </tr>
                     </tbody>
                   </table>

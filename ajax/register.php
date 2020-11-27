@@ -1,5 +1,5 @@
 <?
-
+session_start();
 require_once(__DIR__ . "/../config/config.php");
 
     //Declare session variable to store user id
@@ -19,6 +19,7 @@ require_once(__DIR__ . "/../config/config.php");
         $response['success'] = false;
         $response['message'] = "This email is already associated with an account. Please login.";
         echo json_encode($response);
+        return;
     }
 
     //Store the sent PW and name information
@@ -35,6 +36,7 @@ require_once(__DIR__ . "/../config/config.php");
     {
         $response['success'] = true;
         $response['message'] = "Account successfully created";
+        $response['id'] = $validate['uID'];
         //Set the user session variable
         $_SESSION['user'] = $validate['uID'];
     }

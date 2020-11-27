@@ -4,9 +4,10 @@
   //Check if cookie exists
   if(!empty($_COOKIE['cartID']))
   {
+    session_start();
     //Set session to ID contained within the cookie
     session_id($_COOKIE['cartID']);
-    session_start();
+    
   }
   else
   {
@@ -22,6 +23,7 @@
   {
 
     $customerInfo->customerSetAll($_SESSION['user']);
+    echo $_SESSION['user'];
   }
 
   //Create instance of cart class

@@ -9,10 +9,11 @@
 
     
     //Posted information from ajax call on checkout page
-    $weight = $_POST['weight'];
+    $weight = $_POST['wt'];
+    $zipCode = $_POST['zip'];
 
     //Store service type in variable for setting down the road.
-    $serviceType = '03';
+    $serviceType = '03';//Code 03 is for UPS Ground Shipping
 
     $rate = new Ups\Rate(
         $accessKey = UPSAPIKey,//Populate required UPS info from constants in config file
@@ -45,11 +46,11 @@
         $shipTo = $shipment->getShipTo();
         $shipTo->setCompanyName('Test Ship To');
         $shipToAddress = $shipTo->getAddress();
-        $shipToAddress->setPostalCode('25705');
+        $shipToAddress->setPostalCode($zipCode);
 
         $package = new \Ups\Entity\Package();
         $package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_UNKNOWN);
-        $package->getPackageWeight()->setWeight(2);
+        $package->getPackageWeight()->setWeight($weight);
         
         // if you need this (depends of the shipper country)
         /*$weightUnit = new \Ups\Entity\UnitOfMeasurement;

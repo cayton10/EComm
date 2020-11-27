@@ -20,6 +20,9 @@ $(document).ready(function(){
     $('#confirmPWDiv').hide();
     $('.checkoutModalError').hide();
 
+    //Hide the shipping div on page load
+    $('.orderSummaryShipping').hide();
+
 /* -------------------------------------------------------------------------- */
 /*                      INITIALIZE JQUERY STARRR LIBRARY                      */
 /* -------------------------------------------------------------------------- */
@@ -1512,6 +1515,12 @@ $(document).on('click', '.quickViewAccess', function()
 //Clear the form fields because they're auto populating database info for some reason
 $('#checkoutLogin').on('click', function(){
 
+    //Hide the FName / LName divs
+    $('#registerNamesDiv').hide();
+    //Remove required attributes to avoid throwing errors
+    $('#registerFirst').removeAttr('required');
+    $('#registerLast').removeAttr('required');
+    $('#confirmPassword').removeAttr('required');
     //Set appropriate modal title
     $('#loginTitle').html('User Login');
     //Clear autopopulated input
@@ -1525,6 +1534,12 @@ $('#checkoutLogin').on('click', function(){
 
 //Same as above
 $('#checkoutRegister').on('click', function(){
+
+    $('#registerNamesDiv').show();
+    //Add required attributes to these fields for form validation
+    $('#registerFirst').attr('required');
+    $('#registerLast').attr('required');
+    $('#confirmPassword').attr('required');
 
     $('#loginTitle').html('User Registration');
 
@@ -1555,102 +1570,125 @@ $('#closeSignInCheckOut').on('click', function(){
 });
 
 /* ----------- PROCESS LOGIN CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
-$(document).on('click', "button.loginCheckout", function(){
-    //Store information for back end processing
-    userEmail = $('#email').val();
-    userPW = $('#password').val();
+$(document).on('click', "button.loginCheckout", function(e){
+    
+    if($('.checkoutModalError').is(':visible'))
+    {
+        $('.checkoutModalError').slideUp(150);
+    }
 
+    //Checking form validation for prevent default
+    if($(this).closest('form')[0].checkValidity())
+    {
+        e.preventDefault();
 
-    //Ajax call to compare credentials via PHP
-    $.ajax({
-        url: 'ajax/login.php',
-        method: 'POST',
-        dataType: 'JSON',
-        data:
-        {
-            email: userEmail,
-            pass: userPW
-        },
+        //Store information for back end processing
+        var userEmail = $('#email').val();
+        var userPW = $('#password').val();
 
-        //On success
-        success: function(data)
-        {
-            //If successful, reload the page so php can do its work
-            if(data.success == true)
+        //Ajax call to compare credentials via PHP
+        $.ajax({
+            url: 'ajax/login.php',
+            method: 'POST',
+            dataType: 'JSON',
+            data:
             {
-                window.location.reload();
-            }
-        },
+                email: userEmail,
+                pass: userPW
+            },
 
-        error: function(xhr, error)
-        {
-            console.log(error);
-        }
-    });
+            //On success
+            success: function(data)
+            {
+                //If successful, reload the page so php can do its work
+                if(data.success == true)
+                {
+                    
+                    window.location.reload();
+                }
+                else if(data.success == false)
+                {
+                    $('.checkoutModalError').html("<h5 class='text-black text-center'>" + data.message + "</h5>");
+                    $('.checkoutModalError').slideDown(300);
+                }
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
+            }
+        });
+    }
 
 });
 
 /* ----------- PROCESS REGISTER CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
-$(document).on('click', "button.registerCheckout", function(){
+$(document).on('click', "button.registerCheckout", function(e){
 
     if($('.checkoutModalError').is(':visible'))
     {
         $('.checkoutModalError').slideUp(150);
     }
 
-    //Store information for back end processing
-    userEmail = $('#email').val();
-    userPW = $('#password').val();
-    confirmPW = $('#confirmPassword').val();
-    firstName = $('#registerFirst').val();
-    lastName = $('#registerLast').val();
-
-    //Check password validation
-    if(userPW !== confirmPW)
+    if($(this).closest('form')[0].checkValidity())
     {
-        $('.checkoutModalError').html('Passwords do not match');
-        $('.checkoutModalError').slideDown(300);
+        e.preventDefault();
 
-        return;
-    }
+        //Store information for back end processing
+        userEmail = $('#email').val();
+        userPW = $('#password').val();
+        confirmPW = $('#confirmPassword').val();
+        firstName = $('#registerFirst').val();
+        lastName = $('#registerLast').val();
 
-
-
-    //Ajax call to compare credentials via PHP
-    $.ajax({
-        url: 'ajax/register.php',
-        method: 'POST',
-        dataType: 'JSON',
-        data:
+        //Check password validation
+        if(userPW !== confirmPW)
         {
-            email: userEmail,
-            pass: userPW,
-            first: firstName,
-            last: lastName
-        },
+            $('.checkoutModalError').html('Passwords do not match');
+            $('.checkoutModalError').slideDown(300);
 
-        //On success
-        success: function(data)
-        {
-            //If successful, reload the page so php can do its work
-            if(data.success == true)
-            {
-                console.log(data.message);
-                window.location.reload();
-            }
-            else if(data.success == false)//If there's an error, show user what it is
-            {
-                $('.checkoutModalError').html(data.message);
-                $('.checkoutModalError').slideDown(300);
-            }
-            
-        },
-
-        error: function(xhr, error)
-        {
-            console.log(error);
+            return;
         }
-    });
+
+
+
+        //Ajax call to compare credentials via PHP
+        $.ajax({
+            url: 'ajax/register.php',
+            method: 'POST',
+            dataType: 'JSON',
+            data:
+            {
+                email: userEmail,
+                pass: userPW,
+                first: firstName,
+                last: lastName
+            },
+
+            //On success
+            success: function(data)
+            {
+                //If successful, reload the page so php can do its work
+                if(data.success == true)
+                {
+                    console.log(data.message);
+                    window.location.reload();
+                }
+                else if(data.success == false)//If there's an error, show user what it is
+                {
+                    $('.checkoutModalError').html(data.message);
+                    $('.checkoutModalError').slideDown(300);
+                }
+                
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
+            }
+        });
+    }
+    
 
 });
 
@@ -1770,16 +1808,26 @@ $('#confirmShipping').on('click', function(e){
         e.preventDefault();
 
         var shipToZip = $('#shipPostal').val();
+        var orderWeight = $('#shipWeight').val();
 
         $.ajax({
             url: 'ajax/calculateShipping.php',
             method: 'POST',
             dateType: 'JSON',
-            data: {zip: shipToZip},
+            data: 
+            {
+                zip: shipToZip,
+                wt: orderWeight
+            },
 
             success: function(data)
             {
 
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
             }
         });
         console.log(shipToZip);
