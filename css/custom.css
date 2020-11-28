@@ -470,3 +470,11 @@ img {
 
 
 
+#placeOrderButtonRow{
+    display: flex;
+    justify-content: center;
+}
+
+.default{
+    color: #ccc !important;
+}

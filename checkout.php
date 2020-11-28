@@ -150,7 +150,7 @@ $products = new Product();
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black">Billing Details</h2>
             <div class="p-3 p-lg-5 border">
-              <form id='shipBillForm'>
+              <form id='shipBillForm' method='post'>
                 <div class="form-group row">
                   <div class="col-md-6">
                     <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
@@ -183,7 +183,7 @@ $products = new Product();
                 <div class="form-group row">
                   <div class="col-md-6">
                     <label for="c_state_country" class="text-black">State<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control text-black" id="billingState" name="c_state_country" required>
+                    <input maxlength='2' type="text" class="form-control text-black" id="billingState" name="c_state_country" required>
                   </div>
                   <div class="col-md-6">
                     <label for="c_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
@@ -244,7 +244,7 @@ $products = new Product();
                     <div class="form-group row">
                       <div class="col-md-6">
                         <label for="c_diff_state_country" class="text-black">State<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control text-black" id="shipState" name="c_diff_state_country">
+                        <input maxlength='2' type="text" class="form-control text-black" id="shipState" name="c_diff_state_country">
                       </div>
                       <div class="col-md-6">
                         <label for="c_diff_postal_zip" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
@@ -260,12 +260,90 @@ $products = new Product();
               </form>
             </div>
           </div>
-          <div class="col-md-6">
 
-            
+<!-- Payment info form -->
+          <div class="col-md-6">
             <div class="row mb-5">
               <div class="col-md-12">
-                <h2 class="h3 mb-3 text-black">Your Order</h2>
+                <h2 class="h3 mb-3 text-black">Payment Information</h2>
+                <div class="p-3 p-lg-5 border">
+                  <form id='paymentInfoForm'>
+
+                    <div class="form-group row">
+                      <div class="col-md-12">
+                        <label for="cardNumber" class="text-black">Card Number <span class="text-danger">*</span></label>
+                        <input id="cardNumber" class='form-control text-black' type="tel" inputmode="numeric" autocomplete="cc-number" minlength='15' maxlength="16" placeholder="xxxx xxxx xxxx xxxx" autocomplete="off" required>
+                      </div>
+                    </div>
+
+                    <div class='form-group row'>
+                      <div class='col-md-12'>
+                        <label for='cardName' class='text-black'>Cardholder Name <span class='text-danger'>*</span></label>
+                        <input type='text' class='form-control cardNumber text-black' id='cardName' name='cardName' placeholder='Name As Appears on Card' required autocomplete='off'>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <label for="expirationMonth" class="text-black">Expiration Month<span class="text-danger">*</span></label>
+                        <select class="form-control text-black" id="expirationMonth" required>
+                          <option value='' selected disabled hidden class='default'></option>
+                          <option value='01'>01</option>
+                          <option value='02'>02</option>
+                          <option value='03'>03</option>
+                          <option value='04'>04</option>
+                          <option value='05'>05</option>
+                          <option value='06'>06</option>
+                          <option value='07'>07</option>
+                          <option value='08'>08</option>
+                          <option value='09'>09</option>
+                          <option value='10'>10</option>
+                          <option value='11'>11</option>
+                          <option value='12'>12</option>
+                        </select>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="expirationYear" class="text-black">Expiration Year <span class="text-danger">*</span></label>
+                          <select class="form-control text-black" id="expirationYear" required>
+                            <option value='' selected disabled hidden class='default'></option>
+                            <option value='2020'>2020</option>
+                            <option value='2021'>2021</option>
+                            <option value='2022'>2022</option>
+                            <option value='2023'>2023</option>
+                            <option value='2024'>2024</option>
+                            <option value='2025'>2025</option>
+                          </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group row mb-5">
+                      <div class="col-md-6">
+                        <label for="securityCode" class="text-black">Security Code <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control text-black" id="securityCode" name="securityCode" required autocomplete="off" maxlength="4">
+                      </div>
+                    </div>
+
+                    <div id='confirmPaymentDiv'>
+                      <div class="form-group">
+                        <button type='submit' class="btn btn-primary btn-lg py-3 btn-block" id='confirmPayment'>Confirm Payment</button>
+                      </div>
+                    </div>
+                    
+                  </form>
+                  
+
+                  
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12 mt-5">
+            <div class="row mb-5">
+              <div class="col-md-12">
+                <h2 class="h3 mb-3 text-black text-center">Your Order</h2>
                 <div class="p-3 p-lg-5 border">
                   <table class="table site-block-order-table mb-5">
                     <thead>
@@ -279,6 +357,7 @@ $products = new Product();
                         {
                           $cartContents = $cart->getCartDetail($_COOKIE['cartID']);
 
+
                           $output = '';
                           $i = 0;
                           $subtotal;
@@ -290,6 +369,7 @@ $products = new Product();
                             $prod = $item['prod'];
                             $prod = (integer)$prod;
 
+                            
 
                             //Set all of THIS item's specifics
                             $products->querySingleItem($prod);
@@ -305,6 +385,7 @@ $products = new Product();
                             foreach($item['options'] as $option)
                             {
                               $basePrice += $option['opt_Price'];
+                              $optID = $option['opt_ID'];
                             }
 
                             $totalPrice = $basePrice * $item['qty'];
@@ -313,12 +394,12 @@ $products = new Product();
                             //Work out math for item weights
                             $orderWeight += $item['wt'] * $item['qty'];
 
-                            $output .= "<td>$" . number_format($totalPrice, 2) . "</td></tr>";
+                            $output .= "<td>$<span class='optionID' data-opt='" . $optID . "'>" . number_format($totalPrice, 2) . "</span></td></tr>";
                           }
 
                           $output .= "<tr>
                                         <td class='text-black font-weight-bold checkSubTot'><strong>Cart Subtotal</strong></td>
-                                        <td class='text-black checkSubTot'><strong>$" . number_format($subtotal, 2) . "</strong></td>
+                                        <td class='text-black checkSubTot'><strong>$<span id='subTotal'>" . number_format($subtotal, 2) . "</span></strong></td>
                                       </tr>
                                       <tr>
                                         <td class='text-black checkShipWt'><strong>Shipping Weight</strong></td>
@@ -332,54 +413,27 @@ $products = new Product();
                       ?>
                       <tr class='orderSummaryShipping'>
                         <td class='text-black'><strong>UPS Ground Shipping</strong></td>
-                        <td class='text-black'><strong><span id='shippingCost'></span></strong></td>
+                        <td class='text-black'><strong>$<span id='shippingCost'></span></strong></td>
                       </tr>
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                        <td class="text-black font-weight-bold"><strong><span id='orderTotal'></span></strong></td>
+                        <td class="text-black font-weight-bold"><strong>$<span id='orderTotal'></span></strong></td>
                       </tr>
                     </tbody>
                   </table>
 
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button" aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-
-                    <div class="collapse" id="collapsebank">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
+                  <div class='row' id='placeOrderButtonRow'>
+                    <div class="form-group col-md-4 m-0 mr-0" id='placeOrderButtonDiv'>
+                      <button class="btn btn-primary btn-lg py-3 btn-block" id='placeOrder' type='submit'>Place Order</button>
                     </div>
                   </div>
-
-                  <div class="border p-3 mb-3">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button" aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                    <div class="collapse" id="collapsecheque">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border p-3 mb-5">
-                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsepaypal" role="button" aria-expanded="false" aria-controls="collapsepaypal">Paypal</a></h3>
-
-                    <div class="collapse" id="collapsepaypal">
-                      <div class="py-2">
-                        <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="form-group" id='placeOrderButtonDiv'>
-                    <button class="btn btn-primary btn-lg py-3 btn-block" id='placeOrder' type='submit' onclick="window.location='thankyou.html'">Place Order</button>
-                  </div>
+                  
 
                 </div>
               </div>
             </div>
-
           </div>
+
         </div>
         <!-- </form> -->
       </div>

@@ -23,7 +23,7 @@
   {
 
     $customerInfo->customerSetAll($_SESSION['user']);
-    echo $_SESSION['user'];
+
   }
 
   //Create instance of cart class

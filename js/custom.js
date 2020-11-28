@@ -23,6 +23,18 @@ $(document).ready(function(){
     //Hide the shipping div on page load
     $('.orderSummaryShipping').hide();
 
+    //Hide the place order button on page load
+    $('#placeOrderButtonDiv').hide();
+
+    //Hide the confirm payment button on page load
+    //$('#confirmPaymentDiv').hide();
+
+    //Calculate the shipping cost on page load
+    var total = $('#subTotal').html();
+    
+    $('#orderTotal').html(total);
+
+
 /* -------------------------------------------------------------------------- */
 /*                      INITIALIZE JQUERY STARRR LIBRARY                      */
 /* -------------------------------------------------------------------------- */
@@ -1671,7 +1683,6 @@ $(document).on('click', "button.registerCheckout", function(e){
                 //If successful, reload the page so php can do its work
                 if(data.success == true)
                 {
-                    console.log(data.message);
                     window.location.reload();
                 }
                 else if(data.success == false)//If there's an error, show user what it is
@@ -1805,10 +1816,11 @@ $('#confirmShipping').on('click', function(e){
     
     if($(this).closest('form')[0].checkValidity())
     {
+        
         e.preventDefault();
 
         var shipToZip = $('#shipPostal').val();
-        var orderWeight = $('#shipWeight').val();
+        var orderWeight = parseFloat($('#shipWeight').html());
 
         $.ajax({
             url: 'ajax/calculateShipping.php',
@@ -1822,6 +1834,26 @@ $('#confirmShipping').on('click', function(e){
 
             success: function(data)
             {
+                //Enable the ability to place the order
+                $('#confirmPaymentDiv').slideDown(100);
+                
+                //Show our shipping option and cost
+                $('#shippingCost').html(data);
+                $('.orderSummaryShipping').slideDown();
+
+                //Update the order total cost
+                total = $('#orderTotal').html();
+                total = total.replace(',', '');
+                total = parseFloat(total);
+
+                shipping = parseFloat(data)
+
+                total += shipping;
+                //Reformat the number for output
+                formattedTotal = addCommas(total.toFixed(2));
+
+                //Update the total order cost
+                $('#orderTotal').html(formattedTotal);
 
             },
 
@@ -1830,7 +1862,6 @@ $('#confirmShipping').on('click', function(e){
                 console.log(error);
             }
         });
-        console.log(shipToZip);
     }
     //Prevent default, gather information, lick stamp and send it via ajax
     
@@ -1854,6 +1885,88 @@ $('#shipToSame').on('click', function(){
 
 
 });
+
+
+/* -------------------------------------------------------------------------- */
+/*                          CONFIRM CARD INFORMATION                          */
+/* -------------------------------------------------------------------------- */
+$('#confirmPayment').on('click', function(e)
+{
+    if($(this).closest('form')[0].checkValidity())
+    {
+        
+        e.preventDefault();
+
+        //Load up all of our billing / shipping address information
+        var billingStreet = $('#billingAdd1').val();
+        var billingStreet2 = $('#billingAdd2').val();
+
+        if(billingStreet2 === '')
+        {
+            billingStreet2 = null;
+
+        }
+        var billingCity = $('#billingCity').val();
+        var billingState = $('#billingState').val();
+        var billingZip = $('#billingPost').val();
+
+        //Shipping
+        var shippingStreet = $('#shipAddress1').val();
+        var shippingStreet2 = $('#shipAddress2').val();
+        var shippingCity = $('#shipCity').val();
+        var shippingState = $('#shipState').val();
+        var shippingZip = $('#shipPostal').val();
+
+        //Payment information
+        var cardNumber = $('#cardNumber').val();
+        var cardName = $('#cardName').val();
+        var expMonth = $('#expirationMonth').val()
+        var expYear = $('#expirationYear').val();
+        var secCode = $('#securityCode').val();
+
+
+        $.ajax({
+            url: 'ajax/processCustomer.php',
+            method: 'POST',
+            dateType: 'JSON',
+            data: 
+            {
+                billStreet1: billingStreet,
+                billStreet2: billingStreet2,
+                billCity: billingCity,
+                billState: billingState,
+                billZip: billingZip,
+                shipStreet1: shippingStreet,
+                shipStreet2: shippingStreet2,
+                shipCity: shippingCity,
+                shipState: shippingState,
+                shipZip: shippingZip,
+                cardNum: cardNumber,
+                cardName: cardName,
+                expMonth: expMonth,
+                expYear: expYear,
+                secCode: secCode
+            },
+
+            success: function(data)
+            {
+                //Enable the ability to place the order
+                $('#placeOrderButtonDiv').slideDown(100);
+                
+                console.log(data);
+                
+
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
+            }
+        });
+    }
+    //Prevent default, gather information, lick stamp and send it via ajax
+});
+
 
 /* -------------------------------------------------------------------------- */
 /*             HANDLE DYNAMICALLY ADDED INCREMENT/DECREMENT BUTTON            */

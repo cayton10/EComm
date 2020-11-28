@@ -12,6 +12,8 @@
     $weight = $_POST['wt'];
     $zipCode = $_POST['zip'];
 
+
+
     //Store service type in variable for setting down the road.
     $serviceType = '03';//Code 03 is for UPS Ground Shipping
 
@@ -73,15 +75,15 @@
         
         $calcRate = $rate->getRate($shipment);
 
+        //Pull the shipping rate from UPS returned SOAP
+        $shippingRate = $calcRate->RatedShipment[0]->TotalCharges->MonetaryValue;
         
-        print "<pre>";
-        print_r($calcRate);
-        print "<pre>";
-        //print_r($calcRate->RatedShipment[0]->TotalCharges->MonetaryValue);
 
 
         //var_dump($rate->getRate($shipment));
         } catch (Exception $e) {
             var_dump($e);
         }
+
+        echo json_encode($shippingRate);
 ?>
