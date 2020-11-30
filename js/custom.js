@@ -16,8 +16,23 @@ $(document).ready(function(){
     $('#searchResults').hide();
 
 
-    //For floating labels jquery library
-    $('.floatLabel').floatingFormLabels();
+    //Hide the confirm password field unless registering a new user
+    $('#confirmPWDiv').hide();
+    $('.checkoutModalError').hide();
+
+    //Hide the shipping div on page load
+    $('.orderSummaryShipping').hide();
+
+    //Hide the place order button on page load
+    $('#placeOrderButtonDiv').hide();
+
+    //Hide the confirm payment button on page load
+    $('#confirmPaymentDiv').hide();
+
+    //Calculate the shipping cost on page load
+    var total = $('#subTotal').html();
+    
+    $('#orderTotal').html(total);
 
 
 /* -------------------------------------------------------------------------- */
@@ -1511,48 +1526,180 @@ $(document).on('click', '.quickViewAccess', function()
 
 //Clear the form fields because they're auto populating database info for some reason
 $('#checkoutLogin').on('click', function(){
+
+    //Hide the FName / LName divs
+    $('#registerNamesDiv').hide();
+    //Remove required attributes to avoid throwing errors
+    $('#registerFirst').removeAttr('required');
+    $('#registerLast').removeAttr('required');
+    $('#confirmPassword').removeAttr('required');
+    //Set appropriate modal title
+    $('#loginTitle').html('User Login');
     //Clear autopopulated input
-    $('#returningEmail').val('');
-    $('#returningPassword').val('');
+    $('#email').val('');
+    $('#password').val('');
+
+    //Add class so we can send to appropriate php script
+    $('#loginButtonCheckOut').addClass('loginCheckout');
+    $('#loginButtonCheckOut').html('Login');
+});
+
+//Same as above
+$('#checkoutRegister').on('click', function(){
+
+    $('#registerNamesDiv').show();
+    //Add required attributes to these fields for form validation
+    $('#registerFirst').attr('required');
+    $('#registerLast').attr('required');
+    $('#confirmPassword').attr('required');
+
+    $('#loginTitle').html('User Registration');
+
+    $('#email').val('');
+    $('#password').val('');
+    //Show our hidden confirm password field
+    $('#confirmPWDiv').show();
+
+    //Add class so we can send to appropriate php script
+    $('#loginButtonCheckOut').addClass('registerCheckout');
+    $('#loginButtonCheckOut').html('Register');
 });
 
 //Clear form fields if closing modal
 $('#closeSignInCheckOut').on('click', function(){
+
+    //Clear added classes from login/register selection
+    $('#loginButtonCheckOut').removeClass('loginCheckout');
+    $('#loginButtonCheckOut').removeClass('registerCheckout');
+    $('#loginButtonCheckOut').html('');
+    $('.checkoutModalError').hide();
+    
+    //Take care of confirm PW
+    $('#confirmPWDiv').hide();
     //Clear all input fields
-    $('#returningEmail').val('');
-    $('#returningPassword').val('');
+    $('#email').val('');
+    $('#password').val('');
 });
 
 /* ----------- PROCESS LOGIN CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
-$('#loginButtonCheckOut').on('click', function(){
-    //Store information for back end processing
-    userEmail = $('#returningEmail').val();
-    userPW = $('#returningPassword').val();
+$(document).on('click', "button.loginCheckout", function(e){
+    
+    if($('.checkoutModalError').is(':visible'))
+    {
+        $('.checkoutModalError').slideUp(150);
+    }
 
-    console.log(userEmail);
-    console.log(userPW);
+    //Checking form validation for prevent default
+    if($(this).closest('form')[0].checkValidity())
+    {
+        e.preventDefault();
 
-    //Ajax call to compare credentials via PHP
-    $.ajax({
-        url: 'ajax/login.php',
-        method: 'POST',
-        dataType: 'JSON',
-        data:
-        {
-            email: userEmail,
-            pass: userPW
-        },
+        //Store information for back end processing
+        var userEmail = $('#email').val();
+        var userPW = $('#password').val();
 
-        //On success
-        success: function(data)
-        {
-            //If successful, reload the page so php can do its work
-            if(data.success == true)
+        //Ajax call to compare credentials via PHP
+        $.ajax({
+            url: 'ajax/login.php',
+            method: 'POST',
+            dataType: 'JSON',
+            data:
             {
-                window.location.reload();
+                email: userEmail,
+                pass: userPW
+            },
+
+            //On success
+            success: function(data)
+            {
+                //If successful, reload the page so php can do its work
+                if(data.success == true)
+                {
+                    
+                    window.location.reload();
+                }
+                else if(data.success == false)
+                {
+                    $('.checkoutModalError').html("<h5 class='text-black text-center'>" + data.message + "</h5>");
+                    $('.checkoutModalError').slideDown(300);
+                }
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
             }
+        });
+    }
+
+});
+
+/* ----------- PROCESS REGISTER CREDENTIALS AND HANDLE APPROPRIATELY ----------- */
+$(document).on('click', "button.registerCheckout", function(e){
+
+    if($('.checkoutModalError').is(':visible'))
+    {
+        $('.checkoutModalError').slideUp(150);
+    }
+
+    if($(this).closest('form')[0].checkValidity())
+    {
+        e.preventDefault();
+
+        //Store information for back end processing
+        userEmail = $('#email').val();
+        userPW = $('#password').val();
+        confirmPW = $('#confirmPassword').val();
+        firstName = $('#registerFirst').val();
+        lastName = $('#registerLast').val();
+
+        //Check password validation
+        if(userPW !== confirmPW)
+        {
+            $('.checkoutModalError').html('Passwords do not match');
+            $('.checkoutModalError').slideDown(300);
+
+            return;
         }
-    });
+
+
+
+        //Ajax call to compare credentials via PHP
+        $.ajax({
+            url: 'ajax/register.php',
+            method: 'POST',
+            dataType: 'JSON',
+            data:
+            {
+                email: userEmail,
+                pass: userPW,
+                first: firstName,
+                last: lastName
+            },
+
+            //On success
+            success: function(data)
+            {
+                //If successful, reload the page so php can do its work
+                if(data.success == true)
+                {
+                    window.location.reload();
+                }
+                else if(data.success == false)//If there's an error, show user what it is
+                {
+                    $('.checkoutModalError').html(data.message);
+                    $('.checkoutModalError').slideDown(300);
+                }
+                
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
+            }
+        });
+    }
+    
 
 });
 
@@ -1669,22 +1816,52 @@ $('#confirmShipping').on('click', function(e){
     
     if($(this).closest('form')[0].checkValidity())
     {
+        
         e.preventDefault();
 
         var shipToZip = $('#shipPostal').val();
+        var orderWeight = parseFloat($('#shipWeight').html());
 
         $.ajax({
             url: 'ajax/calculateShipping.php',
             method: 'POST',
             dateType: 'JSON',
-            data: {zip: shipToZip},
+            data: 
+            {
+                zip: shipToZip,
+                wt: orderWeight
+            },
 
             success: function(data)
             {
+                //Enable the ability to place the order
+                $('#confirmPaymentDiv').slideDown(100);
+                
+                //Show our shipping option and cost
+                $('#shippingCost').html(data);
+                $('.orderSummaryShipping').slideDown();
 
+                //Update the order total cost
+                total = $('#orderTotal').html();
+                total = total.replace(',', '');
+                total = parseFloat(total);
+
+                shipping = parseFloat(data)
+
+                total += shipping;
+                //Reformat the number for output
+                formattedTotal = addCommas(total.toFixed(2));
+
+                //Update the total order cost
+                $('#orderTotal').html(formattedTotal);
+
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
             }
         });
-        console.log(shipToZip);
     }
     //Prevent default, gather information, lick stamp and send it via ajax
     
@@ -1708,6 +1885,116 @@ $('#shipToSame').on('click', function(){
 
 
 });
+
+
+/* -------------------------------------------------------------------------- */
+/*                          CONFIRM CARD INFORMATION                          */
+/* -------------------------------------------------------------------------- */
+$('#confirmPayment').on('click', function(e)
+{
+
+    //Remove error handling if it's present
+    $('#expirationYear').removeClass('error');
+    $('#expirationMonth').removeClass('error');
+
+    if($(this).closest('form')[0].checkValidity())
+    {
+        
+        e.preventDefault();
+
+        //Load up all of our billing / shipping address information
+        var billingStreet = $('#billingAdd1').val();
+        var billingStreet2 = $('#billingAdd2').val();
+
+        if(billingStreet2 === '')
+        {
+            billingStreet2 = null;
+
+        }
+        var billingCity = $('#billingCity').val();
+        var billingState = $('#billingState').val();
+        var billingZip = $('#billingPost').val();
+
+        //Shipping
+        var shippingStreet = $('#shipAddress1').val();
+        var shippingStreet2 = $('#shipAddress2').val();
+        var shippingCity = $('#shipCity').val();
+        var shippingState = $('#shipState').val();
+        var shippingZip = $('#shipPostal').val();
+
+        //Payment information
+        var cardNumber = $('#cardNumber').val();
+        var cardName = $('#cardName').val();
+        var expMonth = $('#expirationMonth').val()
+        var expYear = $('#expirationYear').val();
+        var secCode = $('#securityCode').val();
+
+        //Get the current date
+        var date = new Date();
+        var month = date.getMonth() + 1;//0 based 
+        var year = date.getFullYear();
+
+        
+        //Check expiration values and concatenate
+        if(expYear < year)
+        {
+            $('#expirationYear').addClass('error');
+            return;
+        }
+        else if(expYear == year && expMonth < month)
+        {
+            $('#expirationMonth').addClass('error');
+            return;
+        }
+        //Concat the expiration
+        var expiration = expMonth + '/' + expYear;
+        
+        
+        $.ajax({
+            url: 'ajax/processCustomer.php',
+            method: 'POST',
+            dateType: 'JSON',
+            data: 
+            {
+                billStreet1: billingStreet,
+                billStreet2: billingStreet2,
+                billCity: billingCity,
+                billState: billingState,
+                billZip: billingZip,
+                shipStreet1: shippingStreet,
+                shipStreet2: shippingStreet2,
+                shipCity: shippingCity,
+                shipState: shippingState,
+                shipZip: shippingZip,
+                cardNum: cardNumber,
+                cardName: cardName,
+                cardExp: expiration,
+                secCode: secCode
+            },
+
+            success: function(data)
+            {
+                //Enable the ability to place the order
+                $('#placeOrderButtonDiv').slideDown(100);
+                
+
+            },
+
+            error: function(xhr, error)
+            {
+                console.log(error);
+            }
+        });
+    }
+    //Prevent default, gather information, lick stamp and send it via ajax
+});
+
+
+/* -------------------------------------------------------------------------- */
+/*                            PLACE ORDER FUNCTION                            */
+/* -------------------------------------------------------------------------- */
+
+
 
 /* -------------------------------------------------------------------------- */
 /*             HANDLE DYNAMICALLY ADDED INCREMENT/DECREMENT BUTTON            */

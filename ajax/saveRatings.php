@@ -14,7 +14,7 @@
         $rating = (int)$rating;
         $reviewDetail = htmlspecialchars(trim($_POST['reviewDetail']));
         //Hard code customer ID
-        $cusID = 10;
+        $cusID = $_SESSION['user'];
         //Create object of review so can call the method to insert to DB
         $reviewObj = new Review($prodID);
         

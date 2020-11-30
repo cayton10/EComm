@@ -1,17 +1,26 @@
 <?
 
+    //Include config file
+    require_once(__DIR__ . "/../config/config.php");
+
     //Include info required for grabielbull's ups-api wrapper
     require_once(__DIR__ . "/../classes/vendor/autoload.php");
 
 
     
     //Posted information from ajax call on checkout page
+    $weight = $_POST['wt'];
+    $zipCode = $_POST['zip'];
 
+
+
+    //Store service type in variable for setting down the road.
+    $serviceType = '03';//Code 03 is for UPS Ground Shipping
 
     $rate = new Ups\Rate(
-        $accessKey = '4D8BF763AAA53435',
-        $userID = 'cayton10',
-        $password = 'hf5H_cVymTyiMAw'
+        $accessKey = UPSAPIKey,//Populate required UPS info from constants in config file
+        $userID = UPSUserName,
+        $password = UPSUserPW
     );
 
     try {
@@ -25,16 +34,25 @@
         $shipFrom = new \Ups\Entity\ShipFrom();
         $shipFrom->setAddress($address);
 
+
+        //Set service type (3 Day Select vs Ground, etc.)
+        $service = new \Ups\Entity\Service();
+        $service->setCode($serviceType);
+
+        $shipment->setService($service);
+ 
+
         $shipment->setShipFrom($shipFrom);
+
 
         $shipTo = $shipment->getShipTo();
         $shipTo->setCompanyName('Test Ship To');
         $shipToAddress = $shipTo->getAddress();
-        $shipToAddress->setPostalCode('99205');
+        $shipToAddress->setPostalCode($zipCode);
 
         $package = new \Ups\Entity\Package();
-        $package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_PACKAGE);
-        $package->getPackageWeight()->setWeight(37.38);
+        $package->getPackagingType()->setCode(\Ups\Entity\PackagingType::PT_UNKNOWN);
+        $package->getPackageWeight()->setWeight($weight);
         
         // if you need this (depends of the shipper country)
         /*$weightUnit = new \Ups\Entity\UnitOfMeasurement;
@@ -57,14 +75,15 @@
         
         $calcRate = $rate->getRate($shipment);
 
-        print "<pre>";
-        print_r($calcRate);
-        print "<pre>";
-        //print_r($calcRate->RatedShipment[0]->TotalCharges->MonetaryValue);
+        //Pull the shipping rate from UPS returned SOAP
+        $shippingRate = $calcRate->RatedShipment[0]->TotalCharges->MonetaryValue;
+        
 
 
         //var_dump($rate->getRate($shipment));
         } catch (Exception $e) {
             var_dump($e);
         }
+
+        echo json_encode($shippingRate);
 ?>

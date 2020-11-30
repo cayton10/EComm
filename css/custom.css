@@ -411,6 +411,14 @@ img {
 }
 
 /* -------------------------------------------------------------------------- */
+/*                        LOGIN / REGISTER ON CHECKOUT                        */
+/* -------------------------------------------------------------------------- */
+#signin{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                             CART TABLE STYLING                             */
 /* -------------------------------------------------------------------------- */
 .itemOptions{
@@ -462,3 +470,15 @@ img {
 
 
 
+#placeOrderButtonRow{
+    display: flex;
+    justify-content: center;
+}
+
+.default{
+    color: #ccc !important;
+}
+
+.error{
+    border: 1px solid red;
+}
