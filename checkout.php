@@ -91,7 +91,7 @@ $products = new Product();
     
 
         //If the user session variable IS set, show a list of previously used addresses
-          if(isset($_SESSION['user']) && empty($addresses))
+          if(isset($_SESSION['user']) && !empty($addresses))
           {
             $output = '';
             $output .= "<div class='row mb-5' id='previousAdd'>

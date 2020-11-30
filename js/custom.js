@@ -27,7 +27,7 @@ $(document).ready(function(){
     $('#placeOrderButtonDiv').hide();
 
     //Hide the confirm payment button on page load
-    //$('#confirmPaymentDiv').hide();
+    $('#confirmPaymentDiv').hide();
 
     //Calculate the shipping cost on page load
     var total = $('#subTotal').html();
@@ -1892,6 +1892,11 @@ $('#shipToSame').on('click', function(){
 /* -------------------------------------------------------------------------- */
 $('#confirmPayment').on('click', function(e)
 {
+
+    //Remove error handling if it's present
+    $('#expirationYear').removeClass('error');
+    $('#expirationMonth').removeClass('error');
+
     if($(this).closest('form')[0].checkValidity())
     {
         
@@ -1924,7 +1929,27 @@ $('#confirmPayment').on('click', function(e)
         var expYear = $('#expirationYear').val();
         var secCode = $('#securityCode').val();
 
+        //Get the current date
+        var date = new Date();
+        var month = date.getMonth() + 1;//0 based 
+        var year = date.getFullYear();
 
+        
+        //Check expiration values and concatenate
+        if(expYear < year)
+        {
+            $('#expirationYear').addClass('error');
+            return;
+        }
+        else if(expYear == year && expMonth < month)
+        {
+            $('#expirationMonth').addClass('error');
+            return;
+        }
+        //Concat the expiration
+        var expiration = expMonth + '/' + expYear;
+        
+        
         $.ajax({
             url: 'ajax/processCustomer.php',
             method: 'POST',
@@ -1943,8 +1968,7 @@ $('#confirmPayment').on('click', function(e)
                 shipZip: shippingZip,
                 cardNum: cardNumber,
                 cardName: cardName,
-                expMonth: expMonth,
-                expYear: expYear,
+                cardExp: expiration,
                 secCode: secCode
             },
 
@@ -1952,8 +1976,6 @@ $('#confirmPayment').on('click', function(e)
             {
                 //Enable the ability to place the order
                 $('#placeOrderButtonDiv').slideDown(100);
-                
-                console.log(data);
                 
 
             },
@@ -1966,6 +1988,12 @@ $('#confirmPayment').on('click', function(e)
     }
     //Prevent default, gather information, lick stamp and send it via ajax
 });
+
+
+/* -------------------------------------------------------------------------- */
+/*                            PLACE ORDER FUNCTION                            */
+/* -------------------------------------------------------------------------- */
+
 
 
 /* -------------------------------------------------------------------------- */

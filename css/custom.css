@@ -478,3 +478,7 @@ img {
 .default{
     color: #ccc !important;
 }
+
+.error{
+    border: 1px solid red;
+}

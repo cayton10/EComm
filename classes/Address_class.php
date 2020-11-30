@@ -71,7 +71,7 @@
                         WHERE add_Street = '" . $st1 . "' AND add_Street2 = '" . $st2 . "' AND add_City = '" . $city . "' AND add_State = '" . $state . "' AND add_Zip = '" . $zip . "' AND cus_ID = $cusID";
             }
             else
-            {
+            {                                   //If street add 2 is null, don't use it to compare fields in db
 
                 $query = "SELECT add_ID
                         FROM address
@@ -81,8 +81,7 @@
             
 
             $addID = $this->database->get_results($query);
-            print_r($addID);
-            
+                
 
             //If the address doesn't already exist, add it
             if(empty($addID))

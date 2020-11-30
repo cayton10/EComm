@@ -20,10 +20,11 @@ session_start();//For grabbing user ID
     //Card info
     $cardNum = htmlspecialchars(trim($_POST['cardNum']));
     $cardName = htmlspecialchars(trim($_POST['cardName']));
-    $expMonth = htmlspecialchars(trim($_POST['expMonth']));
-    $expYear = htmlspecialchars(trim($_POST['expYear']));
+    $cardExp = htmlspecialchars(trim($_POST['cardExp']));
     $secCode = htmlspecialchars(trim($_POST['secCode']));
+    $cardActive = 'Y';
 
+    //Grab user ID so we can send for required info
     $cusID = $_SESSION['user'];
     
 
@@ -32,9 +33,15 @@ session_start();//For grabbing user ID
     if($billStreet2 === '')
     {
         unset($billStreet2);
-
-        $billStreet2 = NULL;
+        $billStreet2 = NULL;//This is driving me insane. Using NULL doesn't work on DB insert
     }
+
+    if($shipStreet2 === '')
+    {
+        unset($shipStreet2);
+        $shipStreet2 = NULL;
+    }
+
     //Create a new address object so we check OR add address
     $address = new Address();
 
@@ -42,8 +49,42 @@ session_start();//For grabbing user ID
     $billingAdd = $address->checkAddress($billStreet1, $billStreet2, $billCity, $billState, $billZip, $cusID);
 
 
+    foreach($billingAdd as $addrCode)
+    {
+        $billingAdd = $addrCode['add_ID'];
+    }
 
-    echo json_encode($billingAdd);
+    //Set the billing address id in session variable
+    $_SESSION['billingAdd'] = $billingAdd;
+
+    //Do the same with shipping address
+    $shippingAdd = $address->checkAddress($shipStreet1, $shipStreet2, $shipCity, $shipState, $shipZip, $cusID);
+
+    foreach($shippingAdd as $addrCode)
+    {
+        $shippingAdd = $addrCode['add_ID'];
+    }
+
+    //Set the shipping address id in session variable
+    $_SESSION['shippingAdd'] = $shippingAdd;
+
+    //Create a new Creditcard object so we check OR add card
+    $card = new Creditcard();
+
+    //Check if card exists, if it doesn't, add it
+    $creditCard = $card->checkCard($cardNum, $cardName, $cardExp, $secCode, $cardActive, $billingAdd, $cusID);
+
+    foreach($creditCard as $cardCode)
+    {
+        $creditCard = $cardCode['car_ID'];
+    }
+
+    //Set card ID in session variable for adding to order table
+    $_SESSION['cardID'] = $creditCard;
+    
+
+
+    echo json_encode($creditCard);
 
 
 ?>
