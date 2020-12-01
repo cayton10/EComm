@@ -2044,7 +2044,31 @@ $('#placeOrder').on('click', function(e)
         },
         success: function(data)
         {
-            console.log(data);
+            if(data.success = true)
+            {
+                //Hide all the form stuff we no longer need
+                $('#signInCheckout').hide();
+                //Change title
+                $('#loginTitle').html('Order Placed!');
+                //Remove close button
+                $('#closeSignInCheckOut').remove();
+
+                //Populate message
+                $('#successMessage').html("<p class='text-black'>" + data.message + "</p>");
+                //Append a button to send us back home
+                $('#successMessage').append
+                (
+                    "<form action='index.php'>\
+                        <div class='modal-footer' id='checkoutModalFooter'>\
+                            <button id='loginButtonCheckOut' type='submit' class='btn btn-primary'>Home</button>\
+                        </div>\
+                    </form>"
+                );
+                //Change modal functionality so users HAVE to return home
+                $('#exampleModalCenter').modal({backdrop: 'static', keyboard: false});
+                    //Show the modal
+                $('#exampleModalCenter').modal('show');
+            }
         },
         error: function(xhr, error)
         {

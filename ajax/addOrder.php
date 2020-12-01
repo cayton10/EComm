@@ -57,9 +57,14 @@ session_start();//For grabbing user ID
         echo json_encode($response);
     }
 
-    print_r($orderDetail);
+    //Set a session variable as a sentinel to kill the cart
+    $_SESSION['orderPlaced'] = true;
 
-    echo json_encode($orderID);
+    $response['success'] = true;
+    $response['track'] = $track;
+    $response['message'] = "Your order has been successfully placed.";
+
+    echo json_encode($response);
 
 
 

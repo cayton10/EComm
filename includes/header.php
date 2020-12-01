@@ -1,6 +1,12 @@
 <?
   //DB Connection config file
   require_once('config/config.php');
+
+  if($_SESSION['orderPlaced'] == 1)//If order has been placed, kill the cart
+  {
+    setcookie('cartID', '', time()-3600, "/");//Kill the cart cookie
+    unset($_SESSION['orderPlaced']);
+  }
   //Check if cookie exists
   if(isset($_COOKIE['cartID']))
   {
@@ -13,7 +19,6 @@
     setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
   }
   
-
   $customerInfo = new Customer();
   //Session started so get our user if it's set
   if(isset($_SESSION['user']))

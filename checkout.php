@@ -16,7 +16,7 @@ $products = new Product();
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id='successMessage'>
         <form id='signInCheckout'>
           <div class="form-group row" id='registerNamesDiv'>
             <div class="col-md-6">
