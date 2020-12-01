@@ -1704,6 +1704,39 @@ $(document).on('click', "button.registerCheckout", function(e){
 });
 
 /* -------------------------------------------------------------------------- */
+/*                USING PREVIOUSLY STORED CARD TO FILL FORM                */
+/* -------------------------------------------------------------------------- */
+$('.cardRadio').on('click', function(){
+
+    //Grab the card id from the input tag and process w/ ajax
+    var cardID = $(this).data('card');
+    
+    $.ajax({
+        url: 'ajax/getCard.php',
+        method: 'POST',
+        dataType: 'JSON',
+        data: {card: cardID},
+
+        success: function(data)
+        {
+            //Iterate through returned card info and populate form
+            $.each(data, function(key, value)
+            {
+                $('#cardNumber').val(value.num);
+                $('#cardName').val(value.carName);
+
+                //Split expiration for output
+                var expiration = value.ex.split('/');
+                $('#expirationMonth').val(expiration[0]);
+                $('#expirationYear').val(expiration[1]);
+
+            });
+            
+        }
+    });
+});
+
+/* -------------------------------------------------------------------------- */
 /*                USING PREVIOUSLY STORED ADDRESS TO FILL FORM                */
 /* -------------------------------------------------------------------------- */
 $('.addressRadio').on('click', function(){
@@ -1739,8 +1772,6 @@ $('.addressRadio').on('click', function(){
                 $('#shipPostal').val(value.zip);
 
             });
-            
-            console.log(data);
             
         }
     });
@@ -1976,6 +2007,8 @@ $('#confirmPayment').on('click', function(e)
             {
                 //Enable the ability to place the order
                 $('#placeOrderButtonDiv').slideDown(100);
+
+                
                 
 
             },
@@ -1993,7 +2026,34 @@ $('#confirmPayment').on('click', function(e)
 /* -------------------------------------------------------------------------- */
 /*                            PLACE ORDER FUNCTION                            */
 /* -------------------------------------------------------------------------- */
+$('#placeOrder').on('click', function(e)
+{
+    //Prevent default submission
+    e.preventDefault();
 
+    //Grab cost of shipping to insert into db
+    shippingCost = parseFloat($('#shippingCost').html());
+
+    $.ajax({
+        url: "ajax/addOrder.php",
+        dataType: "JSON",
+        method: "POST",
+        data:
+        {
+            shippingCost: shippingCost
+        },
+        success: function(data)
+        {
+            console.log(data);
+        },
+        error: function(xhr, error)
+        {
+            console.log(error);
+        }
+
+    });
+    
+});
 
 
 /* -------------------------------------------------------------------------- */

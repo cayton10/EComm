@@ -61,7 +61,7 @@ $products = new Product();
 
     <div class="site-section">
       <div class="container">
-        <div class="row mb-5">
+        <div class="row">
           <div class="col-md-12">
             <?
             //If the user session variable is not set, prompt them to sign in
@@ -99,7 +99,7 @@ $products = new Product();
                             <h2 class='h3 mb-3 text-black'>Previous Shipping Addresses</h2>
                             <div class='p-3 p-lg-5 border'>
                               <div class='form-group row'>
-                                <div class='col-md-10' id='previousShippingAdd'>";
+                                <div class='col-md-6' id='previousShippingAdd'>";
 
                          
 
@@ -125,6 +125,90 @@ $products = new Product();
                                               <input class='form-check-input addressRadio' type='radio' name='address' data-add='" . $stored['id'] . "'>
                                               <label class='form-check-label addressLabel' for='addressID" . $stored['id'] . "'>"
                                               . $stored['street'] . " " . $stored['street2'] . " " . $stored['city'] . ", " . $stored['state'] . " " . $stored['zip'] . "</label>
+                                            </div><br>";
+                              }
+
+                              $i++;
+                            }
+                            
+                          }
+
+          
+                $output.= "</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>";
+
+                echo $output;
+          }
+            
+        
+        ?>
+
+        <!-- USER'S STORED PAYMENT INFORMATION IF EXISTS -->
+        <?
+
+          //Check if this user has any previous addresses
+          $payments = $customerInfo->getUserPayment();
+    
+
+        //If the user session variable IS set, show a list of previously used addresses
+          if(isset($_SESSION['user']) && !empty($payments))
+          {
+            $output = '';
+            $output .= "<div class='row mb-5' id='previousCard'>
+                          <div class='col-12 mb-5 mb-md-0'>
+                            <h2 class='h3 mb-3 text-black'>Previous Payment Methods</h2>
+                            <div class='p-3 p-lg-5 border'>
+                              <div class='form-group row'>
+                                <div class='col-md-10' id='previousPaymentInfo'>";
+
+                         
+
+                          $i = 0; //Use iterator to set first card as checked
+                          //Process these cards and format with radio button
+                          foreach($payments as $payment)
+                          {
+                            foreach($payment as $stored)//Card arrays were nested from customer class
+                            {
+
+                              //Set up our values to return
+                              $cardName = $stored['name'];
+                              $lastFour = substr($stored['num'], -4);
+                              $expArray = explode('/', $stored['exp']);
+                              $month = '';
+                              $year = '';
+                              $i = 0;
+
+                              foreach($expArray as $exp)
+                              {
+                                if($i == 0)
+                                {
+                                  $month = $exp;
+                                }
+                                else
+                                {
+                                  $year = $exp;
+                                }
+                                ++$i;
+                              }
+                              
+                              if($i == 0)//Output default (first) used card
+                              {
+                                $output .= "<div class='form-check cardPrev p-4 border'>
+                                              <input class='form-check-input cardRadio' type='radio' name='address' data-card='" . $stored['id'] . "'>
+                                              <label class='form-check-label cardLabel' for='cardID" . $stored['id'] . "'>Card Owner: " . $cardName . "<br>Card Ending: " . $lastFour . "<br>
+                                              Expires: ". $month . "/" . $year . "</label>
+                                            </div><br>";
+                                            
+                              }
+                              else if ($i > 0)//Output any other associated addresses
+                              {
+                                $output .= "<div class='form-check cardPrev p-4 border'>
+                                              <input class='form-check-input cardRadio' type='radio' name='address' data-card='" . $stored['id'] . "'>
+                                              <label class='form-check-label cardLabel' for='cardID" . $stored['id'] . "'>Card Owner: " . $cardName . "<br>Card Ending: " . $lastFour . "<br>
+                                              Expires: ". $month . "/" . $year . "</label>
                                             </div><br>";
                               }
 

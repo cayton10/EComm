@@ -32,7 +32,6 @@
                 }
             }
 
-            echo $cardID;
             //Store information into array
             $newCard = array
             (
