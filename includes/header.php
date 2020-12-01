@@ -2,18 +2,15 @@
   //DB Connection config file
   require_once('config/config.php');
   //Check if cookie exists
-  if(!empty($_COOKIE['cartID']))
+  if(isset($_COOKIE['cartID']))
   {
-    session_start();
-    //Set session to ID contained within the cookie
     session_id($_COOKIE['cartID']);
-    
+    session_start();
   }
   else
   {
-    setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
-    session_id('fuck you');
     session_start();
+    setcookie('cartID', session_id(), time()+60*60*24*14, "/");//Set cookie to expire in two weeks.
   }
   
 

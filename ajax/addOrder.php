@@ -4,28 +4,62 @@ session_start();//For grabbing user ID
     //Include config file
     require_once(__DIR__ . "/../config/config.php");
 
-    //Store all of our required information to add the address to db
-    //Shipping info
-    $shipStreet1 = htmlspecialchars(trim($_POST['shipStreet1']));
-    $shipStreet2 = htmlspecialchars(trim($_POST['shipStreet2']));
-    $shipCity = htmlspecialchars(trim($_POST['shipCity']));
-    $shipState = htmlspecialchars(trim($_POST['shipState']));
-    $shipZip = htmlspecialchars(trim($_POST['shipZip']));
-    //Billing info
-    $billStreet1 = htmlspecialchars(trim($_POST['billStreet1']));
-    $billStreet2 = htmlspecialchars(trim($_POST['billStreet2']));
-    $billCity = htmlspecialchars(trim($_POST['billCity']));
-    $billState = htmlspecialchars(trim($_POST['billState']));
-    $billZip = htmlspecialchars(trim($_POST['billZip']));
+    //Include info required for grabielbull's ups-api wrapper
+    require_once(__DIR__ . "/../classes/vendor/autoload.php");
 
-    //Card information
-    $
+    //Store our shipping cost grabbed from DOM
+    $shipCost = htmlspecialchars(trim($_POST['shippingCost']));
 
-    //Create a new address object so we check OR add address
-    $address = new Address();
-
+    //Declare our response JSON array
     $response = [];
 
+    //Load all of our required information from session variables
+    //Get billing address
+    $billing = $_SESSION['billingAdd'];
+    //Shipping address
+    $shipping = $_SESSION['shippingAdd'];
+    //Credit Card ID
+    $card = $_SESSION['cardID'];
+    //Customer ID
+    $cusID = $_SESSION['user'];
+    //Cart ID
+    $cartID = session_id();
+
+    //Started looking into setting shipment reference numbers to get tracking info, but running out of time
+    //Setting random tracking using uniqid
+    $track = uniqid();
+    
+    $newOrder = new Order();
+
+    $orderID = $newOrder->addOrder($billing, $shipping, $card, $cusID, $shipCost, $track);
+
+    //Create instance of cart class to grab cart details
+    $cart = new Cart();
+    $cartInfo = $cart->getCartDetail($cartID);
+    
+    //Now we need to process information into orderdetail table
+    $orderDetail = $newOrder->addOrderDetail($orderID, $cartInfo);
+
+    if($orderDetail == 0)
+    {
+        $response['success'] = false;
+        $response['message'] = "Order details cannot be added at this time.";
+        echo json_encode($response);
+    }
+
+    //Process information into order detail options table
+    $orderDetailOpts = $newOrder->addOrderDetailOpts($orderID, $cartInfo);
+
+    if($orderDetailOpts == 0)
+    {
+        $response['success'] = false;
+        $response['message'] = "Order options cannot be added at this time.";
+        echo json_encode($response);
+    }
+
+    print_r($orderDetail);
+
+    echo json_encode($orderID);
 
 
 

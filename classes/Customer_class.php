@@ -31,6 +31,7 @@
         private $add_State = [];
         private $add_Zip = [];
 
+        private $card = [];
         //Customer information from Card table
         private $car_ID = [];
         private $car_Num = [];
@@ -93,7 +94,7 @@
                         FROM customer t1
                         LEFT JOIN address t2 ON t1.cus_ID = t2.cus_ID
                         LEFT JOIN card t3 ON t2.cus_ID = t3.cus_ID
-                        WHERE t1.cus_ID = '" . $id . "'";
+                        WHERE t1.cus_ID = '" . $id . "' AND t3.car_Active = 'Y'";
             
             $results = $this->database->get_results($query);
 
@@ -120,6 +121,15 @@
                     );
 
                     $this->address[] = $address;
+
+                    $cards = array(
+                        'id' => $data['car_ID'],
+                        'num' => $data['car_Num'],
+                        'name' => $data['car_Name'],
+                        'exp' => $data['car_Exp'],
+                    );
+
+                    $this->card[] = $cards;
 
                     $this->car_ID[] = $data['car_ID'];
                     $this->car_Num[] = $data['car_Num'];
@@ -207,6 +217,16 @@
             return $addresses;
         }
 
+        //Returns all recorded payments for a user if they are registered users
+        public function getUserPayment()
+        {
+            $cards = array(
+                $this->card
+            );
+
+            return $cards;
+        }
+
         /*
         **Get customer previous address using address ID
         */
@@ -230,6 +250,22 @@
             $address = $this->database->get_results($query);
 
             return $address;
+        }
+
+        /*
+        **Get customer previous card using card ID
+        */
+        public function getPrevCard($id)
+        {
+            $query = '';
+
+            $query = "SELECT car_Num num, car_Name carName, car_Exp ex
+                        FROM card
+                        WHERE car_ID = $id";
+            
+            $card = $this->database->get_results($query);
+
+            return $card;
         }
 
         /*

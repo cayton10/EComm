@@ -468,6 +468,27 @@ img {
     box-shadow: 0 5px 25px rgba(163, 49, 244, 0.7);
 }
 
+/* -------------------------------------------------------------------------- */
+/*                          PREVIOUS PAYMENT STYLING                          */
+/* -------------------------------------------------------------------------- */
+#previousPaymentInfo{
+    display: flex;
+    justify-content: start;
+}
+
+.cardLabel{
+    font-size: 1.1rem;
+    color: black;
+}
+
+.cardRadio{
+    margin-top: .60rem !important;
+    vertical-align: middle;
+    transform:scale(1.3) !important;
+}
+
+
+
 
 
 #placeOrderButtonRow{
